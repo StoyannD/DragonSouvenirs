@@ -1,12 +1,12 @@
-﻿using DragonSouvenirs.Data.Models;
-
-namespace DragonSouvenirs.Data.Seeding
+﻿namespace DragonSouvenirs.Data.Seeding
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+
+    using DragonSouvenirs.Data.Models;
 
     public class ProductsCategoriesSeeder : ISeeder
     {

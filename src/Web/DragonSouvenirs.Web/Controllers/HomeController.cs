@@ -1,16 +1,29 @@
 ﻿namespace DragonSouvenirs.Web.Controllers
 {
     using System.Diagnostics;
+    using System.Threading.Tasks;
 
+    using DragonSouvenirs.Services.Data;
     using DragonSouvenirs.Web.ViewModels;
-
+    using DragonSouvenirs.Web.ViewModels.Categories;
+    using DragonSouvenirs.Web.ViewModels.Home;
     using Microsoft.AspNetCore.Mvc;
 
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
+        private readonly ICategoriesService categoriesService;
+
+        public HomeController(ICategoriesService categoriesService)
+        {
+            this.categoriesService = categoriesService;
+        }
+
         public IActionResult Index()
         {
-            return this.View();
+            var viewModel = new IndexViewModel();
+            var categories = this.categoriesService.GetAll<IndexCategoryViewModel>();
+            viewModel.Categories = categories;
+            return this.View(viewModel);
         }
 
         public IActionResult Privacy()

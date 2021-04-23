@@ -1,11 +1,13 @@
 ﻿namespace DragonSouvenirs.Services.Data
 {
+    using System;
     using System.Collections.Generic;
+    using System.Text;
 
-    public interface ISettingsService
+    public interface ICategoriesService
     {
-        int GetCount();
-
         IEnumerable<T> GetAll<T>();
+
+        T GetByName<T>(string name);
     }
 }
