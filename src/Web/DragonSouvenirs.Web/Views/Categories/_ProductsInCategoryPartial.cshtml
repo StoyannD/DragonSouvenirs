@@ -4,7 +4,7 @@
         <i class="fa fa-apple"></i>
         <div class="about-product text-center mt-2">
             <a asp-controller="Products" asp-action="ById" asp-route-id="@Model.Id">
-                <img src="@Model.ImgUrl" width="300" height="200">
+                <img src="@Model.Images.FirstOrDefault().ImgUrl" width="300" height="200">
             </a>
             <div>
                 <h4>@Model.Name</h4>

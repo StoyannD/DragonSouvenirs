@@ -183,6 +183,40 @@ namespace DragonSouvenirs.Data.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("DragonSouvenirs.Data.Models.Image", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImgUrl")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsDeleted");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Images");
+                });
+
             modelBuilder.Entity("DragonSouvenirs.Data.Models.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -269,9 +303,6 @@ namespace DragonSouvenirs.Data.Migrations
 
                     b.Property<int>("Height")
                         .HasColumnType("int");
-
-                    b.Property<string>("ImgUrl")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -420,6 +451,17 @@ namespace DragonSouvenirs.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("DragonSouvenirs.Data.Models.Image", b =>
+                {
+                    b.HasOne("DragonSouvenirs.Data.Models.Product", "Product")
+                        .WithMany("Images")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("DragonSouvenirs.Data.Models.Order", b =>
                 {
                     b.HasOne("DragonSouvenirs.Data.Models.ApplicationUser", "User")
@@ -543,6 +585,8 @@ namespace DragonSouvenirs.Data.Migrations
 
             modelBuilder.Entity("DragonSouvenirs.Data.Models.Product", b =>
                 {
+                    b.Navigation("Images");
+
                     b.Navigation("OrderProducts");
 
                     b.Navigation("ProductCategories");

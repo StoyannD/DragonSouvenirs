@@ -14,39 +14,43 @@
 
                     <div class="col-12 mb-0">
                         <figure class="view overlay rounded z-depth-1 main-img">
-                            <img src="@Model.ImgUrl" class="img-fluid z-depth-1">
+                            <img src="@Model.Images.ToList()[0].ImgUrl" class="img-fluid z-depth-1">
                         </figure>
                     </div>
                     <div class="col-12">
                         <div class="row">
-                            <div class="col-3">
+                            @foreach (var img in @Model.Images)
+                            {
+                                <partial name="_SecondaryImagesPartial" model="img"/>
+                            }
+                            @*<div class="col-3">
                                 <div class="view overlay rounded z-depth-1 gallery-item">
-                                    <img src="@Model.ImgUrl"
+                                    <img src="@Model.Images.ToList()[0]"
                                          class="img-fluid">
                                     <div class="mask rgba-white-slight"></div>
                                 </div>
                             </div>
                             <div class="col-3">
                                 <div class="view overlay rounded z-depth-1 gallery-item">
-                                    <img src="@Model.ImgUrl"
+                                    <img src="@Model.Images.ToList()[0]"
                                          class="img-fluid">
                                     <div class="mask rgba-white-slight"></div>
                                 </div>
                             </div>
                             <div class="col-3">
                                 <div class="view overlay rounded z-depth-1 gallery-item">
-                                    <img src="@Model.ImgUrl"
+                                    <img src="@Model.Images.ToList()[0]"
                                          class="img-fluid">
                                     <div class="mask rgba-white-slight"></div>
                                 </div>
                             </div>
                             <div class="col-3">
                                 <div class="view overlay rounded z-depth-1 gallery-item">
-                                    <img src="@Model.ImgUrl"
+                                    <img src="@Model.Images.ToList()[0]"
                                          class="img-fluid">
                                     <div class="mask rgba-white-slight"></div>
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
                     </div>
                 </div>

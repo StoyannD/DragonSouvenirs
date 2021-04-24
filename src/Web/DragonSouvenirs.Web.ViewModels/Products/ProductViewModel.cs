@@ -21,13 +21,13 @@
 
         public decimal Price { get; set; }
 
-        public string ImgUrl { get; set; }
-
         public int Quantity { get; set; }
 
         public int Height { get; set; }
 
         public int Width { get; set; }
+
+        public IEnumerable<ImageViewModel> Images { get; set; }
 
         public string CategoryName { get; set; }
 
