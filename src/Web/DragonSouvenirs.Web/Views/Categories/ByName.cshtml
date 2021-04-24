@@ -13,34 +13,7 @@
     <div class="row">
         @foreach (var product in @Model.Products)
         {
-            <!-- Card -->
-            <div class="col-md-4 d-flex mt-5">
-                <div class="card p-3 bg-white">
-                    <i class="fa fa-apple"></i>
-                    <div class="about-product text-center mt-2">
-                        <a asp-controller="Products" asp-action="ById" asp-route-id="@product.Id">
-                            <img src="@product.ImgUrl" width="300" height="200">
-                        </a>
-                        <div>
-                            <h4>@product.Name</h4>
-                            <h6 class="mt-0 text-black-50">@Model.Title</h6>
-                        </div>
-                    </div>
-                    <div class="stats mt-2">
-                        <div class="text-center">
-                            <h6>@product.Description</h6>
-                        </div>
-                        @*<div class="d-flex justify-content-between p-price">
-                            <span>Размери:</span><span></span>
-                        </div>
-                        <div class="d-flex justify-content-between p-price">
-                            <span>@(product.Height) x @(product.Width) см.</span><span>Наличност: @product.Quantity</span>
-                        </div>*@
-                    </div>
-                    <div class="d-flex justify-content-between total font-weight-bold mt-4"><span></span><span>Цена: @product.Price лв.</span></div>
-                </div>
-            </div>
-
+            <partial name="_ProductsInCategoryPartial" model="product"/>
         }
     </div>
 </div>

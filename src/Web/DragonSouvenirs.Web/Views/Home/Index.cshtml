@@ -10,17 +10,6 @@
 <div class="row" align="center">
     @foreach (var category in @Model.Categories)
     {
-        <div class="col-md-4">
-            <div>
-                <a asp-controller="Categories" asp-action="ByName" asp-route-name="@category.Url">
-                    <img src="@category.ImageUrl" class="mr-3" style="width: 15rem; height: 15rem;" alt="@category.Title">
-                </a>
-            </div>
-            <div class="media-body">
-                <h5 class="card-title">@category.Title</h5>
-                <h6 class="card-text">@category.ProductCategoriesCount Налични продукта</h6>
-                <p class="card-text">@category.Content</p>
-            </div>
-        </div>
+        <partial name="_CategoriesPartial", model="category"/>
     }
 </div>

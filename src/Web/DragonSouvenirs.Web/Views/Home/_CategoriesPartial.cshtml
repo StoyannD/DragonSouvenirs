@@ -1,0 +1,14 @@
+﻿@model DragonSouvenirs.Web.ViewModels.Categories.IndexCategoryViewModel
+
+<div class="col-md-4">
+    <div>
+        <a asp-controller="Categories" asp-action="ByName" asp-route-name="@Model.Url">
+            <img src="@Model.ImageUrl" class="mr-3" style="width: 15rem; height: 15rem;" alt="@Model.Title">
+        </a>
+    </div>
+    <div class="media-body">
+        <h5 class="card-title">@Model.Title</h5>
+        <h6 class="card-text">@Model.ProductCategoriesCount Налични продукта</h6>
+        <p class="card-text">@Model.Content</p>
+    </div>
+</div>
