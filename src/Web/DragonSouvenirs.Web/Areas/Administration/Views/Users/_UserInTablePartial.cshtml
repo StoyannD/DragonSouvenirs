@@ -10,3 +10,10 @@
            type="checkbox"
            disabled="disabled">
 </td>
+<td>
+    <a 
+        class="btn btn-danger" 
+        asp-controller="Users" 
+        asp-action="ConfirmBan" 
+        asp-route-id="@this.Model.Id">Ban</a>
+</td>

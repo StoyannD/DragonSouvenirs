@@ -6,6 +6,12 @@
 }
 <h1>@this.ViewData["Title"]</h1>
 
+@if (this.TempData["isBanned"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @this.TempData["isBanned"]
+    </div>
+}
 <table class="table table-hover table-bordered text-center">
     <thead class="thead-dark">
         <tr class="text-center">
@@ -16,6 +22,7 @@
             <th scope="col">@nameof(ApplicationUserViewModel.DefaultShippingAddress)</th>
             <th scope="col">@nameof(ApplicationUserViewModel.CreatedOn)</th>
             <th scope="col">@nameof(ApplicationUserViewModel.IsDeleted)</th>
+            <th scope="col">Manage</th>
         </tr>
     </thead>
     <tbody>

@@ -1,4 +1,8 @@
-﻿namespace DragonSouvenirs.Web.Areas.Administration.Controllers
+﻿using System.Security.Claims;
+using AutoMapper;
+using Microsoft.AspNetCore.Server.IIS.Core;
+
+namespace DragonSouvenirs.Web.Areas.Administration.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -20,7 +24,8 @@
     {
         private readonly UserManager<ApplicationUser> userManager;
 
-        public UsersController(UserManager<ApplicationUser> userManager)
+        public UsersController(
+            UserManager<ApplicationUser> userManager)
         {
             this.userManager = userManager;
         }
@@ -36,7 +41,39 @@
                 .ToListAsync();
 
             viewModel.users = users;
+            this.TempData.Keep();
+
             return this.View(viewModel);
+        }
+
+        public async Task<ActionResult> ConfirmBan(string id)
+        {
+            var viewModel = await this.userManager
+                .Users
+                .IgnoreQueryFilters()
+                .To<UserConfirmModel>()
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            if (viewModel.IsDeleted)
+            {
+                this.TempData["isBanned"] = $"User {viewModel.UserName} is already banned.";
+                return this.RedirectToAction(nameof(this.All));
+            }
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Ban(string id)
+        {
+            var user = await this.userManager
+                .FindByIdAsync(id);
+
+            user.IsDeleted = true;
+
+            await this.userManager.UpdateAsync(user);
+
+            return this.Redirect("/Administration/Users/All");
         }
     }
 }

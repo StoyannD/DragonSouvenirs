@@ -46,7 +46,6 @@
                         options.CheckConsentNeeded = context => true;
                         options.MinimumSameSitePolicy = SameSiteMode.None;
                     });
-
             services.AddControllersWithViews(
                 options =>
                     {
