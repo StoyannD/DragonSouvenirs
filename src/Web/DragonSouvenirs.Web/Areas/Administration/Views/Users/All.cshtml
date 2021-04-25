@@ -2,16 +2,22 @@
 @using System.Linq
 @model DragonSouvenirs.Web.ViewModels.Administration.AllUsersViewModel
 @{
-    this.ViewData["Title"] = $"Users ({this.Model.users.Count()})";
+    this.ViewData["Title"] = $"Users ({this.Model.Users.Count()})";
 }
 <h1>@this.ViewData["Title"]</h1>
 
-@if (this.TempData["isBanned"] != null)
+@if (this.TempData["fail"] != null)
 {
     <div class="alert alert-danger" role="alert">
-        @this.TempData["isBanned"]
+        @this.TempData["fail"]
     </div>
 }
+@if (this.TempData["success"] != null)
+ {
+     <div class="alert alert-success" role="alert">
+         @this.TempData["success"]
+     </div>
+ }
 <table class="table table-hover table-bordered text-center">
     <thead class="thead-dark">
         <tr class="text-center">
@@ -26,11 +32,11 @@
         </tr>
     </thead>
     <tbody>
-        @for (int i = 0; i < this.Model.users.Count(); i++)
+        @for (int i = 0; i < this.Model.Users.Count(); i++)
         {
             <tr>
                 <th scope="row">@(i+1)</th>
-                <partial name="_UserInTablePartial" model="this.Model.users.ElementAt(i)"/>
+                <partial name="_UserInTablePartial" model="this.Model.Users.ElementAt(i)"/>
             </tr>
         }
     </tbody>

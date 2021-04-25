@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-
-namespace DragonSouvenirs.Web.ViewModels.Administration
+﻿namespace DragonSouvenirs.Web.ViewModels.Administration
 {
+    using System.Collections.Generic;
+
     public class AllUsersViewModel
     {
-        public IEnumerable<ApplicationUserViewModel> users { get; set; }
+        public IEnumerable<ApplicationUserViewModel> Users { get; set; }
     }
 }

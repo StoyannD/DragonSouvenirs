@@ -1,14 +1,12 @@
-﻿using System.Security.Claims;
-using AutoMapper;
-using Microsoft.AspNetCore.Server.IIS.Core;
-
-namespace DragonSouvenirs.Web.Areas.Administration.Controllers
+﻿namespace DragonSouvenirs.Web.Areas.Administration.Controllers
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
+    using AutoMapper;
     using DragonSouvenirs.Common;
     using DragonSouvenirs.Data.Models;
     using DragonSouvenirs.Services.Mapping;
@@ -16,6 +14,7 @@ namespace DragonSouvenirs.Web.Areas.Administration.Controllers
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Server.IIS.Core;
     using Microsoft.EntityFrameworkCore;
 
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
@@ -40,7 +39,7 @@ namespace DragonSouvenirs.Web.Areas.Administration.Controllers
                 .To<ApplicationUserViewModel>()
                 .ToListAsync();
 
-            viewModel.users = users;
+            viewModel.Users = users;
             this.TempData.Keep();
 
             return this.View(viewModel);
@@ -56,24 +55,49 @@ namespace DragonSouvenirs.Web.Areas.Administration.Controllers
 
             if (viewModel.IsDeleted)
             {
-                this.TempData["isBanned"] = $"User {viewModel.UserName} is already banned.";
+                this.TempData["fail"] = $"User {viewModel.UserName} is already banned.";
                 return this.RedirectToAction(nameof(this.All));
             }
 
             return this.View(viewModel);
         }
 
-        [HttpPost]
         public async Task<ActionResult> Ban(string id)
         {
             var user = await this.userManager
                 .FindByIdAsync(id);
 
             user.IsDeleted = true;
+            user.DeletedOn = DateTime.UtcNow;
 
             await this.userManager.UpdateAsync(user);
 
-            return this.Redirect("/Administration/Users/All");
+            this.TempData["success"] = $"User {user.UserName} Banned successfully,";
+
+            return this.RedirectToAction(nameof(this.All));
+        }
+
+        public async Task<ActionResult> UnBan(string id)
+        {
+            var user = await this.userManager
+                .Users
+                .IgnoreQueryFilters()
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            if (!user.IsDeleted)
+            {
+                this.TempData["fail"] = $"User {user.UserName} is not banned.";
+                return this.RedirectToAction(nameof(this.All));
+            }
+
+            user.IsDeleted = false;
+            user.DeletedOn = null;
+
+            await this.userManager.UpdateAsync(user);
+
+            this.TempData["success"] = $"User {user.UserName} Unbanned successfully,";
+
+            return this.RedirectToAction(nameof(this.All));
         }
     }
 }
