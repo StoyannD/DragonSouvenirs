@@ -1,0 +1,30 @@
+﻿@using DragonSouvenirs.Web.ViewModels.Administration
+@using System.Linq
+@model DragonSouvenirs.Web.ViewModels.Administration.AllUsersViewModel
+@{
+    this.ViewData["Title"] = $"Users ({this.Model.users.Count()})";
+}
+<h1>@this.ViewData["Title"]</h1>
+
+<table class="table table-hover table-bordered text-center">
+    <thead class="thead-dark">
+        <tr class="text-center">
+            <th scope="col">#</th>
+            <th scope="col">@nameof(ApplicationUserViewModel.UserName)</th>
+            <th scope="col">@nameof(ApplicationUserViewModel.FullName)</th>
+            <th scope="col">@nameof(ApplicationUserViewModel.Email)</th>
+            <th scope="col">@nameof(ApplicationUserViewModel.DefaultShippingAddress)</th>
+            <th scope="col">@nameof(ApplicationUserViewModel.CreatedOn)</th>
+            <th scope="col">@nameof(ApplicationUserViewModel.IsDeleted)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @for (int i = 0; i < this.Model.users.Count(); i++)
+        {
+            <tr>
+                <th scope="row">@(i+1)</th>
+                <partial name="_UserInTablePartial" model="this.Model.users.ElementAt(i)"/>
+            </tr>
+        }
+    </tbody>
+</table>
