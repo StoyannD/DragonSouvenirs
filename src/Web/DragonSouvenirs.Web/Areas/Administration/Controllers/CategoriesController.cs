@@ -36,6 +36,7 @@
             return this.View(viewModel);
         }
 
+        [HttpGet]
         public async Task<ActionResult> Delete(int id)
         {
             var viewModel = await this.categoriesService
@@ -49,8 +50,8 @@
             return this.View(viewModel);
         }
 
-        // [HttpPost]
-        // [ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         public async Task<ActionResult> DeletePost(int id)
         {
             var title = await this.categoriesService

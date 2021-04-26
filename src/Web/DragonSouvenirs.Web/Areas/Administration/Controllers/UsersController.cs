@@ -28,6 +28,7 @@
         public async Task<ActionResult> All()
         {
             var viewModel = new AllUsersViewModel();
+
             var users = await this.userManager
                 .Users
                 .IgnoreQueryFilters()
@@ -41,13 +42,18 @@
             return this.View(viewModel);
         }
 
-        public async Task<ActionResult> ConfirmBan(string id)
+        public async Task<ActionResult> Ban(string id)
         {
             var viewModel = await this.userManager
                 .Users
                 .IgnoreQueryFilters()
                 .To<UserConfirmModel>()
                 .FirstOrDefaultAsync(u => u.Id == id);
+
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
 
             if (viewModel.IsDeleted)
             {
@@ -59,8 +65,9 @@
             return this.View(viewModel);
         }
 
-        // [HttpPost]
-        public async Task<ActionResult> Ban(string id)
+        [HttpPost]
+        [ActionName("Ban")]
+        public async Task<ActionResult> BanPost(string id)
         {
             var user = await this.userManager
                 .FindByIdAsync(id);
@@ -81,6 +88,7 @@
             return this.RedirectToAction(nameof(this.All));
         }
 
+        [HttpPost]
         public async Task<ActionResult> UnBan(string id)
         {
             var user = await this.userManager

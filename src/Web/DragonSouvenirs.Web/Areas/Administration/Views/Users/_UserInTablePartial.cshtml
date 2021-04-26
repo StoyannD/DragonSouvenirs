@@ -11,12 +11,20 @@
            disabled="disabled">
 </td>
 <td>
-    <a class="btn btn-danger"
-       asp-controller="Users"
-       asp-action="ConfirmBan"
-       asp-route-id="@this.Model.Id">Ban</a>
-    <a class="btn btn-success"
-       asp-controller="Users"
-       asp-action="Unban"
-       asp-route-id="@this.Model.Id">Unban</a>
+    <div class="d-flex flex-row justify-content-center">
+        <div class="p-2">
+            <a class="btn btn-danger"
+               asp-controller="Users"
+               asp-action="Ban"
+               asp-route-id="@this.Model.Id">Ban</a>
+        </div>
+        <div class="p-2">
+            <form asp-area="Administration"
+                  asp-controller="Users"
+                  asp-action="UnBan"
+                  asp-route-id="@Model.Id">
+                <button type="submit" class="btn btn-success">Unban</button>
+            </form>
+        </div>
+    </div>
 </td>
