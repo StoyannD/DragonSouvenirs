@@ -7,9 +7,9 @@
 
     public interface ICategoriesService
     {
-        IEnumerable<T> GetAll<T>();
+        Task<IEnumerable<T>> GetAllAsync<T>();
 
-        IEnumerable<T> GetAllAdmin<T>();
+        Task<IEnumerable<T>> GetAllAdminAsync<T>();
 
         Task<T> GetByNameAsync<T>(string name);
 

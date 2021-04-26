@@ -5,7 +5,9 @@
 
     public interface IProductsService
     {
-        Task<IEnumerable<T>> GetByCategoryNameAsync<T>(string name);
+        Task<IEnumerable<T>> GetAllAdminAsync<T>();
+
+        Task<IEnumerable<T>> GetAllByCategoryNameAsync<T>(string name);
 
         Task<T> GetByIdAsync<T>(int id);
     }

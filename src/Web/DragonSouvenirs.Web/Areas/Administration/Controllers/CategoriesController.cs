@@ -23,12 +23,12 @@
             this.categoriesService = categoriesService;
         }
 
-        public IActionResult All()
+        public async Task<ActionResult> All()
         {
             var viewModel = new AllCategoriesViewModel();
 
-            var categories = this.categoriesService
-                .GetAllAdmin<AdminCategoryViewModel>();
+            var categories = await this.categoriesService
+                .GetAllAdminAsync<AdminCategoryViewModel>();
             viewModel.Categories = categories;
 
             this.TempData.Keep();

@@ -30,7 +30,7 @@
             }
 
             viewModel.Products = await this.productsService
-                .GetByCategoryNameAsync<ProductInCategoryViewModel>(name);
+                .GetAllByCategoryNameAsync<ProductInCategoryViewModel>(name);
 
             return this.View(viewModel);
         }

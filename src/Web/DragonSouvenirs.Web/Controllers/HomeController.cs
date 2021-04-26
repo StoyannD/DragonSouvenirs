@@ -19,11 +19,11 @@
             this.categoriesService = categoriesService;
         }
 
-        public IActionResult Index()
+        public async Task<ActionResult> Index()
         {
             var viewModel = new IndexViewModel();
 
-            var categories = this.categoriesService.GetAll<IndexCategoryViewModel>();
+            var categories = await this.categoriesService.GetAllAsync<IndexCategoryViewModel>();
             if (categories == null)
             {
                 viewModel.Categories = new List<IndexCategoryViewModel>();

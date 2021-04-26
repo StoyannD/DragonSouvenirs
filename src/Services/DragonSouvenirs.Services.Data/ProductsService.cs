@@ -20,7 +20,18 @@
             this.productsRepository = productsRepository;
         }
 
-        public async Task<IEnumerable<T>> GetByCategoryNameAsync<T>(string name)
+        public async Task<IEnumerable<T>> GetAllAdminAsync<T>()
+        {
+            var products = await this.productsRepository
+                .AllWithDeleted()
+                .OrderBy(p => p.Name)
+                .To<T>()
+                .ToListAsync();
+
+            return products;
+        }
+
+        public async Task<IEnumerable<T>> GetAllByCategoryNameAsync<T>(string name)
         {
             var products = await this.productsRepository
                 .All()

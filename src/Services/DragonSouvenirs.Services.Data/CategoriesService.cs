@@ -20,22 +20,26 @@
             this.categoriesRepository = categoriesRepository;
         }
 
-        public IEnumerable<T> GetAll<T>()
+        public async Task<IEnumerable<T>> GetAllAsync<T>()
         {
-            var categories = this.categoriesRepository
+            var categories = await this.categoriesRepository
                 .All()
-                .OrderBy(c => c.Title);
+                .OrderBy(c => c.Title)
+                .To<T>()
+                .ToListAsync();
 
-            return categories.To<T>().ToList();
+            return categories;
         }
 
-        public IEnumerable<T> GetAllAdmin<T>()
+        public async Task<IEnumerable<T>> GetAllAdminAsync<T>()
         {
-            var categories = this.categoriesRepository
+            var categories = await this.categoriesRepository
                 .AllWithDeleted()
-                .OrderBy(c => c.Title);
+                .OrderBy(c => c.Title)
+                .To<T>()
+                .ToListAsync();
 
-            return categories.To<T>().ToList();
+            return categories;
         }
 
         public async Task<T> GetByNameAsync<T>(string name)

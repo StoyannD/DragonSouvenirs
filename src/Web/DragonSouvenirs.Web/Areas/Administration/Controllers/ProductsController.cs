@@ -6,6 +6,8 @@
     using System.Threading.Tasks;
 
     using DragonSouvenirs.Common;
+    using DragonSouvenirs.Services.Data;
+    using DragonSouvenirs.Web.ViewModels.Administration.Products;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -13,9 +15,20 @@
     [Area("Administration")]
     public class ProductsController : Controller
     {
-        public IActionResult All()
+        private readonly IProductsService productsService;
+
+        public ProductsController(IProductsService productsService)
         {
-            return this.View();
+            this.productsService = productsService;
+        }
+
+        public async Task<ActionResult> All()
+        {
+            var viewModel = new AllProductsViewModel();
+            viewModel.Products = await this.productsService
+                .GetAllAdminAsync<AdminProductViewModel>();
+
+            return this.View(viewModel);
         }
     }
 }
