@@ -1,12 +1,9 @@
 ﻿namespace DragonSouvenirs.Web.Areas.Administration.Controllers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Security.Claims;
     using System.Threading.Tasks;
 
-    using AutoMapper;
     using DragonSouvenirs.Common;
     using DragonSouvenirs.Data.Models;
     using DragonSouvenirs.Services.Mapping;
@@ -14,7 +11,6 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Server.IIS.Core;
     using Microsoft.EntityFrameworkCore;
 
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
@@ -55,13 +51,15 @@
 
             if (viewModel.IsDeleted)
             {
-                this.TempData["fail"] = $"User {viewModel.UserName} is already banned.";
+                this.TempData["fail"] =
+                    string.Format(GlobalConstants.UserAlreadyBannedMessage, viewModel.UserName);
                 return this.RedirectToAction(nameof(this.All));
             }
 
             return this.View(viewModel);
         }
 
+        // [HttpPut]
         public async Task<ActionResult> Ban(string id)
         {
             var user = await this.userManager
@@ -72,7 +70,8 @@
 
             await this.userManager.UpdateAsync(user);
 
-            this.TempData["success"] = $"User {user.UserName} Banned successfully,";
+            this.TempData["success"] =
+                string.Format(GlobalConstants.UserSuccessfullyBannedMessage, user.UserName);
 
             return this.RedirectToAction(nameof(this.All));
         }
@@ -86,7 +85,8 @@
 
             if (!user.IsDeleted)
             {
-                this.TempData["fail"] = $"User {user.UserName} is not banned.";
+                this.TempData["fail"] =
+                    string.Format(GlobalConstants.UserNotBannedMessage, user.UserName);
                 return this.RedirectToAction(nameof(this.All));
             }
 
@@ -95,7 +95,8 @@
 
             await this.userManager.UpdateAsync(user);
 
-            this.TempData["success"] = $"User {user.UserName} Unbanned successfully,";
+            this.TempData["success"] =
+                string.Format(GlobalConstants.UserSuccessfullyUnBannedMessage, user.UserName);
 
             return this.RedirectToAction(nameof(this.All));
         }
