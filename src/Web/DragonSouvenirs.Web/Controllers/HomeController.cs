@@ -1,5 +1,6 @@
 ﻿namespace DragonSouvenirs.Web.Controllers
 {
+    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Threading.Tasks;
 
@@ -21,8 +22,15 @@
         public IActionResult Index()
         {
             var viewModel = new IndexViewModel();
+
             var categories = this.categoriesService.GetAll<IndexCategoryViewModel>();
+            if (categories == null)
+            {
+                viewModel.Categories = new List<IndexCategoryViewModel>();
+            }
+
             viewModel.Categories = categories;
+
             return this.View(viewModel);
         }
 
@@ -34,6 +42,7 @@
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
+            this.TempData.Keep();
             return this.View(
                 new ErrorViewModel { RequestId = Activity.Current?.Id ?? this.HttpContext.TraceIdentifier });
         }

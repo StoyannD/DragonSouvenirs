@@ -18,10 +18,15 @@
             this.productsService = productsService;
         }
 
-        public IActionResult ById(int id)
+        public async Task<ActionResult> ById(int id)
         {
-            var viewmodel = this.productsService
-                .GetById<ProductViewModel>(id);
+            var viewmodel = await this.productsService
+                .GetByIdAsync<ProductViewModel>(id);
+
+            if (viewmodel == null)
+            {
+                return this.NotFound();
+            }
 
             return this.View(viewmodel);
         }

@@ -4,10 +4,12 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Threading.Tasks;
 
     using DragonSouvenirs.Data.Common.Repositories;
     using DragonSouvenirs.Data.Models;
     using DragonSouvenirs.Services.Mapping;
+    using Microsoft.EntityFrameworkCore;
 
     public class ProductsService : IProductsService
     {
@@ -18,25 +20,25 @@
             this.productsRepository = productsRepository;
         }
 
-        public IEnumerable<T> GetByCategoryName<T>(string name)
+        public async Task<IEnumerable<T>> GetByCategoryNameAsync<T>(string name)
         {
-            var products = this.productsRepository
+            var products = await this.productsRepository
                 .All()
                 .OrderBy(p => p.CreatedOn)
                 .Where(p => p.ProductCategories.Any(pc => pc.Category.Name == name && pc.ProductId == p.Id))
                 .To<T>()
-                .ToList();
+                .ToListAsync();
 
             return products;
         }
 
-        public T GetById<T>(int id)
+        public async Task<T> GetByIdAsync<T>(int id)
         {
-            var product = this.productsRepository
+            var product = await this.productsRepository
                 .All()
                 .Where(p => p.Id == id)
                 .To<T>()
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             return product;
         }

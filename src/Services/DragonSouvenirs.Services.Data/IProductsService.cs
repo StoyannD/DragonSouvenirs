@@ -5,8 +5,8 @@
 
     public interface IProductsService
     {
-        IEnumerable<T> GetByCategoryName<T>(string name);
+        Task<IEnumerable<T>> GetByCategoryNameAsync<T>(string name);
 
-        T GetById<T>(int id);
+        Task<T> GetByIdAsync<T>(int id);
     }
 }

@@ -59,11 +59,16 @@
             return this.View(viewModel);
         }
 
-        // [HttpPut]
+        // [HttpPost]
         public async Task<ActionResult> Ban(string id)
         {
             var user = await this.userManager
                 .FindByIdAsync(id);
+
+            if (user == null)
+            {
+                return this.NotFound();
+            }
 
             user.IsDeleted = true;
             user.DeletedOn = DateTime.UtcNow;

@@ -23,4 +23,8 @@
     <ProjectReference Include="..\..\Services\DragonSouvenirs.Services.Mapping\DragonSouvenirs.Services.Mapping.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Administration\Products\" />
+  </ItemGroup>
+
 </Project>

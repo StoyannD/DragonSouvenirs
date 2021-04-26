@@ -13,5 +13,9 @@
         public const string UserAlreadyBannedMessage = "User {0} is already banned.";
 
         public const string UserNotBannedMessage = "User {0} is not banned.";
+
+        //public const string CategoryAlreadyDeleted = "Category {0} is already Deleted/Recovered.";
+
+        public const string CategorySuccessfullyDeleted = "Category {0} Deleted/Recovered successfully.";
     }
 }

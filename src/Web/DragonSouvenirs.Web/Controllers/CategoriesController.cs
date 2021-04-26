@@ -1,5 +1,7 @@
 ﻿namespace DragonSouvenirs.Web.Controllers
 {
+    using System.Threading.Tasks;
+
     using DragonSouvenirs.Services.Data;
     using DragonSouvenirs.Web.ViewModels.Categories;
     using Microsoft.AspNetCore.Mvc;
@@ -17,12 +19,18 @@
             this.productsService = productsService;
         }
 
-        public IActionResult ByName(string name)
+        public async Task<ActionResult> ByName(string name)
         {
-            var viewModel = this.categoriesService
-                .GetByName<CategoryViewModel>(name);
+            var viewModel = await this.categoriesService
+                .GetByNameAsync<CategoryViewModel>(name);
 
-            viewModel.Products = this.productsService.GetByCategoryName<ProductInCategoryViewModel>(name);
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
+
+            viewModel.Products = await this.productsService
+                .GetByCategoryNameAsync<ProductInCategoryViewModel>(name);
 
             return this.View(viewModel);
         }
