@@ -91,7 +91,36 @@
             await this.categoriesService.EditAsync(viewModel);
 
             this.TempData["success"] = string
-                .Format(GlobalConstants.Category.CategorySuccessfullyEdited, viewModel.Name);
+                .Format(GlobalConstants.Category.CategorySuccessfullyEdited, viewModel.Title);
+
+            return this.RedirectToAction(nameof(this.All));
+        }
+
+        public IActionResult Create()
+        {
+            return this.View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Create(AdminCategoryInputModel inputModel)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.NotFound();
+            }
+
+            try
+            {
+                await this.categoriesService
+                    .CreateAsync(inputModel);
+
+                this.TempData["success"] =
+                    string.Format(GlobalConstants.Category.CategorySuccessfullyCreated, inputModel.Title);
+            }
+            catch (Exception e)
+            {
+                this.TempData["fail"] = e.Message;
+            }
 
             return this.RedirectToAction(nameof(this.All));
         }

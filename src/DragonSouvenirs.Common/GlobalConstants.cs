@@ -44,8 +44,10 @@
             public const string ContentLengthError = "Content must be between {2} and {1} symbols.";
 
             public const string CategoryAlreadyDeleted = "Category {0} is already Deleted/Recovered.";
-            public const string CategorySuccessfullyDeleted = "Category {0} Deleted/Recovered successfully."; 
-            public const string CategorySuccessfullyEdited= "Category {0} Edited successfully.";
+            public const string CategorySuccessfullyDeleted = "Category {0} Deleted/Recovered successfully.";
+            public const string CategorySuccessfullyEdited = "Category {0} Edited successfully.";
+            public const string CategorySuccessfullyCreated = "Category {0} Created successfully.";
+            public const string OnCreateCategoryNotUniqueError = "Category with name {0} exists.";
         }
     }
 }
