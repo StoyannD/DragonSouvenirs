@@ -1,9 +1,9 @@
-﻿@model DragonSouvenirs.Web.ViewModels.Administration.ApplicationUserViewModel
+﻿@model DragonSouvenirs.Web.ViewModels.Administration.Users.ApplicationUserViewModel
 
 <td>@this.Model.UserName</td>
 <td>@this.Model.FullName</td>
 <td>@this.Model.Email</td>
-<td>@this.Model.DefaultShippingAddress</td>
+<td>@this.Model.ShortShippingAddress</td>
 <td>@this.Model.CreatedOn</td>
 <td>
     <input asp-for="@this.Model.IsDeleted"
@@ -12,6 +12,12 @@
 </td>
 <td>
     <div class="d-flex flex-row justify-content-center">
+        <div class="p-2">
+            <a class="btn btn-warning"
+               asp-controller="Users"
+               asp-action="Edit"
+               asp-route-id="@this.Model.Id">Edit</a>
+        </div>
         <div class="p-2">
             <a class="btn btn-danger"
                asp-controller="Users"

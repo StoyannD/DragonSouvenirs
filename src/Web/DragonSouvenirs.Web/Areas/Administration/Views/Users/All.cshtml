@@ -1,6 +1,6 @@
-﻿@using DragonSouvenirs.Web.ViewModels.Administration
+﻿@using DragonSouvenirs.Web.ViewModels.Administration.Users
 @using System.Linq
-@model DragonSouvenirs.Web.ViewModels.Administration.AllUsersViewModel
+@model DragonSouvenirs.Web.ViewModels.Administration.Users.AllUsersViewModel
 @{
     this.ViewData["Title"] = $"Users ({this.Model.Users.Count()})";
 }
@@ -22,10 +22,10 @@
     <thead class="thead-dark">
         <tr class="text-center">
             <th scope="col">#</th>
-            <th scope="col">@nameof(ApplicationUserViewModel.UserName)</th>
-            <th scope="col">@nameof(ApplicationUserViewModel.FullName)</th>
+            <th scope="col">Username</th>
+            <th scope="col">Fullname</th>
             <th scope="col">@nameof(ApplicationUserViewModel.Email)</th>
-            <th scope="col">@nameof(ApplicationUserViewModel.DefaultShippingAddress)</th>
+            <th scope="col">Shipping Address</th>
             <th scope="col">@nameof(ApplicationUserViewModel.CreatedOn)</th>
             <th scope="col">@nameof(ApplicationUserViewModel.IsDeleted)</th>
             <th scope="col">Manage</th>

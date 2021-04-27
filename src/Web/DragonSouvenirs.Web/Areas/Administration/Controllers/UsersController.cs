@@ -8,6 +8,7 @@
     using DragonSouvenirs.Data.Models;
     using DragonSouvenirs.Services.Mapping;
     using DragonSouvenirs.Web.ViewModels.Administration;
+    using DragonSouvenirs.Web.ViewModels.Administration.Users;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -58,7 +59,7 @@
             if (viewModel.IsDeleted)
             {
                 this.TempData["fail"] =
-                    string.Format(GlobalConstants.UserAlreadyBannedMessage, viewModel.UserName);
+                    string.Format(GlobalConstants.User.UserAlreadyBannedMessage, viewModel.UserName);
                 return this.RedirectToAction(nameof(this.All));
             }
 
@@ -83,7 +84,7 @@
             await this.userManager.UpdateAsync(user);
 
             this.TempData["success"] =
-                string.Format(GlobalConstants.UserSuccessfullyBannedMessage, user.UserName);
+                string.Format(GlobalConstants.User.UserSuccessfullyBannedMessage, user.UserName);
 
             return this.RedirectToAction(nameof(this.All));
         }
@@ -99,7 +100,7 @@
             if (!user.IsDeleted)
             {
                 this.TempData["fail"] =
-                    string.Format(GlobalConstants.UserNotBannedMessage, user.UserName);
+                    string.Format(GlobalConstants.User.UserNotBannedMessage, user.UserName);
                 return this.RedirectToAction(nameof(this.All));
             }
 
@@ -109,7 +110,52 @@
             await this.userManager.UpdateAsync(user);
 
             this.TempData["success"] =
-                string.Format(GlobalConstants.UserSuccessfullyUnBannedMessage, user.UserName);
+                string.Format(GlobalConstants.User.UserSuccessfullyUnBannedMessage, user.UserName);
+
+            return this.RedirectToAction(nameof(this.All));
+        }
+
+        public async Task<ActionResult> Edit(string id)
+        {
+            if (id == null)
+            {
+                return this.NotFound();
+            }
+
+            var viewModel = await this.userManager
+                .Users
+                .Where(u => u.Id == id)
+                .To<ApplicationUserEditViewModel>()
+                .FirstOrDefaultAsync();
+
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(ApplicationUserEditViewModel viewModel)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.NotFound();
+            }
+
+            var user = await this.userManager
+                .FindByIdAsync(viewModel.Id);
+
+            user.UserName = viewModel.UserName;
+            user.FullName = viewModel.FullName;
+            user.Email = viewModel.Email;
+            user.DefaultShippingAddress = viewModel.DefaultShippingAddress;
+
+            await this.userManager.UpdateAsync(user);
+
+            this.TempData["success"] =
+                string.Format(GlobalConstants.User.UserSuccessfullyEdited, user.UserName);
 
             return this.RedirectToAction(nameof(this.All));
         }

@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Data\DragonSouvenirs.Data.Models\DragonSouvenirs.Data.Models.csproj" />
+    <ProjectReference Include="..\..\DragonSouvenirs.Common\DragonSouvenirs.Common.csproj" />
     <ProjectReference Include="..\..\Services\DragonSouvenirs.Services.Mapping\DragonSouvenirs.Services.Mapping.csproj" />
   </ItemGroup>
 
