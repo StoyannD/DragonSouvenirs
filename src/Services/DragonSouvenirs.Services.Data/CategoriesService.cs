@@ -1,4 +1,6 @@
-﻿namespace DragonSouvenirs.Services.Data
+﻿using DragonSouvenirs.Web.ViewModels.Administration.Categories;
+
+namespace DragonSouvenirs.Services.Data
 {
     using System;
     using System.Collections.Generic;
@@ -79,6 +81,20 @@
             await this.categoriesRepository.SaveChangesAsync();
 
             return category.Title;
+        }
+
+        public async Task EditAsync(AdminCategoryEditViewModel viewModel)
+        {
+            var category = await this.categoriesRepository
+                .AllWithDeleted()
+                .FirstOrDefaultAsync(c => c.Id == viewModel.Id);
+
+            category.Name = viewModel.Name;
+            category.Title = viewModel.Title;
+            category.Content = viewModel.Content;
+            category.ImageUrl = viewModel.ImageUrl;
+
+            await this.categoriesRepository.SaveChangesAsync();
         }
     }
 }

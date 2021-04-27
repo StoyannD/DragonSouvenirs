@@ -62,7 +62,36 @@
                 return this.NotFound();
             }
 
-            this.TempData["success"] = string.Format(GlobalConstants.CategorySuccessfullyDeleted, title);
+            this.TempData["success"] = string.Format(GlobalConstants.Category.CategorySuccessfullyDeleted, title);
+
+            return this.RedirectToAction(nameof(this.All));
+        }
+
+        public async Task<ActionResult> Edit(int id)
+        {
+            var viewModel = await this.categoriesService
+                .GetByIdAsync<AdminCategoryEditViewModel>(id);
+
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Edit(AdminCategoryEditViewModel viewModel)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.NotFound();
+            }
+
+            await this.categoriesService.EditAsync(viewModel);
+
+            this.TempData["success"] = string
+                .Format(GlobalConstants.Category.CategorySuccessfullyEdited, viewModel.Name);
 
             return this.RedirectToAction(nameof(this.All));
         }

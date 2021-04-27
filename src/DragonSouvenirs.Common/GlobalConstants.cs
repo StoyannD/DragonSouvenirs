@@ -6,9 +6,6 @@
 
         public const string AdministratorRoleName = "Administrator";
 
-        // public const string CategoryAlreadyDeleted = "Category {0} is already Deleted/Recovered.";
-        public const string CategorySuccessfullyDeleted = "Category {0} Deleted/Recovered successfully.";
-
         public class User
         {
             public const string UserNameDisplay = "Username";
@@ -31,6 +28,24 @@
             public const string UserAlreadyBannedMessage = "User {0} is already banned.";
             public const string UserNotBannedMessage = "User {0} is not banned.";
             public const string UserSuccessfullyEdited = "User {0} Edited successfully.";
+        }
+
+        public class Category
+        {
+            public const int NameMaxLength = 40;
+            public const int NameMinLength = 2;
+            public const int TitleMaxLength = 40;
+            public const int TitleMinLength = 2;
+            public const int ContentMaxLength = 300;
+            public const int ContentMinLength = 4;
+
+            public const string NameLengthError = "Name must be between {2} and {1} symbols.";
+            public const string TitleLengthError = "Title must be between {2} and {1} symbols.";
+            public const string ContentLengthError = "Content must be between {2} and {1} symbols.";
+
+            public const string CategoryAlreadyDeleted = "Category {0} is already Deleted/Recovered.";
+            public const string CategorySuccessfullyDeleted = "Category {0} Deleted/Recovered successfully."; 
+            public const string CategorySuccessfullyEdited= "Category {0} Edited successfully.";
         }
     }
 }

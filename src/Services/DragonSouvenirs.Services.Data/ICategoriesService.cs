@@ -1,4 +1,6 @@
-﻿namespace DragonSouvenirs.Services.Data
+﻿using DragonSouvenirs.Web.ViewModels.Administration.Categories;
+
+namespace DragonSouvenirs.Services.Data
 {
     using System;
     using System.Collections.Generic;
@@ -16,5 +18,7 @@
         Task<T> GetByIdAsync<T>(int id);
 
         Task<string> DeleteRecoverAsync(int id);
+
+        Task EditAsync(AdminCategoryEditViewModel viewModel);
     }
 }
