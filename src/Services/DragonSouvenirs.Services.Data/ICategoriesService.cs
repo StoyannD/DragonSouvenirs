@@ -15,7 +15,7 @@
 
         Task<T> GetByNameAsync<T>(string name);
 
-        Task<T> GetByIdAsync<T>(int id);
+        Task<T> GetByIdAsync<T>(int? id);
 
         Task<string> DeleteRecoverAsync(int id);
 

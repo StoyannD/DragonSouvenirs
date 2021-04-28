@@ -45,6 +45,11 @@
 
         public async Task<ActionResult> Ban(string id)
         {
+            if (id == null)
+            {
+                return this.BadRequest();
+            }
+
             var viewModel = await this.userManager
                 .Users
                 .IgnoreQueryFilters()
@@ -72,11 +77,6 @@
         {
             var user = await this.userManager
                 .FindByIdAsync(id);
-
-            if (user == null)
-            {
-                return this.NotFound();
-            }
 
             user.IsDeleted = true;
             user.DeletedOn = DateTime.UtcNow;
@@ -119,7 +119,7 @@
         {
             if (id == null)
             {
-                return this.NotFound();
+                return this.BadRequest();
             }
 
             var viewModel = await this.userManager

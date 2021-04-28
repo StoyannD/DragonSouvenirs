@@ -37,8 +37,13 @@
         }
 
         [HttpGet]
-        public async Task<ActionResult> Delete(int id)
+        public async Task<ActionResult> Delete(int? id)
         {
+            if (id == null)
+            {
+                return this.BadRequest();
+            }
+
             var viewModel = await this.categoriesService
                 .GetByIdAsync<AdminCategoryViewModel>(id);
 
@@ -57,18 +62,18 @@
             var title = await this.categoriesService
                 .DeleteRecoverAsync(id);
 
-            if (title == null)
-            {
-                return this.NotFound();
-            }
-
             this.TempData["success"] = string.Format(GlobalConstants.Category.CategorySuccessfullyDeleted, title);
 
             return this.RedirectToAction(nameof(this.All));
         }
 
-        public async Task<ActionResult> Edit(int id)
+        public async Task<ActionResult> Edit(int? id)
         {
+            if (id == null)
+            {
+                return this.BadRequest();
+            }
+
             var viewModel = await this.categoriesService
                 .GetByIdAsync<AdminCategoryEditViewModel>(id);
 

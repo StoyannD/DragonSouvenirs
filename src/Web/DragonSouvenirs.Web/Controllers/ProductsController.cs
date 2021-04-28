@@ -18,8 +18,13 @@
             this.productsService = productsService;
         }
 
-        public async Task<ActionResult> ById(int id)
+        public async Task<ActionResult> ById(int? id)
         {
+            if (id == null)
+            {
+                return this.BadRequest();
+            }
+
             var viewmodel = await this.productsService
                 .GetByIdAsync<ProductViewModel>(id);
 

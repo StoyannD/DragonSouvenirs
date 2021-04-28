@@ -56,11 +56,11 @@
             return category;
         }
 
-        public async Task<T> GetByIdAsync<T>(int id)
+        public async Task<T> GetByIdAsync<T>(int? id)
         {
             var category = await this.categoriesRepository
                 .AllWithDeleted()
-                .Where(c => c.Id == id)
+                .Where(c => c.Id == id.Value)
                 .To<T>()
                 .FirstOrDefaultAsync();
 

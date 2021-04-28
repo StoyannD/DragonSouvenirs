@@ -21,6 +21,11 @@
 
         public async Task<ActionResult> ByName(string name)
         {
+            if (name == null)
+            {
+                return this.BadRequest();
+            }
+
             var viewModel = await this.categoriesService
                 .GetByNameAsync<CategoryViewModel>(name);
 
