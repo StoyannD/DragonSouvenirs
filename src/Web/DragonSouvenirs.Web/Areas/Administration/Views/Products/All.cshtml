@@ -2,7 +2,7 @@
 @using DragonSouvenirs.Web.ViewModels.Administration.Products
 @model DragonSouvenirs.Web.ViewModels.Administration.Products.AllProductsViewModel
 @{
-    this.ViewData["Title"] = $"Categories ({this.Model.Products.Count()})";
+    this.ViewData["Title"] = $"Products ({this.Model.Products.Count()})";
 }
 <h1>@this.ViewData["Title"]</h1>
 
@@ -18,6 +18,14 @@
         @this.TempData["success"]
     </div>
 }
+
+<div class="p-2">
+    <a class="btn btn-success"
+       asp-area="Administration"
+       asp-controller="Categories"
+       asp-action="Create">Create new</a>
+</div>
+
 <table class="table table-hover table-bordered text-center">
     <thead class="thead-dark">
         <tr class="text-center">
@@ -28,6 +36,7 @@
             <th scope="col">@nameof(AdminProductViewModel.Price)</th>
             <th scope="col">@nameof(AdminProductViewModel.Quantity)</th>
             <th scope="col">Times Ordered</th>
+            <th scope="col">Categories</th>
             <th scope="col">@nameof(AdminProductViewModel.CreatedOn)</th>
             <th scope="col">@nameof(AdminProductViewModel.IsDeleted)</th>
             <th scope="col">Manage</th>

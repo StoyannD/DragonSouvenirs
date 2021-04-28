@@ -24,11 +24,44 @@
 
         public async Task<ActionResult> All()
         {
-            var viewModel = new AllProductsViewModel();
-            viewModel.Products = await this.productsService
-                .GetAllAdminAsync<AdminProductViewModel>();
+            var viewModel = new AllProductsViewModel
+            {
+                Products = await this.productsService
+                .GetAllAdminAsync<AdminProductViewModel>(),
+            };
+
+            this.TempData.Keep();
 
             return this.View(viewModel);
+        }
+
+        public async Task<ActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return this.BadRequest();
+            }
+
+            var viewModel = await this.productsService
+                .AdminGetByIdAsync<AdminProductViewModel>(id);
+
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        public async Task<ActionResult> DeletePost(int id)
+        {
+            var postTitle = await this.productsService.DeleteRecoverAsync(id);
+
+            this.TempData["success"] = string.Format(GlobalConstants.Product.ProductSuccessfullyDeleted, postTitle);
+
+            return this.RedirectToAction(nameof(this.All));
         }
     }
 }

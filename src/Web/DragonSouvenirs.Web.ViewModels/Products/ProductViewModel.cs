@@ -37,9 +37,9 @@
                 .ForMember(m => m.CategoryName, options =>
                 {
                     options.MapFrom(
-                        p => p.ProductCategories
-                            .Select(pc => pc.Category.Title)
-                            .FirstOrDefault());
+                        p => string.Join(" ", p.ProductCategories
+                            .Select(pc => pc.Category.Title ?? string.Empty)
+                            .ToList()));
                 });
         }
     }

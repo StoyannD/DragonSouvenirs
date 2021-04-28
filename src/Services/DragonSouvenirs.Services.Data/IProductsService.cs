@@ -9,6 +9,10 @@
 
         Task<IEnumerable<T>> GetAllByCategoryNameAsync<T>(string name);
 
-        Task<T> GetByIdAsync<T>(int id);
+        Task<T> GetByIdAsync<T>(int? id);
+
+        Task<T> AdminGetByIdAsync<T>(int? id);
+
+        Task<int> DeleteRecoverAsync(int id);
     }
 }

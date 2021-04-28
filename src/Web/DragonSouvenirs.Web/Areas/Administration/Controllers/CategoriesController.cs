@@ -85,7 +85,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.NotFound();
+                return this.View(viewModel);
             }
 
             await this.categoriesService.EditAsync(viewModel);
@@ -106,7 +106,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.NotFound();
+                return this.View(inputModel);
             }
 
             try

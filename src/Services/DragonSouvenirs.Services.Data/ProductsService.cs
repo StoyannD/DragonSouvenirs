@@ -1,4 +1,6 @@
-﻿namespace DragonSouvenirs.Services.Data
+﻿using DragonSouvenirs.Common;
+
+namespace DragonSouvenirs.Services.Data
 {
     using System;
     using System.Collections.Generic;
@@ -43,15 +45,38 @@
             return products;
         }
 
-        public async Task<T> GetByIdAsync<T>(int id)
+        public async Task<T> GetByIdAsync<T>(int? id)
         {
             var product = await this.productsRepository
                 .All()
-                .Where(p => p.Id == id)
+                .Where(p => p.Id == id.Value)
                 .To<T>()
                 .FirstOrDefaultAsync();
 
             return product;
+        }
+
+        public async Task<T> AdminGetByIdAsync<T>(int? id)
+        {
+            var product = await this.productsRepository
+                .AllWithDeleted()
+                .Where(p => p.Id == id.Value)
+                .To<T>()
+                .FirstOrDefaultAsync();
+
+            return product;
+        }
+
+        public async Task<int> DeleteRecoverAsync(int id)
+        {
+            var product = await this.productsRepository
+                .AllWithDeleted()
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            product.IsDeleted = !product.IsDeleted;
+            await this.productsRepository.SaveChangesAsync();
+
+            return id;
         }
     }
 }

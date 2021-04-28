@@ -15,12 +15,12 @@
         public void Configure(EntityTypeBuilder<ProductCategory> productCategory)
         {
             productCategory
-                .HasKey(c => new { c.ProductId, c.CatgoryId });
+                .HasKey(c => new { c.ProductId, c.CategoryId });
 
             productCategory
                 .HasOne(pc => pc.Category)
                 .WithMany(c => c.ProductCategories)
-                .HasForeignKey(pc => pc.CatgoryId)
+                .HasForeignKey(pc => pc.CategoryId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
 

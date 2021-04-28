@@ -43,11 +43,18 @@
             public const string TitleLengthError = "Title must be between {2} and {1} symbols.";
             public const string ContentLengthError = "Content must be between {2} and {1} symbols.";
 
-            public const string CategoryAlreadyDeleted = "Category {0} is already Deleted/Recovered.";
+            // public const string CategoryAlreadyDeleted = "Category {0} is already Deleted/Recovered.";
             public const string CategorySuccessfullyDeleted = "Category {0} Deleted/Recovered successfully.";
             public const string CategorySuccessfullyEdited = "Category {0} Edited successfully.";
             public const string CategorySuccessfullyCreated = "Category {0} Created successfully.";
             public const string OnCreateCategoryNotUniqueError = "Category with name {0} exists.";
+        }
+
+        public class Product
+        {
+            public const string ProductSuccessfullyDeleted = "Product {0} Deleted/Recovered successfully.";
+
+            public const string ProductNotFound = "Product with id {0} not found.";
         }
     }
 }

@@ -19,12 +19,12 @@
 
             var productsCategories = new List<ProductCategory>()
             {
-                new ProductCategory() { CatgoryId = 1, ProductId = 1 },
-                new ProductCategory() { CatgoryId = 1, ProductId = 2 },
-                new ProductCategory() { CatgoryId = 2, ProductId = 3 },
-                new ProductCategory() { CatgoryId = 2, ProductId = 4 },
-                new ProductCategory() { CatgoryId = 3, ProductId = 5 },
-                new ProductCategory() { CatgoryId = 3, ProductId = 6 },
+                new ProductCategory() { CategoryId = 1, ProductId = 1 },
+                new ProductCategory() { CategoryId = 1, ProductId = 2 },
+                new ProductCategory() { CategoryId = 2, ProductId = 3 },
+                new ProductCategory() { CategoryId = 2, ProductId = 4 },
+                new ProductCategory() { CategoryId = 3, ProductId = 5 },
+                new ProductCategory() { CategoryId = 3, ProductId = 6 },
             };
 
             await dbContext.ProductCategories.AddRangeAsync(productsCategories);

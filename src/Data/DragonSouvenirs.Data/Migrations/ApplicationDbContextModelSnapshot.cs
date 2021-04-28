@@ -337,12 +337,12 @@ namespace DragonSouvenirs.Data.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CatgoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.HasKey("ProductId", "CatgoryId");
+                    b.HasKey("ProductId", "CategoryId");
 
-                    b.HasIndex("CatgoryId");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("ProductCategories");
                 });
@@ -496,7 +496,7 @@ namespace DragonSouvenirs.Data.Migrations
                 {
                     b.HasOne("DragonSouvenirs.Data.Models.Category", "Category")
                         .WithMany("ProductCategories")
-                        .HasForeignKey("CatgoryId")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

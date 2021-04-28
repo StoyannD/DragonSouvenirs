@@ -141,7 +141,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.NotFound();
+                return this.View(viewModel);
             }
 
             var user = await this.userManager
