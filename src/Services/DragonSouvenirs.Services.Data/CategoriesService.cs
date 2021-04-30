@@ -45,6 +45,17 @@
             return categories;
         }
 
+        public async Task<IEnumerable<T>> GetAllByProductIdAsync<T>(int? id)
+        {
+            var categories = await this.categoriesRepository
+                .AllWithDeleted()
+                .Where(c => c.ProductCategories.Any(pc => pc.ProductId == id.Value))
+                .To<T>()
+                .ToListAsync();
+
+            return categories;
+        }
+
         public async Task<T> GetByNameAsync<T>(string name)
         {
             var category = await this.categoriesRepository

@@ -13,7 +13,7 @@
                 .WithOne(i => i.Product)
                 .HasForeignKey(i => i.ProductId)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

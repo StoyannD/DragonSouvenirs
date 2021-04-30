@@ -272,6 +272,12 @@ namespace DragonSouvenirs.Data.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -279,6 +285,8 @@ namespace DragonSouvenirs.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("OrderId", "ProductId");
+
+                    b.HasIndex("IsDeleted");
 
                     b.HasIndex("ProductId");
 
@@ -340,9 +348,17 @@ namespace DragonSouvenirs.Data.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.HasKey("ProductId", "CategoryId");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("IsDeleted");
 
                     b.ToTable("ProductCategories");
                 });
@@ -456,7 +472,7 @@ namespace DragonSouvenirs.Data.Migrations
                     b.HasOne("DragonSouvenirs.Data.Models.Product", "Product")
                         .WithMany("Images")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Product");
@@ -497,13 +513,13 @@ namespace DragonSouvenirs.Data.Migrations
                     b.HasOne("DragonSouvenirs.Data.Models.Category", "Category")
                         .WithMany("ProductCategories")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DragonSouvenirs.Data.Models.Product", "Product")
                         .WithMany("ProductCategories")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Category");
@@ -516,7 +532,7 @@ namespace DragonSouvenirs.Data.Migrations
                     b.HasOne("DragonSouvenirs.Data.Models.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -543,7 +559,7 @@ namespace DragonSouvenirs.Data.Migrations
                     b.HasOne("DragonSouvenirs.Data.Models.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DragonSouvenirs.Data.Models.ApplicationUser", null)
@@ -558,7 +574,7 @@ namespace DragonSouvenirs.Data.Migrations
                     b.HasOne("DragonSouvenirs.Data.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 

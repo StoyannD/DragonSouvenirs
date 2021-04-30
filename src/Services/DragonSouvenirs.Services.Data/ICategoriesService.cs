@@ -13,6 +13,8 @@
 
         Task<IEnumerable<T>> GetAllAdminAsync<T>();
 
+        Task<IEnumerable<T>> GetAllByProductIdAsync<T>(int? id);
+
         Task<T> GetByNameAsync<T>(string name);
 
         Task<T> GetByIdAsync<T>(int? id);

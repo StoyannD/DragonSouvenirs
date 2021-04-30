@@ -4,7 +4,9 @@
     using System.Collections.Generic;
     using System.Text;
 
-    public class OrderProduct
+    using DragonSouvenirs.Data.Common.Models;
+
+    public class OrderProduct : IDeletableEntity
     {
         public int OrderId { get; set; }
 
@@ -17,5 +19,9 @@
         public int Quantity { get; set; }
 
         public decimal Price { get; set; }
+
+        public bool IsDeleted { get; set; }
+
+        public DateTime? DeletedOn { get; set; }
     }
 }

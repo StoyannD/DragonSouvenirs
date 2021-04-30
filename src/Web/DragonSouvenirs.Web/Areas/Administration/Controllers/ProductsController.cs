@@ -16,10 +16,14 @@
     public class ProductsController : Controller
     {
         private readonly IProductsService productsService;
+        private readonly ICategoriesService categoriesService;
 
-        public ProductsController(IProductsService productsService)
+        public ProductsController(
+            IProductsService productsService,
+            ICategoriesService categoriesService)
         {
             this.productsService = productsService;
+            this.categoriesService = categoriesService;
         }
 
         public async Task<ActionResult> All()
@@ -62,6 +66,50 @@
             this.TempData["success"] = string.Format(GlobalConstants.Product.ProductSuccessfullyDeleted, postTitle);
 
             return this.RedirectToAction(nameof(this.All));
+        }
+
+        public async Task<ActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return this.BadRequest();
+            }
+
+            var viewModel = await this.productsService
+                .AdminGetByIdAsync<AdminProductEditViewModel>(id);
+            if (viewModel == null)
+            {
+                return this.NotFound();
+            }
+
+            while (viewModel.Images.Count < GlobalConstants.Image.ImagesPerProduct)
+            {
+                viewModel.Images.Add(new AdminImagesViewModel());
+            }
+
+            var allCategories = await this.categoriesService
+                .GetAllAsync<CategoriesDropdownViewModel>();
+
+            viewModel.AllCategoriesDropdown = allCategories;
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        [ActionName("Edit")]
+        public async Task<ActionResult> EditPost(AdminProductEditViewModel viewModel)
+        {
+        if (!this.ModelState.IsValid)
+        {
+            return this.View(viewModel);
+        }
+
+        await this.productsService.EditAsync(viewModel);
+
+        this.TempData["success"] = string
+            .Format(GlobalConstants.Product.ProductSuccessfullyEdited, viewModel.Name);
+
+        return this.RedirectToAction(nameof(this.All));
         }
     }
 }

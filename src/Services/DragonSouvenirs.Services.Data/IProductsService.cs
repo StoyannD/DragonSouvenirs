@@ -3,6 +3,8 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using DragonSouvenirs.Web.ViewModels.Administration.Products;
+
     public interface IProductsService
     {
         Task<IEnumerable<T>> GetAllAdminAsync<T>();
@@ -14,5 +16,7 @@
         Task<T> AdminGetByIdAsync<T>(int? id);
 
         Task<int> DeleteRecoverAsync(int id);
+
+        Task EditAsync(AdminProductEditViewModel viewModel);
     }
 }
