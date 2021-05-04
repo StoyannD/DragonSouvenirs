@@ -1,0 +1,37 @@
+﻿@model DragonSouvenirs.Web.ViewModels.Administration.Products.AdminProductViewModel
+
+<td>
+    <a href="@Model.ImageUrl">
+        <img src="@Model.ImageUrl" style="height: 4rem; width: 4rem;" />
+    </a>
+</td>
+<td>@this.Model.Title</td>
+<td>@this.Model.Name</td>
+<td>@this.Model.Price</td>
+<td>@this.Model.Quantity</td>
+<td>@this.Model.OrderProductsCount</td>
+<td>@this.Model.ProductCategoriesNames</td>
+<td>@this.Model.CreatedOn</td>
+<td>
+    <input asp-for="@this.Model.IsDeleted"
+           type="checkbox"
+           disabled="disabled">
+</td>
+<td>
+    <div class="d-flex flex-row justify-content-center">
+        <div class="p-2">
+            <a class="btn btn-warning"
+               asp-area="Administration"
+               asp-controller="Products"
+               asp-action="Edit"
+               asp-route-id="@Model.Id">Edit</a>
+        </div>
+        <div class="p-2">
+            <a class="btn btn-danger"
+               asp-area="Administration"
+               asp-controller="Products"
+               asp-action="Delete"
+               asp-route-id="@Model.Id">Delete/Recover</a>
+        </div>
+    </div>
+</td>

@@ -38,7 +38,7 @@
                 {
                     options.MapFrom(
                         p => string.Join(" ", p.ProductCategories
-                            .Select(pc => pc.Category.Title ?? string.Empty)
+                            .Select(pc => pc.Category.Name ?? string.Empty)
                             .ToList()));
                 });
         }

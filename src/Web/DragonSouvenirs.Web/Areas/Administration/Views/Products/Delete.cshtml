@@ -1,0 +1,29 @@
+﻿@model DragonSouvenirs.Web.ViewModels.Administration.Products.AdminProductViewModel
+
+<div align="center">
+    <div class="modal-content align-items-center" style="width: 25rem;">
+        <div class="modal-header flex-column align-items-center">
+            <div>
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h4 class="modal-title w-100">Are you sure?</h4>
+        </div>
+        <div class="modal-body">
+            <p>Do you really want to delete/recover category: @Model.Title?</p>
+        </div>
+        <div class="modal-footer justify-content-center">
+            <a asp-area="Administration"
+               asp-controller="Products"
+               asp-action="All"
+               class="btn btn-secondary">
+                Cancel
+            </a>
+            <form asp-area="Administration"
+                  asp-controller="Products"
+                  asp-action="Delete"
+                  asp-route-id="@Model.Id">
+                <button type="submit" class="btn btn-danger">Delete/Recover</button>
+            </form>
+        </div>
+    </div>
+</div>

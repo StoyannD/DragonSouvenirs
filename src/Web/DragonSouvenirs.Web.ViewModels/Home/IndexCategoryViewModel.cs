@@ -1,12 +1,8 @@
-﻿using System.Linq;
-using AutoMapper;
-
-namespace DragonSouvenirs.Web.ViewModels.Categories
+﻿namespace DragonSouvenirs.Web.ViewModels.Home
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
+    using System.Linq;
 
+    using AutoMapper;
     using DragonSouvenirs.Data.Models;
     using DragonSouvenirs.Services.Mapping;
 

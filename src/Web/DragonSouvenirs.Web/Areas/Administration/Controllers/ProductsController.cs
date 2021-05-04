@@ -88,11 +88,14 @@
                 viewModel.Images.Add(new AdminImagesViewModel());
             }
 
+            // var categories = await this.categoriesService
+            //    .GetAllByProductIdAsync<CategoriesViewModel>(viewModel.Id);
             var allCategories = await this.categoriesService
                 .GetAllAsync<CategoriesDropdownViewModel>();
 
             viewModel.AllCategoriesDropdown = allCategories;
 
+            // viewModel.Categories = categories.ToList();
             return this.View(viewModel);
         }
 

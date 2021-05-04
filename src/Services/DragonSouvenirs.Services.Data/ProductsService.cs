@@ -102,7 +102,7 @@
 
             var editedProductCategory = new ProductCategory()
             {
-                CategoryId = int.Parse(viewModel.Categories[0].Title),
+                CategoryId = int.Parse(viewModel.Categories[0].Name),
                 ProductId = product.Id,
             };
 
@@ -163,7 +163,7 @@
                 .Select(pc => new ProductCategory()
                 {
                     ProductId = product.Id,
-                    CategoryId = int.Parse(inputModel.Categories[0].Title),
+                    CategoryId = int.Parse(inputModel.Categories[0].Name),
                 })
                 .ToList();
 
