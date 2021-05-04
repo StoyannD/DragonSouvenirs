@@ -14,15 +14,16 @@
 
                     <div class="col-12 mb-0">
                         <figure class="view overlay rounded z-depth-1 main-img">
-                            <img src="@Model.Images.ToList()[0].ImgUrl" class="img-fluid z-depth-1">
+                            <img src="@(Model.Images.Any() 
+                                          ? Model.Images.ElementAt(0).ImgUrl 
+                                          :"")" class="img-fluid z-depth-1">
                         </figure>
                     </div>
                     <div class="col-12">
                         <div class="row">
                             @foreach (var img in @Model.Images)
                             {
-                                <partial name="_SecondaryImagesPartial" model="img"/>
-                            }
+                <partial name="_SecondaryImagesPartial" model="img" />}
                         </div>
                     </div>
                 </div>

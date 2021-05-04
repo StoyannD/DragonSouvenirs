@@ -74,6 +74,9 @@
             public const string ProductSuccessfullyDeleted = "Product {0} Deleted/Recovered successfully.";
             public const string ProductSuccessfullyEdited = "Product {0} Edited successfully.";
             public const string ProductNotFound = "Product with id {0} not found.";
+
+            public const string ProductSuccessfullyCreated = "Product {0} Created successfully.";
+            public const string OnCreateProductNotUniqueError = "Product with name {0} exists.";
         }
 
         public class Image

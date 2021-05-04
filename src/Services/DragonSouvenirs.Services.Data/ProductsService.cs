@@ -87,7 +87,6 @@
         {
             var product = await this.productsRepository
                 .AllWithDeleted()
-                .Include(p => p.ProductCategories)
                 .Include(p => p.Images)
                 .FirstOrDefaultAsync(c => c.Id == viewModel.Id);
 
@@ -124,13 +123,54 @@
             await this.productCategoryRepository.AddAsync(editedProductCategory);
 
             await this.productCategoryRepository.SaveChangesAsync();
+            await this.productsRepository.SaveChangesAsync();
+        }
 
-            // var productCategory = product.ProductCategories;
-            // var del = this.productCategoryRepository.AllWithDeleted().FirstOrDefault (p => p.ProductId == viewModel.Id);
-            // this.productCategoryRepository.HardDelete(del);
-            // productCategory.Add(editedProductCategory);
-            // await this.productCategoryRepository.SaveChangesAsync();
+        public async Task CreateAsync(AdminProductInputModel inputModel)
+        {
+            if (await this.productsRepository
+                .AllWithDeleted()
+                .AnyAsync(p => p.Name == inputModel.Name))
+            {
+                throw new InvalidOperationException(GlobalConstants.Product.OnCreateProductNotUniqueError);
+            }
 
+            var product = new Product()
+            {
+                CreatedOn = DateTime.UtcNow,
+                Name = inputModel.Name,
+                Title = inputModel.Title,
+                Description = inputModel.Description,
+                Price = inputModel.Price,
+                Quantity = inputModel.Quantity,
+                Height = inputModel.Height,
+                Width = inputModel.Width,
+            };
+
+            var images = inputModel
+                .Images
+                .Where(i => i.ImgUrl != null)
+                .Select(i => new Image()
+                {
+                    CreatedOn = DateTime.UtcNow,
+                    ImgUrl = i.ImgUrl,
+                    ProductId = product.Id,
+                })
+                .ToList();
+
+            var productCategory = inputModel
+                .Categories
+                .Select(pc => new ProductCategory()
+                {
+                    ProductId = product.Id,
+                    CategoryId = int.Parse(inputModel.Categories[0].Title),
+                })
+                .ToList();
+
+            product.Images = images;
+            product.ProductCategories = productCategory;
+
+            await this.productsRepository.AddAsync(product);
             await this.productsRepository.SaveChangesAsync();
         }
     }

@@ -82,6 +82,7 @@
                 return this.NotFound();
             }
 
+            // Find a way to make it better
             while (viewModel.Images.Count < GlobalConstants.Image.ImagesPerProduct)
             {
                 viewModel.Images.Add(new AdminImagesViewModel());
@@ -110,6 +111,48 @@
             .Format(GlobalConstants.Product.ProductSuccessfullyEdited, viewModel.Name);
 
         return this.RedirectToAction(nameof(this.All));
+        }
+
+        public async Task<ActionResult> Create()
+        {
+            var categoriesDropdown = await this.categoriesService
+                .GetAllAsync<CategoriesDropdownViewModel>();
+
+            var inputModel = new AdminProductInputModel
+            {
+                AllCategoriesDropdown = categoriesDropdown,
+            };
+
+            return this.View(inputModel);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Create(AdminProductInputModel inputModel)
+        {
+            if (inputModel == null)
+            {
+                return this.BadRequest();
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(inputModel);
+            }
+
+            try
+            {
+                await this.productsService
+                    .CreateAsync(inputModel);
+
+                this.TempData["success"] =
+                    string.Format(GlobalConstants.Product.ProductSuccessfullyCreated, inputModel.Title);
+            }
+            catch (Exception e)
+            {
+                this.TempData["fail"] = e.Message;
+            }
+
+            return this.RedirectToAction(nameof(this.All));
         }
     }
 }

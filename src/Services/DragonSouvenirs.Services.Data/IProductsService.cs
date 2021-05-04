@@ -18,5 +18,7 @@
         Task<int> DeleteRecoverAsync(int id);
 
         Task EditAsync(AdminProductEditViewModel viewModel);
+
+        Task CreateAsync(AdminProductInputModel inputModel);
     }
 }
