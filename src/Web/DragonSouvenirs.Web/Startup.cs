@@ -1,4 +1,6 @@
-﻿namespace DragonSouvenirs.Web
+﻿using System;
+
+namespace DragonSouvenirs.Web
 {
     using System.Reflection;
 
@@ -12,12 +14,12 @@
     using DragonSouvenirs.Services.Mapping;
     using DragonSouvenirs.Services.Messaging;
     using DragonSouvenirs.Web.ViewModels;
-
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Caching.SqlServer;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -36,6 +38,21 @@
         {
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(this.configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDistributedSqlServerCache(options =>
+            {
+                options.ConnectionString = this.configuration.GetConnectionString("DefaultConnection");
+                options.SchemaName = "dbo";
+                options.TableName = "CacheData";
+            });
+
+            services.AddSession(options =>
+            {
+                // JS does not see the cookie (XSS security)
+                options.Cookie.HttpOnly = true;
+
+                options.IdleTimeout = TimeSpan.FromDays(2);
+            });
 
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
                 .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
@@ -96,6 +113,7 @@
                 app.UseHsts();
             }
 
+            app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
