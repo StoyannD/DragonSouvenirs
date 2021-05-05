@@ -83,5 +83,10 @@
         {
             public const int ImagesPerProduct = 4;
         }
+
+        public class Sessions
+        {
+            public const string CartSessionKey = "cart";
+        }
     }
 }

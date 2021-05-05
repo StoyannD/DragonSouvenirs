@@ -1,7 +1,6 @@
-﻿using System;
-
-namespace DragonSouvenirs.Web
+﻿namespace DragonSouvenirs.Web
 {
+    using System;
     using System.Reflection;
 
     using DragonSouvenirs.Data;

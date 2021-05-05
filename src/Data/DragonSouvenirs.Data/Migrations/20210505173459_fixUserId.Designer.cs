@@ -4,14 +4,16 @@ using DragonSouvenirs.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DragonSouvenirs.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210505173459_fixUserId")]
+    partial class fixUserId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,9 +68,6 @@ namespace DragonSouvenirs.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CartId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -174,9 +173,7 @@ namespace DragonSouvenirs.Data.Migrations
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Carts");
                 });
@@ -536,9 +533,8 @@ namespace DragonSouvenirs.Data.Migrations
             modelBuilder.Entity("DragonSouvenirs.Data.Models.Cart", b =>
                 {
                     b.HasOne("DragonSouvenirs.Data.Models.ApplicationUser", "User")
-                        .WithOne("Cart")
-                        .HasForeignKey("DragonSouvenirs.Data.Models.Cart", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany()
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -675,8 +671,6 @@ namespace DragonSouvenirs.Data.Migrations
 
             modelBuilder.Entity("DragonSouvenirs.Data.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("Cart");
-
                     b.Navigation("Claims");
 
                     b.Navigation("Logins");

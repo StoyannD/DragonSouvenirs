@@ -4,14 +4,16 @@ using DragonSouvenirs.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DragonSouvenirs.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210505170127_FixCompositKey")]
+    partial class FixCompositKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,9 +68,6 @@ namespace DragonSouvenirs.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CartId")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -167,16 +166,17 @@ namespace DragonSouvenirs.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UserId")
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId1")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
 
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Carts");
                 });
@@ -536,9 +536,8 @@ namespace DragonSouvenirs.Data.Migrations
             modelBuilder.Entity("DragonSouvenirs.Data.Models.Cart", b =>
                 {
                     b.HasOne("DragonSouvenirs.Data.Models.ApplicationUser", "User")
-                        .WithOne("Cart")
-                        .HasForeignKey("DragonSouvenirs.Data.Models.Cart", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany()
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("User");
                 });
@@ -675,8 +674,6 @@ namespace DragonSouvenirs.Data.Migrations
 
             modelBuilder.Entity("DragonSouvenirs.Data.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("Cart");
-
                     b.Navigation("Claims");
 
                     b.Navigation("Logins");

@@ -6,7 +6,12 @@
 
     public class Cart : BaseDeletableModel<int>
     {
-        public int UserId { get; set; }
+        public Cart()
+        {
+            this.CartProducts = new HashSet<CartProduct>();
+        }
+
+        public string UserId { get; set; }
 
         public virtual ApplicationUser User { get; set; }
 

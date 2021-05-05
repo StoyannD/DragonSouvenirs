@@ -14,8 +14,8 @@
 
                     <div class="col-12 mb-0">
                         <figure class="view overlay rounded z-depth-1 main-img">
-                            <img src="@(Model.Images.Any() 
-                                          ? Model.Images.ElementAt(0).ImgUrl 
+                            <img src="@(Model.Images.Any()
+                                          ? Model.Images.ElementAt(0).ImgUrl
                                           :"")" class="img-fluid z-depth-1">
                         </figure>
                     </div>
@@ -64,13 +64,19 @@
                 </table>
             </div>
             <div class="mt-3">
-                <div>
-                    <a asp-controller="Cart" asp-action="Index"></a>
-                </div>
-                <button type="button" class="btn btn-primary btn-md mr-1 mb-2">Купи сега</button>
-                <button type="button" class="btn btn-light btn-md mr-1 mb-2">
-                    <i class="fas fa-shopping-cart pr-2"></i>Добави в количка
+                <button type="button"
+                        class="btn btn-primary btn-md mr-1 mb-2">
+                    Купи сега
                 </button>
+                <a asp-controller="Cart"
+                   asp-action="Add"
+                   asp-route-id="@Model.Id"
+                   class="btn btn-light btn-md mr-1 mb-2">
+                    <i class="fas fa-shopping-cart pr-2"></i>Добави в количка
+                </a>
+                @*<button type="button" class="btn btn-light btn-md mr-1 mb-2">
+                        <i class="fas fa-shopping-cart pr-2"></i>Добави в количка
+                    </button>*@
             </div>
         </div>
     </div>
