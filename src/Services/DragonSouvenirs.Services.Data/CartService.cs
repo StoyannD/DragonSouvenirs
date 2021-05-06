@@ -117,5 +117,29 @@
 
             await this.cartProductRepository.SaveChangesAsync();
         }
+
+        public async Task EditProductInCartAsync(string userId, int productId, int quantity)
+        {
+            var cartProduct = await this.cartProductRepository
+                .All()
+                .FirstOrDefaultAsync(
+                    pc => pc.Cart.UserId == userId
+                          && pc.ProductId == productId);
+
+            var product = await this.productRepository
+                .All()
+                .FirstOrDefaultAsync(p => p.Id == productId);
+
+            if (cartProduct == null)
+            {
+                // TODO
+            }
+
+            cartProduct.Quantity = product.Quantity < quantity
+                ? product.Quantity
+                : quantity;
+
+            await this.cartProductRepository.SaveChangesAsync();
+        }
     }
 }

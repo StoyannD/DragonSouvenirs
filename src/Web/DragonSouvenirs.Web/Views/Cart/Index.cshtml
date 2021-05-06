@@ -1,4 +1,5 @@
-﻿@model DragonSouvenirs.Web.ViewModels.Cart.CartAllProductsViewModel
+﻿@using DragonSouvenirs.Common
+@model DragonSouvenirs.Web.ViewModels.Cart.CartAllProductsViewModel
 
 
 <div class="px-4 px-lg-0">
@@ -32,10 +33,19 @@
                                     <tr>
                                         <th scope="row" class="border-0">
                                             <div class="p-2">
-                                                <img src="@product.ProductImages.FirstOrDefault().ImgUrl" alt="" width="70" class="img-fluid rounded shadow-sm">
+                                                <img 
+                                                    src="@(product.ProductImages
+                                                             .FirstOrDefault()?.ImgUrl ?? string.Empty)" 
+                                                    alt="" 
+                                                    width="70" 
+                                                    class="img-fluid rounded shadow-sm">
                                                 <div class="ml-3 d-inline-block align-middle">
                                                     <h5 class="mb-0">
-                                                        <a href="#" class="text-dark d-inline-block align-middle">
+                                                        <a 
+                                                            asp-controller="Products"
+                                                            asp-action="ById"
+                                                            asp-route-id="@product.ProductId"
+                                                            class="text-dark d-inline-block align-middle">
                                                             @product.ProductName
                                                         </a>
                                                     </h5><span class="text-muted font-weight-normal font-italic d-block">
@@ -45,23 +55,41 @@
                                             </div>
                                         </th>
                                         <td class="border-0 align-middle">
-                                            <strong>@product.ProductPrice лв.</strong>
+                                            <strong>@product.ProductPrice x @product.Quantity = @product.TotalPrice лв.</strong>
+                                        </td>
+                                        <td class="border-0 align-middle" style="width: 10rem;">
+                                            <form enctype="multipart/form-data"
+                                                  method="post"
+                                                  asp-controller="Cart"
+                                                  asp-action="Edit"
+                                                  asp-route-id="@product.ProductId"
+                                                  asp-route-quantity="quantity">
+                                                <div class="row">
+                                                    <input type="number"
+                                                           min="1"
+                                                           max="@product.ProductQuantity"
+                                                           id="quantity"
+                                                           name="quantity"
+                                                           class="form-control col-sm-5"
+                                                           value="@product.Quantity" />&nbsp;
+                                                    <span asp-validation-for="@product.Quantity"
+                                                          class="text-danger"></span>
+                                                    <button type="submit" class="btn btn-sm btn-primary">Edit</button>
+                                                </div>
+                                            </form>
                                         </td>
                                         <td class="border-0 align-middle">
-                                            <strong>@product.Quantity</strong>
-                                        </td>
-                                        <td class="border-0 align-middle">
-                                            <a 
-                                                asp-controller="Cart"
-                                                asp-action="Remove"
-                                                asp-route-id="@product.ProductId"
-                                                class="text-dark">
+                                            <a asp-controller="Cart"
+                                               asp-action="Remove"
+                                               asp-route-id="@product.ProductId"
+                                               class="text-dark">
                                                 <i class="fa fa-trash"></i>
                                             </a>
                                         </td>
                                     </tr>
                                 }
                             </tbody>
+
                         </table>
                     </div>
                     <!-- End -->
@@ -94,4 +122,3 @@
 
         </div>
     </div>
-</div>

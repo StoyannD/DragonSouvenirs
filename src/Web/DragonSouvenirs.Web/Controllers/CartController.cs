@@ -82,6 +82,26 @@ namespace DragonSouvenirs.Web.Controllers
             return this.RedirectToAction(nameof(this.Index));
         }
 
+        public async Task<ActionResult> Edit(int id, int quantity)
+        {
+            if (quantity < 0)
+            {
+                return this.BadRequest();
+            }
+
+            if (this.User.Identity.IsAuthenticated)
+            {
+                var user = await this.userManager.GetUserAsync(this.User);
+                await this.cartService.EditProductInCartAsync(user.Id, id, quantity);
+            }
+            else
+            {
+                // TODO: GuestCartEdit
+            }
+
+            return this.RedirectToAction(nameof(this.Index));
+        }
+
         private IEnumerable<CartProductViewModel> GetSessionCart()
         {
             return this.HttpContext

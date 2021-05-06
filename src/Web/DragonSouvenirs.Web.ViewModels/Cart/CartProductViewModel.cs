@@ -1,4 +1,7 @@
-﻿namespace DragonSouvenirs.Web.ViewModels.Cart
+﻿using System.ComponentModel.DataAnnotations;
+using System.Runtime.CompilerServices;
+
+namespace DragonSouvenirs.Web.ViewModels.Cart
 {
     using System;
     using System.Collections.Generic;

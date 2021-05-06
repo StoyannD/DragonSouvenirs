@@ -12,5 +12,7 @@
         Task DeleteProductFromCartAsync(string userId, int productId);
 
         //Task<T> GetCartProductByIdAsync<T>(int productId);
+
+        Task EditProductInCartAsync(string userId, int productId, int quantity);
     }
 }
