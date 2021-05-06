@@ -31,6 +31,9 @@ namespace DragonSouvenirs.Web.Controllers
             this.userManager = userManager;
         }
 
+        [Route(
+            "/Cart",
+            Name = "cartRoute")]
         public async Task<ActionResult> Index()
         {
             var viewModel = new CartAllProductsViewModel();
@@ -58,15 +61,25 @@ namespace DragonSouvenirs.Web.Controllers
             }
             else
             {
-                var cart = this.GetSessionCart();
-                var product = await this.productsService.GetByIdAsync<CartProductViewModel>(id);
-
-                var cartList = cart.ToList();
-                cartList.Add(product);
-                this.HttpContext.Session.SetObjectAsJson(GlobalConstants.Sessions.CartSessionKey, cartList);
+                // TODO: GuestCartAdd
             }
 
-            return this.RedirectToAction("ById", "Products", new { id = id });
+            return this.RedirectToAction("Index", "Home", new { id = id });
+        }
+
+        public async Task<ActionResult> Remove(int id)
+        {
+            if (this.User.Identity.IsAuthenticated)
+            {
+                var user = await this.userManager.GetUserAsync(this.User);
+                await this.cartService.DeleteProductFromCartAsync(user.Id, id);
+            }
+            else
+            {
+                // TODO: GuestCartRemove
+            }
+
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         private IEnumerable<CartProductViewModel> GetSessionCart()
