@@ -1,9 +1,7 @@
 ﻿namespace DragonSouvenirs.Web.ViewModels.Administration.Categories
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Text;
 
     using DragonSouvenirs.Common;
     using DragonSouvenirs.Data.Models;

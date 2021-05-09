@@ -1,8 +1,6 @@
 ﻿namespace DragonSouvenirs.Web.Areas.Administration.Controllers
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using DragonSouvenirs.Common;
@@ -82,20 +80,17 @@
                 return this.NotFound();
             }
 
-            // Find a way to make it better
+            // Find a way to do it smarter
             while (viewModel.Images.Count < GlobalConstants.Image.ImagesPerProduct)
             {
                 viewModel.Images.Add(new AdminImagesViewModel());
             }
 
-            // var categories = await this.categoriesService
-            //    .GetAllByProductIdAsync<CategoriesViewModel>(viewModel.Id);
             var allCategories = await this.categoriesService
                 .GetAllAsync<CategoriesDropdownViewModel>();
 
             viewModel.AllCategoriesDropdown = allCategories;
 
-            // viewModel.Categories = categories.ToList();
             return this.View(viewModel);
         }
 
@@ -103,17 +98,17 @@
         [ActionName("Edit")]
         public async Task<ActionResult> EditPost(AdminProductEditViewModel viewModel)
         {
-        if (!this.ModelState.IsValid)
-        {
-            return this.View(viewModel);
-        }
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(viewModel);
+            }
 
-        await this.productsService.EditAsync(viewModel);
+            await this.productsService.EditAsync(viewModel);
 
-        this.TempData["success"] = string
-            .Format(GlobalConstants.Product.ProductSuccessfullyEdited, viewModel.Name);
+            this.TempData["success"] = string
+                .Format(GlobalConstants.Product.ProductSuccessfullyEdited, viewModel.Name);
 
-        return this.RedirectToAction(nameof(this.All));
+            return this.RedirectToAction(nameof(this.All));
         }
 
         public async Task<ActionResult> Create()
@@ -142,18 +137,11 @@
                 return this.View(inputModel);
             }
 
-            try
-            {
-                await this.productsService
+            await this.productsService
                     .CreateAsync(inputModel);
 
-                this.TempData["success"] =
-                    string.Format(GlobalConstants.Product.ProductSuccessfullyCreated, inputModel.Title);
-            }
-            catch (Exception e)
-            {
-                this.TempData["fail"] = e.Message;
-            }
+            this.TempData["success"] =
+                string.Format(GlobalConstants.Product.ProductSuccessfullyCreated, inputModel.Title);
 
             return this.RedirectToAction(nameof(this.All));
         }

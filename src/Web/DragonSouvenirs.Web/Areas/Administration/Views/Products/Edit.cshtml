@@ -65,7 +65,7 @@
     {
         <div class="form-row">
                 <div class="form-group col-sm-1">
-                    <img src="@(this.Model.Images[i].ImgUrl ?? AdminPanelImageUrls.AddProductImgImgUrl)" style="width: 4rem; height: 4rem;" />
+                    <img src="@(this.Model.Images[i].ImgUrl ?? CommonImageUrls.AdminPanel.AddProductImgImgUrl)" style="width: 4rem; height: 4rem;" />
                 </div>
                 <div class="form-group col-md-11">
                     <label asp-for="@this.Model.Images[i].ImgUrl">Image Url</label>

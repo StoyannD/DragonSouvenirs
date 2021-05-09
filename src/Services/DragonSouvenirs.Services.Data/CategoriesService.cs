@@ -53,6 +53,12 @@
                 .To<T>()
                 .ToListAsync();
 
+            if (categories == null)
+            {
+                // TODO add message
+                throw new NullReferenceException();
+            }
+
             return categories;
         }
 
@@ -63,6 +69,12 @@
                 .Where(c => c.Name == name)
                 .To<T>()
                 .FirstOrDefaultAsync();
+
+            if (category == null)
+            {
+                // TODO add message
+                throw new NullReferenceException();
+            }
 
             return category;
         }
@@ -75,6 +87,12 @@
                 .To<T>()
                 .FirstOrDefaultAsync();
 
+            if (category == null)
+            {
+                // TODO add message
+                throw new NullReferenceException();
+            }
+
             return category;
         }
 
@@ -86,7 +104,8 @@
 
             if (category == null)
             {
-                return null;
+                // TODO add message
+                throw new NullReferenceException();
             }
 
             category.IsDeleted = !category.IsDeleted;
@@ -101,6 +120,12 @@
                 .AllWithDeleted()
                 .FirstOrDefaultAsync(c => c.Id == viewModel.Id);
 
+            if (category == null)
+            {
+                // TODO add message
+                throw new NullReferenceException();
+            }
+
             category.Name = viewModel.Name;
             category.Title = viewModel.Title;
             category.Content = viewModel.Content;
@@ -111,7 +136,8 @@
 
         public async Task CreateAsync(AdminCategoryInputModel inputModel)
         {
-            if (this.categoriesRepository.AllWithDeleted().Any(c => c.Name == inputModel.Name))
+            if (await this.categoriesRepository
+                .AllWithDeleted().AnyAsync(c => c.Name == inputModel.Name))
             {
                 throw new AmbiguousImplementationException(
                     string.Format(GlobalConstants.Category.OnCreateCategoryNotUniqueError, inputModel.Name));

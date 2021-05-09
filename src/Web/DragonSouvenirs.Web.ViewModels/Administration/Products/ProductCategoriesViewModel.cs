@@ -1,9 +1,5 @@
 ﻿namespace DragonSouvenirs.Web.ViewModels.Administration.Products
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
     using DragonSouvenirs.Data.Models;
     using DragonSouvenirs.Services.Mapping;
 

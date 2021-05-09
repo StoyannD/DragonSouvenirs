@@ -49,7 +49,8 @@
 
             if (user == null)
             {
-                // TODO
+                // TODO add message
+                throw new NullReferenceException();
             }
 
             if (user.Cart == null)
@@ -65,6 +66,8 @@
             }
 
             var cartProduct = new CartProduct();
+
+            // Check if a deleted CardProduct with the same product exists.
             if (await this.cartProductRepository
                     .AllWithDeleted()
                     .Where(cp => cp.Cart.UserId == userId)
@@ -83,8 +86,6 @@
                 {
                     cartProduct.Quantity++;
                 }
-
-                this.cartProductRepository.Update(cartProduct);
             }
             else
             {
@@ -109,7 +110,8 @@
 
             if (cartProduct == null)
             {
-                // TODO
+                // TODO add message
+                throw new NullReferenceException();
             }
 
             this.cartProductRepository
@@ -126,14 +128,15 @@
                     pc => pc.Cart.UserId == userId
                           && pc.ProductId == productId);
 
+            if (cartProduct == null)
+            {
+                // TODO add message
+                throw new NullReferenceException();
+            }
+
             var product = await this.productRepository
                 .All()
                 .FirstOrDefaultAsync(p => p.Id == productId);
-
-            if (cartProduct == null)
-            {
-                // TODO
-            }
 
             cartProduct.Quantity = product.Quantity < quantity
                 ? product.Quantity

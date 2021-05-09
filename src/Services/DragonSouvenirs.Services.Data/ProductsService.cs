@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
+    using System.Runtime;
     using System.Threading.Tasks;
 
     using DragonSouvenirs.Common;
@@ -17,13 +17,16 @@
     {
         private readonly IDeletableEntityRepository<Product> productsRepository;
         private readonly IDeletableEntityRepository<ProductCategory> productCategoryRepository;
+        private readonly IDeletableEntityRepository<Image> imagesRepository;
 
         public ProductsService(
             IDeletableEntityRepository<Product> productsRepository,
-            IDeletableEntityRepository<ProductCategory> productCategoryRepository)
+            IDeletableEntityRepository<ProductCategory> productCategoryRepository,
+            IDeletableEntityRepository<Image> imagesRepository)
         {
             this.productsRepository = productsRepository;
             this.productCategoryRepository = productCategoryRepository;
+            this.imagesRepository = imagesRepository;
         }
 
         public async Task<IEnumerable<T>> GetAllAdminAsync<T>()
@@ -46,6 +49,12 @@
                 .To<T>()
                 .ToListAsync();
 
+            if (products == null)
+            {
+                // TODO add message
+                throw new NullReferenceException();
+            }
+
             return products;
         }
 
@@ -56,6 +65,12 @@
                 .Where(p => p.Id == id.Value)
                 .To<T>()
                 .FirstOrDefaultAsync();
+
+            if (product == null)
+            {
+                // TODO add message
+                throw new NullReferenceException();
+            }
 
             return product;
         }
@@ -68,6 +83,12 @@
                 .To<T>()
                 .FirstOrDefaultAsync();
 
+            if (product == null)
+            {
+                // TODO add message
+                throw new NullReferenceException();
+            }
+
             return product;
         }
 
@@ -76,6 +97,12 @@
             var product = await this.productsRepository
                 .AllWithDeleted()
                 .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (product == null)
+            {
+                // TODO add message
+                throw new NullReferenceException();
+            }
 
             product.IsDeleted = !product.IsDeleted;
             await this.productsRepository.SaveChangesAsync();
@@ -89,6 +116,12 @@
                 .AllWithDeleted()
                 .Include(p => p.Images)
                 .FirstOrDefaultAsync(c => c.Id == viewModel.Id);
+
+            if (product == null)
+            {
+                // TODO add message
+                throw new NullReferenceException();
+            }
 
             var editedImages = viewModel
                 .Images
@@ -129,10 +162,10 @@
         public async Task CreateAsync(AdminProductInputModel inputModel)
         {
             if (await this.productsRepository
-                .AllWithDeleted()
-                .AnyAsync(p => p.Name == inputModel.Name))
+                .AllWithDeleted().AnyAsync(p => p.Name == inputModel.Name))
             {
-                throw new InvalidOperationException(GlobalConstants.Product.OnCreateProductNotUniqueError);
+                throw new AmbiguousImplementationException(
+                    string.Format(GlobalConstants.Product.OnCreateProductNotUniqueError, inputModel.Name));
             }
 
             var product = new Product()

@@ -1,10 +1,6 @@
-﻿using DragonSouvenirs.Web.ViewModels.Products;
-
-namespace DragonSouvenirs.Web.Controllers
+﻿namespace DragonSouvenirs.Web.Controllers
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using DragonSouvenirs.Common;
@@ -52,27 +48,37 @@ namespace DragonSouvenirs.Web.Controllers
             return this.View(viewModel);
         }
 
-        public async Task<ActionResult> Add(int id)
+        public async Task<ActionResult> Add(int? id)
         {
+            if (id == null)
+            {
+                return this.BadRequest();
+            }
+
             if (this.User.Identity.IsAuthenticated)
             {
                 var user = await this.userManager.GetUserAsync(this.User);
-                await this.cartService.AddProductToCartAsync(user.Id, id);
+                await this.cartService.AddProductToCartAsync(user.Id, id.Value);
             }
             else
             {
                 // TODO: GuestCartAdd
             }
 
-            return this.RedirectToAction("Index", "Home", new { id = id });
+            return this.RedirectToAction("Index", "Home", new { id = id.Value });
         }
 
-        public async Task<ActionResult> Remove(int id)
+        public async Task<ActionResult> Remove(int? id)
         {
+            if (id == null)
+            {
+                return this.BadRequest();
+            }
+
             if (this.User.Identity.IsAuthenticated)
             {
                 var user = await this.userManager.GetUserAsync(this.User);
-                await this.cartService.DeleteProductFromCartAsync(user.Id, id);
+                await this.cartService.DeleteProductFromCartAsync(user.Id, id.Value);
             }
             else
             {
@@ -82,8 +88,13 @@ namespace DragonSouvenirs.Web.Controllers
             return this.RedirectToAction(nameof(this.Index));
         }
 
-        public async Task<ActionResult> Edit(int id, int quantity)
+        public async Task<ActionResult> Edit(int? id, int? quantity)
         {
+            if (id == null || quantity == null)
+            {
+                return this.BadRequest();
+            }
+
             if (quantity < 0)
             {
                 return this.BadRequest();
@@ -92,7 +103,8 @@ namespace DragonSouvenirs.Web.Controllers
             if (this.User.Identity.IsAuthenticated)
             {
                 var user = await this.userManager.GetUserAsync(this.User);
-                await this.cartService.EditProductInCartAsync(user.Id, id, quantity);
+                await this.cartService
+                    .EditProductInCartAsync(user.Id, id.Value, quantity.Value);
             }
             else
             {

@@ -45,6 +45,7 @@ html {
 }
 
 .box-shadow {
+    box-shadow: 0 .25rem .75rem #000000;
     box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
@@ -81,5 +82,3 @@ body {
 body {
     background: #eee
 }
-
-/*Cart*/

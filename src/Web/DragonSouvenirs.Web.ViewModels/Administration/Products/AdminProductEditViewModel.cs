@@ -72,8 +72,5 @@
         public DateTime CreatedOn { get; set; }
 
         public DateTime? ModifiedOn { get; set; }
-
-        [Url]
-        public string UrlValidation { get; set; }
     }
 }

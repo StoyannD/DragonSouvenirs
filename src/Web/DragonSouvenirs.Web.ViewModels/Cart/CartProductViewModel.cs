@@ -1,11 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Runtime.CompilerServices;
-
-namespace DragonSouvenirs.Web.ViewModels.Cart
+﻿namespace DragonSouvenirs.Web.ViewModels.Cart
 {
-    using System;
     using System.Collections.Generic;
-    using System.Text;
 
     using DragonSouvenirs.Data.Models;
     using DragonSouvenirs.Services.Mapping;
