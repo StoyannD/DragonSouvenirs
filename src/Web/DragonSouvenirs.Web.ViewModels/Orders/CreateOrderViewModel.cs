@@ -1,4 +1,6 @@
-﻿namespace DragonSouvenirs.Web.ViewModels.Orders
+﻿using DragonSouvenirs.Common;
+
+namespace DragonSouvenirs.Web.ViewModels.Orders
 {
     using System;
     using System.Collections.Generic;
@@ -13,11 +15,25 @@
         public int Id { get; set; }
 
         [Required]
-        public string UserUserName { get; set; }
-
-        public string UserDefaultShippingAddress { get; set; }
+        [StringLength(
+            GlobalConstants.Order.UserFullNameMaxLength,
+            MinimumLength = GlobalConstants.Order.UserFullNameMinLength,
+            ErrorMessage = GlobalConstants.Order.UserFullNameError)]
+        public string UserFullName { get; set; }
 
         [Required]
+        [EmailAddress(ErrorMessage = GlobalConstants.Order.UserEmailError)]
+        public string UserEmail { get; set; }
+
+        [Required]
+        [Phone(ErrorMessage = GlobalConstants.Order.InvoiceNumberError)]
+        public string InvoiceNumber { get; set; }
+
+        [Required]
+        [StringLength(
+            GlobalConstants.Order.ShippingAddressMaxLength,
+            MinimumLength = GlobalConstants.Order.ShippingAddressMinLength,
+            ErrorMessage = GlobalConstants.Order.ShippingAddressError)]
         public string ShippingAddress { get; set; }
 
         public DateTime? ExpectedDeliveryDate { get; set; }

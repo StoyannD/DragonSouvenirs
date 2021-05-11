@@ -24,6 +24,12 @@
 
         public decimal TotalPrice { get; set; }
 
+        public string UserEmail { get; set; }
+
+        public string UserFullName { get; set; }
+
+        public string InvoiceNumber { get; set; }
+
         public string UserId { get; set; }
 
         public virtual ApplicationUser User { get; set; }

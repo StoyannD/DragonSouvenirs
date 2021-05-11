@@ -20,5 +20,7 @@
         Task EditAsync(AdminProductEditViewModel viewModel);
 
         Task CreateAsync(AdminProductInputModel inputModel);
+
+        Task<bool> HasProductWithId(int productId);
     }
 }

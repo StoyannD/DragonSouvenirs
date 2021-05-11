@@ -206,5 +206,11 @@
             await this.productsRepository.AddAsync(product);
             await this.productsRepository.SaveChangesAsync();
         }
+
+        public async Task<bool> HasProductWithId(int productId)
+        {
+            return await this.productsRepository.All()
+                .AnyAsync(p => p.Id == productId);
+        }
     }
 }

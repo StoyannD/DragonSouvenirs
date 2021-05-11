@@ -88,5 +88,24 @@
         {
             public const string CartSessionKey = "cart";
         }
+
+        public class Order
+        {
+            public const int UserFullNameMaxLength = 60;
+            public const int UserFullNameMinLength = 10;
+            public const int ShippingAddressMaxLength = 100;
+            public const int ShippingAddressMinLength = 10;
+
+            public const decimal DeliveryPrice = 10M;
+
+            public const string OrderCreated = "Order Created Successfully!";
+
+            public const string EmptyCart = "Your cart is empty! Please add a product to make an order.";
+
+            public const string UserFullNameError = "Fullname must be between {2} and {1} symbols.";
+            public const string UserEmailError = "Please enter a valid Email.";
+            public const string InvoiceNumberError = "Please enter a valid phone number.";
+            public const string ShippingAddressError = "Address length must be between {2} and {1} symbols.";
+        }
     }
 }

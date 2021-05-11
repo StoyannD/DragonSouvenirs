@@ -14,6 +14,22 @@
 
         public string ProductDescription { get; set; }
 
+        public string ProductDescriptionShort
+        {
+            get
+            {
+                if (this.ProductDescription == null)
+                {
+                    return string.Empty;
+                }
+
+                var content = this.ProductDescription.Length > 30
+                    ? this.ProductDescription.Substring(0, 30) + "..."
+                    : this.ProductDescription;
+                return content;
+            }
+        }
+
         public decimal ProductPrice { get; set; }
 
         public int Quantity { get; set; }

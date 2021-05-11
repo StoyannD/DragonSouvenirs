@@ -48,7 +48,7 @@
             return this.View(viewModel);
         }
 
-        public async Task<ActionResult> Add(int? id)
+        public async Task<ActionResult> Add(int? id, int? toCart)
         {
             if (id == null)
             {
@@ -65,7 +65,12 @@
                 // TODO: GuestCartAdd
             }
 
-            return this.RedirectToAction("Index", "Home", new { id = id.Value });
+            if (toCart != null)
+            {
+                return this.RedirectToAction(nameof(this.Index));
+            }
+
+            return this.RedirectToAction("Index", "Home");
         }
 
         public async Task<ActionResult> Remove(int? id)

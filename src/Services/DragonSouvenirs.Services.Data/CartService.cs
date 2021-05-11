@@ -58,12 +58,6 @@
                 .Include(u => u.Cart)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
-            if (user == null)
-            {
-                // TODO add message
-                throw new NullReferenceException();
-            }
-
             if (user.Cart == null)
             {
                 var cart = new Cart()
@@ -77,6 +71,12 @@
             }
 
             var cartProduct = new CartProduct();
+
+            if (!await this.productRepository.All()
+                .AnyAsync(p => p.Id == productId))
+            {
+                throw new ArgumentException();
+            }
 
             // Check if a deleted CardProduct with the same product exists.
             if (await this.cartProductRepository
@@ -154,6 +154,27 @@
                 : quantity;
 
             await this.cartProductRepository.SaveChangesAsync();
+        }
+
+        public async Task<T> GetCartByUsernameAsync<T>(string username)
+        {
+            var cart = await this.cartRepository
+                .All()
+                .Where(c => c.User.UserName == username)
+                .To<T>()
+                .FirstOrDefaultAsync();
+
+            return cart;
+        }
+
+        public async Task<bool> UserHasProductsInCart(string userId)
+        {
+            var hasProducts = await this.cartProductRepository
+                .All()
+                .Where(cp => cp.Cart.UserId == userId)
+                .AnyAsync();
+
+            return hasProducts;
         }
     }
 }

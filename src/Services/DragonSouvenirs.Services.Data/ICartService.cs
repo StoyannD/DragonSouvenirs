@@ -14,5 +14,9 @@
         Task DeleteProductFromCartAsync(string userId, int productId);
 
         Task EditProductInCartAsync(string userId, int productId, int quantity);
+
+        Task<T> GetCartByUsernameAsync<T>(string username);
+
+        Task<bool> UserHasProductsInCart(string userId);
     }
 }

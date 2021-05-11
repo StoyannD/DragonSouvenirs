@@ -1,17 +1,17 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using DragonSouvenirs.Data.Common.Repositories;
-using DragonSouvenirs.Data.Models;
-using DragonSouvenirs.Data.Models.Enums;
-using DragonSouvenirs.Services.Mapping;
-using DragonSouvenirs.Web.ViewModels.Orders;
-using Microsoft.EntityFrameworkCore;
-
-namespace DragonSouvenirs.Services.Data
+﻿namespace DragonSouvenirs.Services.Data
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Text;
+    using System.Threading.Tasks;
+
+    using DragonSouvenirs.Data.Common.Repositories;
+    using DragonSouvenirs.Data.Models;
+    using DragonSouvenirs.Data.Models.Enums;
+    using DragonSouvenirs.Services.Mapping;
+    using DragonSouvenirs.Web.ViewModels.Orders;
+    using Microsoft.EntityFrameworkCore;
 
     public class OrderService : IOrderService
     {
@@ -47,6 +47,9 @@ namespace DragonSouvenirs.Services.Data
                     ShippingAddress = model.ShippingAddress,
                     DeliveryPrice = model.DeliveryPrice,
                     TotalPrice = model.TotalPrice,
+                    UserEmail = model.UserEmail,
+                    InvoiceNumber = model.InvoiceNumber,
+                    UserFullName = model.UserFullName,
                 };
 
                 await this.orderRepository.AddAsync(order);
@@ -60,7 +63,7 @@ namespace DragonSouvenirs.Services.Data
                 .All()
                 .Include(o => o.User)
                 .Include(o => o.OrderProducts)
-                .Where(x => x.UserId == userId)
+                .Where(x => x.UserId == userId && x.OrderStatus == OrderStatus.Created)
                 .To<T>()
                 .FirstOrDefaultAsync();
 

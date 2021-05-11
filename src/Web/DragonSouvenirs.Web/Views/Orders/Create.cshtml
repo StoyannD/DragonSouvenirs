@@ -14,18 +14,31 @@
     <div class="form-row">
         <div class="form-group col-md-6">
             <div class="form-group align-content-center">
-                <label asp-for="@Model.UserUserName">Username</label>
+                <label asp-for="@Model.UserFullName">Username</label>
                 <input class="form-control"
-                       asp-for="@Model.UserUserName"
-                       value="@Model.UserUserName">
-                <span asp-validation-for="@Model.UserUserName" class="text-danger"></span>
+                       asp-for="@Model.UserFullName"
+                       value="@Model.UserFullName">
+                <span asp-validation-for="@Model.UserFullName" class="text-danger"></span>
             </div>
-
+            <div class="form-group">
+                <label asp-for="@Model.UserEmail">Email</label>
+                <input class="form-control"
+                       asp-for="@Model.UserEmail"
+                       value="@Model.UserEmail">
+                <span asp-validation-for="@Model.UserEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="@Model.InvoiceNumber">Phone number</label>
+                <input class="form-control"
+                       asp-for="@Model.InvoiceNumber"
+                       value="@Model.InvoiceNumber">
+                <span asp-validation-for="@Model.InvoiceNumber" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="@Model.ShippingAddress">Shipping address</label>
                 <input class="form-control"
                        asp-for="@Model.ShippingAddress"
-                       value="@Model.UserDefaultShippingAddress">
+                       value="@Model.ShippingAddress">
                 <span asp-validation-for="@Model.ShippingAddress" class="text-danger"></span>
             </div>
         </div>
