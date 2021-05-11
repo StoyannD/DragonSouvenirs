@@ -2,6 +2,19 @@
 @model DragonSouvenirs.Web.ViewModels.Home.IndexViewModel
 @{ this.ViewData["Title"] = "Home Page"; }
 
+@if (this.TempData["fail"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @this.TempData["fail"]
+    </div>
+}
+@if (this.TempData["success"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @this.TempData["success"]
+    </div>
+}
+
 <div class="text-center">
     <h1 class="display-4">Welcome to @GlobalConstants.SystemName!</h1>
 </div>

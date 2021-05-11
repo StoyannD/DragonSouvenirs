@@ -40,6 +40,17 @@
             return cart;
         }
 
+        public async Task<decimal> GetCartTotalPriceAsync(string userId)
+        {
+            var totalPrice = await this.cartProductRepository
+                .All()
+                .Include(cp => cp.Cart)
+                .Where(cp => cp.Cart.UserId == userId)
+                .SumAsync(cp => cp.Quantity * cp.Product.Price);
+
+            return totalPrice;
+        }
+
         public async Task AddProductToCartAsync(string userId, int productId)
         {
             var user = await this.userRepository

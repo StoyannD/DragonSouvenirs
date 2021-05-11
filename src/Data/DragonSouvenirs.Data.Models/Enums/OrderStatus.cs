@@ -4,6 +4,8 @@
 
     public enum OrderStatus
     {
+        Created = 0,
+
         [Display(Name = "В процес на обработка")]
         Processing = 1,
 

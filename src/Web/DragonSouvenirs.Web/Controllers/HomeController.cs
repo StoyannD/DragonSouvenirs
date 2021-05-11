@@ -31,6 +31,8 @@
 
             viewModel.Categories = categories;
 
+            this.TempData.Keep();
+
             return this.View(viewModel);
         }
 

@@ -1,0 +1,46 @@
+﻿@using DragonSouvenirs.Web.Components
+@model DragonSouvenirs.Web.ViewModels.Orders.CreateOrderViewModel
+@{
+    ViewData["Title"] = "Create Order";
+}
+<h1>@ViewData["Title"]</h1>
+
+@await Component.InvokeAsync(typeof(OrderProductsComponent))
+<form enctype="multipart/form-data"
+      asp-controller="Orders"
+      asp-action="Create"
+      method="post">
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <div class="form-group align-content-center">
+                <label asp-for="@Model.UserUserName">Username</label>
+                <input class="form-control"
+                       asp-for="@Model.UserUserName"
+                       value="@Model.UserUserName">
+                <span asp-validation-for="@Model.UserUserName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="@Model.ShippingAddress">Shipping address</label>
+                <input class="form-control"
+                       asp-for="@Model.ShippingAddress"
+                       value="@Model.UserDefaultShippingAddress">
+                <span asp-validation-for="@Model.ShippingAddress" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group col-sm-1">
+            <div>
+                <a asp-controller="Cart"
+                   asp-action="Index"
+                   class="btn btn-secondary">Back</a>
+            </div>
+        </div>
+        <div class="form-group col-sm-1">
+            <button type="submit" class="btn btn-primary">Create</button>
+        </div>
+    </div>
+</form>
