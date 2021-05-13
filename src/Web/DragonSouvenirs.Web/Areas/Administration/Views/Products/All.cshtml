@@ -1,35 +1,29 @@
 ﻿@using System.Linq
 @using DragonSouvenirs.Web.ViewModels.Administration.Products
 @model DragonSouvenirs.Web.ViewModels.Administration.Products.AllProductsViewModel
-@{
-    this.ViewData["Title"] = $"Products ({this.Model.Products.Count()})";
-}
-<h1>@this.ViewData["Title"]</h1>
 
 @if (this.TempData["fail"] != null)
 {
-    <div class="alert alert-danger" role="alert">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
         @this.TempData["fail"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
 }
 @if (this.TempData["success"] != null)
 {
-    <div class="alert alert-success" role="alert">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
         @this.TempData["success"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
 }
-
-<div class="p-2">
-    <a class="btn btn-success"
-       asp-area="Administration"
-       asp-controller="Products"
-       asp-action="Create">Create new</a>
-</div>
-
 <table class="table table-hover table-bordered text-center">
     <thead class="thead-dark">
         <tr class="text-center">
-            <th scope="col">#</th>
+            <th scope="col">@this.Model.Products.Count()</th>
             <th scope="col">Image</th>
             <th scope="col">@nameof(AdminProductViewModel.Title)</th>
             <th scope="col">@nameof(AdminProductViewModel.Name)</th>

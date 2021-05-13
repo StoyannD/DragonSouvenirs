@@ -5,12 +5,13 @@
 }
 <h1>@ViewData["Title"]</h1>
 
+<div asp></div>
+
 @await Component.InvokeAsync(typeof(OrderProductsComponent))
 <form enctype="multipart/form-data"
       asp-controller="Orders"
       asp-action="Create"
       method="post">
-
     <div class="form-row">
         <div class="form-group col-md-6">
             <div class="form-group align-content-center">

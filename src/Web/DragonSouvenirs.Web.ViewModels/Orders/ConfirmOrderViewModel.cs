@@ -26,6 +26,5 @@
         public decimal DeliveryPrice { get; set; }
 
         public decimal CartTotalPrice { get; set; }
-
     }
 }

@@ -7,84 +7,87 @@
         .AllCategoriesDropdown
         .Select(x => new SelectListItem(x.Name, x.Id.ToString()));
 }
-<h1>@ViewData["Title"]</h1>
-<form enctype="multipart/form-data"
-      asp-area="Administration"
-      asp-controller="Products"
-      asp-action="Create"
-      method="post">
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label asp-for="Name">Name</label>
-            <input asp-for="Name" class="form-control" value="@this.Model.Name">
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
+<div class="container">
+    <h1>@ViewData["Title"]</h1>
+    <form enctype="multipart/form-data"
+          asp-area="Administration"
+          asp-controller="Products"
+          asp-action="Create"
+          method="post">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="Name">Name</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
 
-        <div class="form-group col-md-6">
-            <label asp-for="Title">Title</label>
-            <input asp-for="Title" class="form-control" value="@this.Model.Title">
-            <span asp-validation-for="Title" class="text-danger"></span>
+            <div class="form-group col-md-6">
+                <label asp-for="Title">Title</label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
         </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="Description">Description</label>
-        <input asp-for="Description" class="form-control" value="@this.Model.Description" />
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Price">Price</label>
-        <input asp-for="Price" class="form-control" value="@this.Model.Price" />
-        <span asp-validation-for="Price" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Quantity">Quantity</label>
-        <input asp-for="Quantity" class="form-control" value="@this.Model.Quantity" />
-        <span asp-validation-for="Quantity" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Height">Height</label>
-        <input asp-for="Height" class="form-control" value="@this.Model.Height" />
-        <span asp-validation-for="Height" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Width">Width</label>
-        <input asp-for="Width" class="form-control" value="@this.Model.Width" />
-        <span asp-validation-for="Width" class="text-danger"></span>
-    </div>
-    @for (var i = 0; i < GlobalConstants.Image.ImagesPerProduct; i++)
-    {
+        <div class="form-group">
+            <label asp-for="Description">Description</label>
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-2">
+                <label asp-for="Price">Price</label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group col-1">
+                <label asp-for="Quantity">Quantity</label>
+                <input asp-for="Quantity" class="form-control" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group col-1">
+                <label asp-for="Height">Height</label>
+                <input asp-for="Height" class="form-control" />
+                <span asp-validation-for="Height" class="text-danger"></span>
+            </div>
+            <div class="form-group col-1">
+                <label asp-for="Width">Width</label>
+                <input asp-for="Width" class="form-control" />
+                <span asp-validation-for="Width" class="text-danger"></span>
+            </div>
+        </div>
+        @for (var i = 0; i < GlobalConstants.Image.ImagesPerProduct; i++)
+        {
+            <div class="form-row">
+                <div class="form-group col-sm-1">
+                    <img src="@(CommonImageUrls.AdminPanel.AddProductImgImgUrl)" style="width: 4rem; height: 4rem;" />
+                </div>
+                <div class="form-group col-md-11">
+                    <label asp-for="@this.Model.Images[i].ImgUrl">Image Url</label>
+                    <input asp-for="@this.Model.Images[i].ImgUrl"
+                           class="form-control"/>
+                    <span asp-validation-for="@this.Model.Images[i].ImgUrl"
+                          class="text-danger"></span>
+                </div>
+            </div>
+        }
+        <div class="form-group" style="width: 10rem">
+            <label asp-for="@this.Model.Categories[0].Name"> Category</label>
+            <select asp-for="@this.Model.Categories[0].Name"
+                    asp-items="categories"
+                    class="form-control"></select>
+            <span asp-validation-for="@this.Model.Categories[0].Name" class="text-danger"></span>
+        </div>
         <div class="form-row">
             <div class="form-group col-sm-1">
-                <img src="@(CommonImageUrls.AdminPanel.AddProductImgImgUrl)" style="width: 4rem; height: 4rem;" />
+                <div>
+                    <a asp-area="Administration"
+                       asp-controller="Products"
+                       asp-action="All"
+                       class="btn btn-secondary">Back</a>
+                </div>
             </div>
-            <div class="form-group col-md-11">
-                <label asp-for="@this.Model.Images[i].ImgUrl">Image Url</label>
-                <input asp-for="@this.Model.Images[i].ImgUrl"
-                       class="form-control"
-                       value="@this.Model.Images[i].ImgUrl" />
-                <span asp-validation-for="@this.Model.Images[i].ImgUrl"
-                      class="text-danger"></span>
-            </div>
-        </div>
-    }
-    <div class="form-group" style="width: 10rem">
-        <label asp-for="@this.Model.Categories[0].Name"> Category</label>
-        <select asp-for="@this.Model.Categories[0].Name"
-                asp-items="categories"
-                class="form-control"></select>
-        <span asp-validation-for="@this.Model.Categories[0].Name" class="text-danger"></span>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-sm-1">
-            <div>
-                <a asp-area="Administration"
-                   asp-controller="Products"
-                   asp-action="All"
-                   class="btn btn-secondary">Back</a>
+            <div class="form-group col-sm-1">
+                <button type="submit" class="btn btn-primary">Create</button>
             </div>
         </div>
-        <div class="form-group col-sm-1">
-            <button type="submit" class="btn btn-primary">Create</button>
-        </div>
-    </div>
-</form>
+    </form>
+</div>

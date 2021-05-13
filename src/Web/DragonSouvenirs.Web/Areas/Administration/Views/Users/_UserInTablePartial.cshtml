@@ -19,19 +19,22 @@
                asp-action="Edit"
                asp-route-id="@this.Model.Id">Edit</a>
         </div>
-        <div class="p-2">
-            <a class="btn btn-danger"
-               asp-controller="Users"
-               asp-action="Ban"
-               asp-route-id="@this.Model.Id">Ban</a>
-        </div>
-        <div class="p-2">
-            <form asp-area="Administration"
-                  asp-controller="Users"
-                  asp-action="UnBan"
-                  asp-route-id="@Model.Id">
-                <button type="submit" class="btn btn-success">Unban</button>
-            </form>
-        </div>
+        @if (!this.Model.IsAdmin) 
+        { 
+            <div class="p-2">
+                <a class="btn btn-danger"
+                   asp-controller="Users"
+                   asp-action="Ban"
+                   asp-route-id="@this.Model.Id">Ban</a>
+            </div>
+            <div class="p-2">
+                <form asp-area="Administration"
+                      asp-controller="Users"
+                      asp-action="UnBan"
+                      asp-route-id="@Model.Id">
+                    <button type="submit" class="btn btn-success">Unban</button>
+                </form>
+            </div>
+        }
     </div>
 </td>

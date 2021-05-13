@@ -2,47 +2,48 @@
 @{
     ViewData["Title"] = "Create Category";
 }
-<h1>@ViewData["Title"]</h1>
+<div class="container">
+    <h1>@ViewData["Title"]</h1>
+    <form enctype="multipart/form-data"
+          asp-area="Administration"
+          asp-controller="Categories"
+          asp-action="Create"
+          method="post">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="Name">Name</label>
+                <input asp-for="Name" class="form-control" placeholder="Ikoni" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
 
-<form enctype="multipart/form-data"
-      asp-area="Administration"
-      asp-controller="Categories"
-      asp-action="Create"
-      method="post">
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label asp-for="Name">Name</label>
-            <input asp-for="Name" class="form-control" placeholder="Ikoni"/>
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
-
-        <div class="form-group col-md-6">
-            <label asp-for="Title">Title</label>
-            <input asp-for="Title" class="form-control" placeholder="Икони"/>
-            <span asp-validation-for="Title" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="Content">Content</label>
-        <input asp-for="Content" class="form-control" placeholder="Дървена икона на..."/>
-        <span asp-validation-for="Content" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="ImageUrl">Image Url</label>
-        <input asp-for="ImageUrl" class="form-control"/>
-        <span asp-validation-for="ImageUrl" class="text-danger"></span>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-sm-1">
-            <div>
-                <a asp-area="Administration"
-                   asp-controller="Categories"
-                   asp-action="All"
-                   class="btn btn-secondary">Back</a>
+            <div class="form-group col-md-6">
+                <label asp-for="Title">Title</label>
+                <input asp-for="Title" class="form-control" placeholder="Икони" />
+                <span asp-validation-for="Title" class="text-danger"></span>
             </div>
         </div>
-        <div class="form-group col-sm-1">
-            <button type="submit" class="btn btn-success">Create</button>
+        <div class="form-group">
+            <label asp-for="Content">Content</label>
+            <input asp-for="Content" class="form-control" placeholder="Дървена икона на..." />
+            <span asp-validation-for="Content" class="text-danger"></span>
         </div>
-    </div>
-</form>
+        <div class="form-group">
+            <label asp-for="ImageUrl">Image Url</label>
+            <input asp-for="ImageUrl" class="form-control" />
+            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-sm-1">
+                <div>
+                    <a asp-area="Administration"
+                       asp-controller="Categories"
+                       asp-action="All"
+                       class="btn btn-secondary">Back</a>
+                </div>
+            </div>
+            <div class="form-group col-sm-1">
+                <button type="submit" class="btn btn-success">Create</button>
+            </div>
+        </div>
+    </form>
+</div>

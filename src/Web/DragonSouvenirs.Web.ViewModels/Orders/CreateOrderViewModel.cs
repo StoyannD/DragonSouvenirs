@@ -1,12 +1,11 @@
-﻿using DragonSouvenirs.Common;
-
-namespace DragonSouvenirs.Web.ViewModels.Orders
+﻿namespace DragonSouvenirs.Web.ViewModels.Orders
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Text;
 
+    using DragonSouvenirs.Common;
     using DragonSouvenirs.Data.Models;
     using DragonSouvenirs.Services.Mapping;
 

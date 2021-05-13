@@ -12,58 +12,64 @@
             x.Id.ToString()
             ));
 }
-<h1>@ViewData["Title"]</h1>
-
-<h2>Created on: @this.Model.CreatedOn</h2>
-<h2>
-    Last Modified: @(Model.ModifiedOn?.ToString() ?? "Never")
-</h2>
-<form enctype="multipart/form-data"
-      asp-area="Administration"
-      asp-controller="Products"
-      asp-action="Edit"
-      method="post">
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label asp-for="Name">Name</label>
-            <input asp-for="Name" class="form-control" value="@this.Model.Name">
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
-
-        <div class="form-group col-md-6">
-            <label asp-for="Title">Title</label>
-            <input asp-for="Title" class="form-control" value="@this.Model.Title">
-            <span asp-validation-for="Title" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="Description">Description</label>
-        <input asp-for="Description" class="form-control" value="@this.Model.Description" />
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Price">Price</label>
-        <input asp-for="Price" class="form-control" value="@this.Model.Price" />
-        <span asp-validation-for="Price" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Quantity">Quantity</label>
-        <input asp-for="Quantity" class="form-control" value="@this.Model.Quantity" />
-        <span asp-validation-for="Quantity" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Height">Height</label>
-        <input asp-for="Height" class="form-control" value="@this.Model.Height" />
-        <span asp-validation-for="Height" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Width">Width</label>
-        <input asp-for="Width" class="form-control" value="@this.Model.Width" />
-        <span asp-validation-for="Width" class="text-danger"></span>
-    </div>
-    @for(int i = 0; i < GlobalConstants.Image.ImagesPerProduct; i++)
-    {
+<div class="container">
+    <h3>@ViewData["Title"]</h3>
+    <ul>
+        <li>
+            Created on: <strong>@this.Model.CreatedOn.ToString("yyyy MMMM dd")</strong>
+        </li>
+        <li>
+            Last Modified: <strong>@(Model.ModifiedOn?.ToString("yyyy MMMM dd") ?? "Never")</strong>
+        </li>
+    </ul>
+    <form enctype="multipart/form-data"
+          asp-area="Administration"
+          asp-controller="Products"
+          asp-action="Edit"
+          method="post">
         <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="Name">Name</label>
+                <input asp-for="Name" class="form-control" value="@this.Model.Name">
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group col-md-6">
+                <label asp-for="Title">Title</label>
+                <input asp-for="Title" class="form-control" value="@this.Model.Title">
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description">Description</label>
+            <input asp-for="Description" class="form-control" value="@this.Model.Description" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-2">
+                <label asp-for="Price">Price</label>
+                <input asp-for="Price" class="form-control" value="@this.Model.Price" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group col-1">
+                <label asp-for="Quantity">Quantity</label>
+                <input asp-for="Quantity" class="form-control" value="@this.Model.Quantity" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group col-1">
+                <label asp-for="Height">Height</label>
+                <input asp-for="Height" class="form-control" value="@this.Model.Height" />
+                <span asp-validation-for="Height" class="text-danger"></span>
+            </div>
+            <div class="form-group col-1">
+                <label asp-for="Width">Width</label>
+                <input asp-for="Width" class="form-control" value="@this.Model.Width" />
+                <span asp-validation-for="Width" class="text-danger"></span>
+            </div>
+        </div>
+        @for (int i = 0; i < GlobalConstants.Image.ImagesPerProduct; i++)
+        {
+            <div class="form-row">
                 <div class="form-group col-sm-1">
                     <img src="@(this.Model.Images[i].ImgUrl ?? CommonImageUrls.AdminPanel.AddProductImgImgUrl)" style="width: 4rem; height: 4rem;" />
                 </div>
@@ -72,30 +78,30 @@
                     <input asp-for="@this.Model.Images[i].ImgUrl"
                            class="form-control"
                            value="@this.Model.Images[i].ImgUrl" />
-                    <span 
-                        asp-validation-for="@this.Model.Images[i].ImgUrl" 
-                        class="text-danger"></span>
+                    <span asp-validation-for="@this.Model.Images[i].ImgUrl"
+                          class="text-danger"></span>
                 </div>
             </div>
-    }
-    <div class="form-group" style="width: 10rem">
-        <label asp-for="@this.Model.Categories[0].Name"> Category</label>
-        <select asp-for="@this.Model.Categories[0].Name"
-                asp-items="categories"
-                class="form-control"></select>
-        <span asp-validation-for="@this.Model.Categories[0].Name" class="text-danger"></span>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-sm-1">
-            <div>
-                <a asp-area="Administration"
-                   asp-controller="Products"
-                   asp-action="All"
-                   class="btn btn-secondary">Back</a>
+        }
+        <div class="form-group" style="width: 10rem">
+            <label asp-for="@this.Model.Categories[0].Name"> Category</label>
+            <select asp-for="@this.Model.Categories[0].Name"
+                    asp-items="categories"
+                    class="form-control"></select>
+            <span asp-validation-for="@this.Model.Categories[0].Name" class="text-danger"></span>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-sm-1">
+                <div>
+                    <a asp-area="Administration"
+                       asp-controller="Products"
+                       asp-action="All"
+                       class="btn btn-secondary">Back</a>
+                </div>
+            </div>
+            <div class="form-group col-sm-1">
+                <button type="submit" class="btn btn-primary">Edit</button>
             </div>
         </div>
-        <div class="form-group col-sm-1">
-            <button type="submit" class="btn btn-primary">Edit</button>
-        </div>
-    </div>
-</form>
+    </form>
+</div>

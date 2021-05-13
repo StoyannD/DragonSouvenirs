@@ -116,7 +116,6 @@
             this.cartRepository.HardDelete(cart);
             await this.cartProductRepository.SaveChangesAsync();
             await this.cartRepository.SaveChangesAsync();
-
         }
     }
 }

@@ -1,15 +1,14 @@
-﻿using DragonSouvenirs.Data.Models;
-using DragonSouvenirs.Web.ViewModels.Components.OrderProductsComponent;
-using Microsoft.AspNetCore.Identity;
-
-namespace DragonSouvenirs.Web.Components
+﻿namespace DragonSouvenirs.Web.Components
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
+    using DragonSouvenirs.Data.Models;
     using DragonSouvenirs.Services.Data;
+    using DragonSouvenirs.Web.ViewModels.Components.OrderProductsComponent;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     public class OrderProductsComponent : ViewComponent
@@ -33,6 +32,5 @@ namespace DragonSouvenirs.Web.Components
 
             return this.View(cartProducts);
         }
-
     }
 }

@@ -2,57 +2,62 @@
 @{
     ViewData["Title"] = "Edit Category";
 }
-<h1>@ViewData["Title"]</h1>
+<div class="container">
+    <h3>@ViewData["Title"]</h3>
+    <ul>
+        <li>
+            Created on: <strong>@this.Model.CreatedOn.ToString("yyyy MMMM dd")</strong>
+        </li>
+        <li>
+            Last Modified: <strong>@(Model.ModifiedOn?.ToString("yyyy MMMM dd") ?? "Never")</strong>
+        </li>
+    </ul>
 
-<h2>Created on: @this.Model.CreatedOn</h2>
-<h2>
-    Last Modified: @(Model.ModifiedOn?.ToString() ?? "Never")
-</h2>
+    <form enctype="multipart/form-data"
+          asp-area="Administration"
+          asp-controller="Categories"
+          asp-action="Edit"
+          method="post">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label asp-for="Name">Name</label>
+                <input asp-for="Name" class="form-control" value="@this.Model.Name">
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
 
-<form enctype="multipart/form-data"
-      asp-area="Administration"
-      asp-controller="Categories"
-      asp-action="Edit"
-      method="post">
-    <div class="form-row">
-        <div class="form-group col-md-6">
-            <label asp-for="Name">Name</label>
-            <input asp-for="Name" class="form-control" value="@this.Model.Name">
-            <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
-
-        <div class="form-group col-md-6">
-            <label asp-for="Title">Title</label>
-            <input asp-for="Title" class="form-control" value="@this.Model.Title">
-            <span asp-validation-for="Title" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-group">
-        <label asp-for="Content">Content</label>
-        <input asp-for="Content" class="form-control" value="@this.Model.Content" />
-        <span asp-validation-for="Content" class="text-danger"></span>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-sm-1">
-            <img src="@this.Model.ImageUrl" style="width: 4rem; height: 4rem;"/>
-        </div>
-        <div class="form-group col-md-11">
-            <label asp-for="ImageUrl">Image Url</label>
-            <input asp-for="ImageUrl" class="form-control" value="@this.Model.ImageUrl"/>
-            <span asp-validation-for="ImageUrl" class="text-danger"></span>
-        </div>
-    </div>
-    <div class="form-row">
-        <div class="form-group col-sm-1">
-            <div>
-                <a asp-area="Administration"
-                   asp-controller="Categories"
-                   asp-action="All"
-                   class="btn btn-secondary">Back</a>
+            <div class="form-group col-md-6">
+                <label asp-for="Title">Title</label>
+                <input asp-for="Title" class="form-control" value="@this.Model.Title">
+                <span asp-validation-for="Title" class="text-danger"></span>
             </div>
         </div>
-        <div class="form-group col-sm-1">
-            <button type="submit" class="btn btn-primary">Edit</button>
+        <div class="form-group">
+            <label asp-for="Content">Content</label>
+            <input asp-for="Content" class="form-control" value="@this.Model.Content" />
+            <span asp-validation-for="Content" class="text-danger"></span>
         </div>
-    </div>
-</form>
+        <div class="form-row">
+            <div class="form-group col-sm-1">
+                <img src="@this.Model.ImageUrl" style="width: 4rem; height: 4rem;" />
+            </div>
+            <div class="form-group col-md-11">
+                <label asp-for="ImageUrl">Image Url</label>
+                <input asp-for="ImageUrl" class="form-control" value="@this.Model.ImageUrl" />
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-sm-1">
+                <div>
+                    <a asp-area="Administration"
+                       asp-controller="Categories"
+                       asp-action="All"
+                       class="btn btn-secondary">Back</a>
+                </div>
+            </div>
+            <div class="form-group col-sm-1">
+                <button type="submit" class="btn btn-primary">Edit</button>
+            </div>
+        </div>
+    </form>
+</div>

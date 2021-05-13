@@ -10,7 +10,7 @@
 
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     [Area("Administration")]
-    public class PanelController : Controller
+    public class OrdersController : Controller
     {
         public IActionResult Index()
         {

@@ -1,27 +1,30 @@
 ﻿@using DragonSouvenirs.Web.ViewModels.Administration.Users
 @using System.Linq
 @model DragonSouvenirs.Web.ViewModels.Administration.Users.AllUsersViewModel
-@{
-    this.ViewData["Title"] = $"Users ({this.Model.Users.Count()})";
-}
-<h1>@this.ViewData["Title"]</h1>
 
 @if (this.TempData["fail"] != null)
 {
-    <div class="alert alert-danger" role="alert">
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
         @this.TempData["fail"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
 }
 @if (this.TempData["success"] != null)
 {
-    <div class="alert alert-success" role="alert">
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
         @this.TempData["success"]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
 }
-<table class="table table-hover table-bordered">
+<table class="table table-hover table-bordered text-center"
+       style="margin-left: auto; margin-right: auto;">
     <thead class="thead-dark">
         <tr class="text-center">
-            <th scope="col">#</th>
+            <th scope="col">@this.Model.Users.Count()</th>
             <th scope="col">Username</th>
             <th scope="col">Fullname</th>
             <th scope="col">@nameof(ApplicationUserViewModel.Email)</th>

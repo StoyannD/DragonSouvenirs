@@ -2,51 +2,47 @@
 @using DragonSouvenirs.Web.ViewModels.Administration
 @using DragonSouvenirs.Web.ViewModels.Administration.Categories
 @model DragonSouvenirs.Web.ViewModels.Administration.Categories.AllCategoriesViewModel
-@{
-    this.ViewData["Title"] = $"Categories ({this.Model.Categories.Count()})";
-}
-<h1>@this.ViewData["Title"]</h1>
 
-@if (this.TempData["fail"] != null)
-{
-    <div class="alert alert-danger" role="alert">
-        @this.TempData["fail"]
-    </div>
-}
-@if (this.TempData["success"] != null)
-{
-    <div class="alert alert-success" role="alert">
-        @this.TempData["success"]
-    </div>
-}
-
-<div class="p-2">
-    <a class="btn btn-success"
-       asp-area="Administration"
-       asp-controller="Categories"
-       asp-action="Create">Create new</a>
-</div>
-
-<table class="table table-hover table-bordered text-center">
-    <thead class="thead-dark">
-        <tr class="text-center">
-            <th scope="col">#</th>
-            <th scope="col">Image</th>
-            <th scope="col">@nameof(AdminCategoryViewModel.Title)</th>
-            <th scope="col">@nameof(AdminCategoryViewModel.Name)</th>
-            <th scope="col">Products Count</th>
-            <th scope="col">@nameof(AdminCategoryViewModel.CreatedOn)</th>
-            <th scope="col">@nameof(AdminCategoryViewModel.IsDeleted)</th>
-            <th scope="col">Manage</th>
-        </tr>
-    </thead>
-    <tbody>
-    @for (int i = 0; i < this.Model.Categories.Count(); i++)
+<div class="container">
+    @if (this.TempData["fail"] != null)
     {
-        <tr>
-            <th scope="row">@(i+1)</th>
-            <partial name="_CategoriesInTablePartial" model="this.Model.Categories.ElementAt(i)"/>
-        </tr>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @this.TempData["fail"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
     }
-    </tbody>
-</table>
+    @if (this.TempData["success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @this.TempData["success"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+    <table class="table table-hover table-bordered text-center">
+        <thead class="thead-dark">
+            <tr class="text-center">
+                <th scope="col">@this.Model.Categories.Count()</th>
+                <th scope="col">Image</th>
+                <th scope="col">@nameof(AdminCategoryViewModel.Title)</th>
+                <th scope="col">@nameof(AdminCategoryViewModel.Name)</th>
+                <th scope="col">Products Count</th>
+                <th scope="col">@nameof(AdminCategoryViewModel.CreatedOn)</th>
+                <th scope="col">@nameof(AdminCategoryViewModel.IsDeleted)</th>
+                <th scope="col">Manage</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < this.Model.Categories.Count(); i++)
+            {
+                <tr>
+                    <th scope="row">@(i+1)</th>
+                    <partial name="_CategoriesInTablePartial" model="this.Model.Categories.ElementAt(i)" />
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
