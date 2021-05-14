@@ -13,24 +13,25 @@
 
     public class OrderProductsComponent : ViewComponent
     {
-        private readonly ICartService cartService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IOrderService orderService;
 
         public OrderProductsComponent(
-            ICartService cartService,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IOrderService orderService)
         {
-            this.cartService = cartService;
             this.userManager = userManager;
+            this.orderService = orderService;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(string name)
+        public async Task<IViewComponentResult> InvokeAsync(string userId, int orderId)
         {
-            var user = await this.userManager.GetUserAsync(this.UserClaimsPrincipal);
+            var user = await this.userManager.FindByIdAsync(userId);
 
-            var cartProducts = await this.cartService.GetCartProductsAsync<CartProductsViewModel>(user.Id);
+            var orderProducts = await this.orderService
+                .GetOrderProductsAsync<OrderProductsViewModel>(userId, orderId);
 
-            return this.View(cartProducts);
+            return this.View(orderProducts);
         }
     }
 }

@@ -117,5 +117,50 @@
             await this.cartProductRepository.SaveChangesAsync();
             await this.cartRepository.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<T>> GetAllAdminAsync<T>()
+        {
+            var orders = await this.orderRepository
+                .AllWithDeleted()
+                .OrderByDescending(o => o.CreatedOn)
+                .ThenByDescending(o => o.TotalPrice)
+                .To<T>()
+                .ToListAsync();
+
+            return orders;
+        }
+
+        public async Task<T> GetAdminOrderDetailsAsync<T>(int? id)
+        {
+            var order = await this.orderRepository
+                .AllWithDeleted()
+                .Where(o => o.Id == id.Value)
+                .To<T>()
+                .FirstOrDefaultAsync();
+
+            return order;
+        }
+
+        public async Task<IEnumerable<T>> GetOrderProductsAsync<T>(string userId, int orderId)
+        {
+            var orderProducts = await this.orderProductRepository
+                .AllWithDeleted()
+                .Where(op => op.OrderId == orderId &&
+                             op.Order.UserId == userId)
+                .To<T>()
+                .ToListAsync();
+
+            return orderProducts;
+        }
+
+        public async Task ProcessOrderAsync(int orderId, int orderStatus)
+        {
+            var order = await this.orderRepository
+                .All()
+                .FirstOrDefaultAsync(o => o.Id == orderId);
+
+            order.OrderStatus = (OrderStatus)orderStatus;
+            await this.orderRepository.SaveChangesAsync();
+        }
     }
 }

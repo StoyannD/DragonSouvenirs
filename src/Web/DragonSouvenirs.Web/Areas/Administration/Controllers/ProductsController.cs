@@ -24,7 +24,7 @@
             this.categoriesService = categoriesService;
         }
 
-        public async Task<ActionResult> All()
+        public async Task<ActionResult> Index()
         {
             var viewModel = new AllProductsViewModel
             {
@@ -63,7 +63,7 @@
 
             this.TempData["success"] = string.Format(GlobalConstants.Product.ProductSuccessfullyDeleted, postTitle);
 
-            return this.RedirectToAction(nameof(this.All));
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         public async Task<ActionResult> Edit(int? id)
@@ -108,7 +108,7 @@
             this.TempData["success"] = string
                 .Format(GlobalConstants.Product.ProductSuccessfullyEdited, viewModel.Name);
 
-            return this.RedirectToAction(nameof(this.All));
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         public async Task<ActionResult> Create()
@@ -143,7 +143,7 @@
             this.TempData["success"] =
                 string.Format(GlobalConstants.Product.ProductSuccessfullyCreated, inputModel.Title);
 
-            return this.RedirectToAction(nameof(this.All));
+            return this.RedirectToAction(nameof(this.Index));
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace DragonSouvenirs.Web.ViewModels.Components.OrderProductsComponent
+﻿namespace DragonSouvenirs.Web.ViewModels.Components.CartProductsComponent
 {
     using System;
     using System.Collections.Generic;
@@ -38,9 +38,9 @@
 
         public int ProductWidth { get; set; }
 
-        public IEnumerable<CartProductImageViewModel> ProductImages { get; set; }
+        public IEnumerable<ProductImageViewModel> ProductImages { get; set; }
 
-        public IEnumerable<CartProductCategoryViewModel> ProductProductCategories { get; set; }
+        public IEnumerable<ProductCategoryViewModel> ProductProductCategories { get; set; }
 
         public decimal TotalPrice => this.Quantity * this.ProductPrice;
     }

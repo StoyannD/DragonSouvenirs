@@ -26,7 +26,7 @@
             this.userManager = userManager;
         }
 
-        public async Task<ActionResult> All()
+        public async Task<ActionResult> Index()
         {
             var viewModel = new AllUsersViewModel();
 
@@ -71,7 +71,7 @@
             {
                 this.TempData["fail"] =
                     string.Format(GlobalConstants.User.UserAlreadyBannedMessage, viewModel.UserName);
-                return this.RedirectToAction(nameof(this.All));
+                return this.RedirectToAction(nameof(this.Index));
             }
 
             return this.View(viewModel);
@@ -92,7 +92,7 @@
             this.TempData["success"] =
                 string.Format(GlobalConstants.User.UserSuccessfullyBannedMessage, user.UserName);
 
-            return this.RedirectToAction(nameof(this.All));
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         [HttpPost]
@@ -107,7 +107,7 @@
             {
                 this.TempData["fail"] =
                     string.Format(GlobalConstants.User.UserNotBannedMessage, user.UserName);
-                return this.RedirectToAction(nameof(this.All));
+                return this.RedirectToAction(nameof(this.Index));
             }
 
             user.IsDeleted = false;
@@ -118,7 +118,7 @@
             this.TempData["success"] =
                 string.Format(GlobalConstants.User.UserSuccessfullyUnBannedMessage, user.UserName);
 
-            return this.RedirectToAction(nameof(this.All));
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         public async Task<ActionResult> Edit(string id)
@@ -163,7 +163,7 @@
             this.TempData["success"] =
                 string.Format(GlobalConstants.User.UserSuccessfullyEdited, user.UserName);
 
-            return this.RedirectToAction(nameof(this.All));
+            return this.RedirectToAction(nameof(this.Index));
         }
     }
 }

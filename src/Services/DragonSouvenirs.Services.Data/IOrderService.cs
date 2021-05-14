@@ -14,5 +14,13 @@
         Task<T> GetProcessingOrderAsync<T>(string userId);
 
         Task ConfirmOrderAsync(string userId);
+
+        Task<IEnumerable<T>> GetAllAdminAsync<T>();
+
+        Task<T> GetAdminOrderDetailsAsync<T>(int? id);
+
+        Task<IEnumerable<T>> GetOrderProductsAsync<T>(string userId, int orderId);
+
+        Task ProcessOrderAsync(int orderId, int orderStatus);
     }
 }
