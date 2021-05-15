@@ -43,5 +43,7 @@
         public decimal TotalPrice { get; set; }
 
         public DateTime CreatedOn { get; set; }
+
+        public DateTime? DateOfDelivery { get; set; }
     }
 }

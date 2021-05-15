@@ -118,16 +118,38 @@
             await this.cartRepository.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAllAdminAsync<T>()
+        public async Task<IEnumerable<T>> GetAllAsync<T>()
         {
             var orders = await this.orderRepository
-                .AllWithDeleted()
+                .All()
                 .OrderByDescending(o => o.CreatedOn)
                 .ThenByDescending(o => o.TotalPrice)
                 .To<T>()
                 .ToListAsync();
 
             return orders;
+        }
+
+        public async Task<IEnumerable<T>> GetCompletedAsync<T>()
+        {
+            var orders = await this.orderRepository
+                .AllWithDeleted()
+                .Where(o => o.IsDeleted)
+                .OrderByDescending(o => o.DateOfDelivery)
+                .ThenByDescending(o => o.TotalPrice)
+                .To<T>()
+                .ToListAsync();
+
+            return orders;
+        }
+
+        public async Task<OrderStatus> GetOrderStatusAsync(int orderId)
+        {
+            var order = await this.orderRepository
+                .AllWithDeleted()
+                .FirstOrDefaultAsync(o => o.Id == orderId);
+
+            return order.OrderStatus;
         }
 
         public async Task<T> GetAdminOrderDetailsAsync<T>(int? id)
@@ -156,10 +178,24 @@
         public async Task ProcessOrderAsync(int orderId, int orderStatus)
         {
             var order = await this.orderRepository
-                .All()
+                .AllWithDeleted()
                 .FirstOrDefaultAsync(o => o.Id == orderId);
 
-            order.OrderStatus = (OrderStatus)orderStatus;
+            var updatedOrderStatus = (OrderStatus)orderStatus;
+            if (order.OrderStatus == OrderStatus.Completed)
+            {
+                order.DateOfDelivery = null;
+                order.IsDeleted = false;
+            }
+
+            if (updatedOrderStatus == OrderStatus.Completed)
+            {
+                order.IsDeleted = true;
+                order.DateOfDelivery = DateTime.UtcNow;
+            }
+
+            order.OrderStatus = updatedOrderStatus;
+
             await this.orderRepository.SaveChangesAsync();
         }
     }

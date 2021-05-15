@@ -6,6 +6,7 @@
 <td>@this.Model.UserFullName</td>
 <td>@this.Model.TotalPrice</td>
 <td>@this.Model.CreatedOn.ToString("g")</td>
+<td>@(this.Model.DateOfDelivery?.ToString("g"))</td>
 <td>
     <div class="d-inline-block" style="width: 18rem;">
         <form class="form-check-inline"

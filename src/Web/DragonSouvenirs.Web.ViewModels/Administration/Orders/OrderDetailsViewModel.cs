@@ -1,4 +1,6 @@
-﻿namespace DragonSouvenirs.Web.ViewModels.Administration.Orders
+﻿using DragonSouvenirs.Data.Models.Enums;
+
+namespace DragonSouvenirs.Web.ViewModels.Administration.Orders
 {
     using System;
     using System.Collections.Generic;
@@ -23,8 +25,12 @@
 
         public DateTime ExpectedDeliveryDate { get; set; }
 
+        public DateTime? DateOfDelivery { get; set; }
+
         public decimal DeliveryPrice { get; set; }
 
         public decimal TotalPrice { get; set; }
+
+        public OrderStatus OrderStatus { get; set; }
     }
 }

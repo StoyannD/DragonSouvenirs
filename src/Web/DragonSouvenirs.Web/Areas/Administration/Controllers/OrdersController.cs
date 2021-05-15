@@ -27,7 +27,18 @@
         public async Task<ActionResult> Index()
         {
             var viewModel = new AllOrdersViewModel();
-            var orders = await this.orderService.GetAllAdminAsync<OrderViewModel>();
+            var orders = await this.orderService.GetAllAsync<OrderViewModel>();
+            viewModel.Orders = orders;
+
+            this.TempData.Keep();
+
+            return this.View(viewModel);
+        }
+
+        public async Task<ActionResult> Completed()
+        {
+            var viewModel = new AllOrdersViewModel();
+            var orders = await this.orderService.GetCompletedAsync<OrderViewModel>();
             viewModel.Orders = orders;
 
             this.TempData.Keep();
@@ -55,9 +66,18 @@
         [HttpPost]
         public async Task<ActionResult> ChangeStatus(int orderId, OrderStatus orderStatus)
         {
+            var oldOrderStatus = await this.orderService
+                .GetOrderStatusAsync(orderId);
+
             await this.orderService.ProcessOrderAsync(orderId, (int)orderStatus);
 
             this.TempData["success"] = "Order updated successfully!";
+
+            if (oldOrderStatus == OrderStatus.Completed)
+            {
+                return this.RedirectToAction(nameof(this.Completed));
+            }
+
             return this.RedirectToAction(nameof(this.Index));
         }
     }

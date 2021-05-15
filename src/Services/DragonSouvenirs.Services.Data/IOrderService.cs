@@ -1,4 +1,6 @@
-﻿namespace DragonSouvenirs.Services.Data
+﻿using DragonSouvenirs.Data.Models.Enums;
+
+namespace DragonSouvenirs.Services.Data
 {
     using System;
     using System.Collections.Generic;
@@ -15,7 +17,11 @@
 
         Task ConfirmOrderAsync(string userId);
 
-        Task<IEnumerable<T>> GetAllAdminAsync<T>();
+        Task<IEnumerable<T>> GetAllAsync<T>();
+
+        Task<IEnumerable<T>> GetCompletedAsync<T>();
+
+        Task<OrderStatus> GetOrderStatusAsync(int orderId);
 
         Task<T> GetAdminOrderDetailsAsync<T>(int? id);
 

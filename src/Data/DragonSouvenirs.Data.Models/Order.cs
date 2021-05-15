@@ -20,6 +20,8 @@
 
         public DateTime? ExpectedDeliveryDate { get; set; }
 
+        public DateTime? DateOfDelivery { get; set; }
+
         public decimal DeliveryPrice { get; set; }
 
         public decimal TotalPrice { get; set; }
