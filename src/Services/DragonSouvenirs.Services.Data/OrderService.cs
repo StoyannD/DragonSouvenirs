@@ -52,7 +52,7 @@
                     TotalPrice = model.TotalPrice,
                     UserEmail = model.UserEmail,
                     InvoiceNumber = model.InvoiceNumber,
-                    UserFullName = userFullName,
+                    ClientFullName = userFullName,
                     Notes = model.Notes,
                 };
 

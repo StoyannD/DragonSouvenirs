@@ -946,8 +946,16 @@ ol {
 	margin-bottom: 10px;
 }
 
-.featured__item__text h6 a {
+.featured__item__text a {
 	color: #252525;
+}
+.featured__item__text span {
+	display: inline-block;
+	font-weight: 400;
+	text-decoration: line-through;
+	margin-left: 10px;
+	font-size: 18px;
+    color: red;
 }
 
 .featured__item__text h5 {

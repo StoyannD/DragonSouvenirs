@@ -179,12 +179,19 @@
 
         public async Task<bool> UserHasProductsInCart(string userId)
         {
-            var hasProducts = await this.cartProductRepository
+            var hasValidCart = await this.cartRepository
                 .All()
-                .Where(cp => cp.Cart.UserId == userId)
-                .AnyAsync();
+                .AnyAsync(c => c.UserId == userId);
 
-            return hasProducts;
+            if (hasValidCart)
+            {
+                hasValidCart = await this.cartProductRepository
+                    .All()
+                    .Where(cp => cp.Cart.UserId == userId)
+                    .AnyAsync();
+            }
+
+            return hasValidCart;
         }
     }
 }

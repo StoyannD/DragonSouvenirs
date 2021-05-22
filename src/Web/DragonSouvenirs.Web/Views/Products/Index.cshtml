@@ -48,7 +48,6 @@
                         <div class="row">
                             <div class="col-lg-4 col-md-5">
                                 <div class="filter__sort">
-                                    <span>Sort By</span>
                                     <select name="sortBy"
                                             onchange="this.form.submit();">
                                         <option value="1"
@@ -79,14 +78,14 @@
                             
                             <div class="col-lg-4 col-md-4">
                                 <div class="filter__found">
-                                    <h6><span>@Model.CategoryPaginationInfo.AllProductsCount</span> Products found</h6>
+                                    <h6><span>@Model.CategoryPaginationInfo.AllProductsCount</span> Намерени продукти</h6>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-3">
                                 @if (this.Model.CategoryPaginationInfo.CurrentPage == 1)
                                 {
-                                    <div class="filter__sort">
-                                        <span>Products per page </span>
+                                    <div class="filter__sort float-right">
+                                        <span>На страница </span>
                                         <select name="perPage"
                                                 onchange="this.form.submit();">
                                             @for (int i = 3; i <= 12; i += 3)

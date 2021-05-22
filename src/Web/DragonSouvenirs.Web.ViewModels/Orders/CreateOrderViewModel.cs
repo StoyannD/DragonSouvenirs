@@ -19,16 +19,15 @@
             GlobalConstants.Order.UserFullNameMaxLength,
             MinimumLength = GlobalConstants.Order.UserFullNameMinLength,
             ErrorMessage = GlobalConstants.Order.UserFullNameError)]
-        public string FirstName
-            => this.UserFullName.Split(' ').First();
+
+        public string FirstName { get; set; }
 
         [Required]
         [StringLength(
             GlobalConstants.Order.UserFullNameMaxLength,
             MinimumLength = GlobalConstants.Order.UserFullNameMinLength,
             ErrorMessage = GlobalConstants.Order.UserFullNameError)]
-        public string LastName
-            => this.UserFullName[this.UserFullName.IndexOf(" ", StringComparison.Ordinal)..];
+        public string LastName { get; set; }
 
         [Required]
         [EmailAddress(ErrorMessage = GlobalConstants.Order.UserEmailError)]

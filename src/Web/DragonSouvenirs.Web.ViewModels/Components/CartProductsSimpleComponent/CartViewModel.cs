@@ -1,8 +1,7 @@
-﻿using System.Linq;
-
-namespace DragonSouvenirs.Web.ViewModels.Components.CartProductsSimpleComponent
+﻿namespace DragonSouvenirs.Web.ViewModels.Components.CartProductsSimpleComponent
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     public class CartViewModel
     {
@@ -13,6 +12,5 @@ namespace DragonSouvenirs.Web.ViewModels.Components.CartProductsSimpleComponent
 
         public decimal TotalPriceBeforeDiscounts =>
             Products.Sum(p => p.TotalPriceBeforeDiscounts);
-
     }
 }

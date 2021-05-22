@@ -1,6 +1,7 @@
 ﻿namespace DragonSouvenirs.Web.Controllers
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using DragonSouvenirs.Common;
@@ -43,6 +44,8 @@
             {
                 ShippingAddress = user.DefaultShippingAddress,
                 UserFullName = user.FullName,
+                FirstName = user.FullName.Split(' ').First(),
+                LastName = user.FullName[user.FullName.IndexOf(" ", StringComparison.Ordinal)..],
                 UserEmail = user.Email,
                 InvoiceNumber = user.PhoneNumber,
             };

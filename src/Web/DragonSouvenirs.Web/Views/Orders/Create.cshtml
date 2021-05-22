@@ -8,11 +8,11 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="breadcrumb__text">
-                    <h2>Checkout</h2>
+                    <h2>Поръчка</h2>
                     <div class="breadcrumb__option">
                         <a asp-controller="Home"
                            asp-action="Index">Home</a>
-                        <span>Checkout</span>
+                        <span>Поръчка</span>
                     </div>
                 </div>
             </div>
@@ -24,7 +24,7 @@
 <section class="checkout spad">
     <div class="container">
         <div class="checkout__form">
-            <h4>Billing Details</h4>
+            <h4>Детайли на поръчката</h4>
             <form enctype="multipart/form-data"
                   asp-controller="Orders"
                   asp-action="Create"
@@ -34,7 +34,7 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="checkout__input">
-                                    <label asp-for="@Model.FirstName">Fist Name<span>*</span></label>
+                                    <label asp-for="@Model.FirstName">Име<span>*</span></label>
                                     <input type="text"
                                            asp-for="@Model.FirstName"
                                            value="@Model.FirstName">
@@ -43,7 +43,7 @@
                             </div>
                             <div class="col-lg-6">
                                 <div class="checkout__input">
-                                    <label asp-for="@Model.LastName">Last Name<span>*</span></label>
+                                    <label asp-for="@Model.LastName">Фамилия<span>*</span></label>
                                     <input type="text"
                                            asp-for="@Model.LastName"
                                            value="@Model.LastName">
@@ -51,18 +51,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="checkout__input">
-                            <label asp-for="@Model.ShippingAddress">Address<span>*</span></label>
-                            <input class="checkout__input__add"
-                                   type="text"
-                                   asp-for="@Model.ShippingAddress"
-                                   value="@Model.ShippingAddress">
-                            <span asp-validation-for="@Model.ShippingAddress" class="text-danger"></span>
-                        </div>
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="checkout__input">
-                                    <label asp-for="@Model.InvoiceNumber">Phone<span>*</span></label>
+                                    <label asp-for="@Model.InvoiceNumber">Тел. номер<span>*</span></label>
                                     <input class="checkout__input__add"
                                            type="text"
                                            asp-for="@Model.InvoiceNumber"
@@ -70,19 +62,27 @@
                                     <span asp-validation-for="@Model.InvoiceNumber" class="text-danger"></span>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            @*<div class="col-lg-6">
                                 <div class="checkout__input">
-                                    <label asp-for="@Model.UserFullName">Email<span>*</span></label>
+                                    <label asp-for="@Model.UserFullName">Имейл<span>*</span></label>
                                     <input class="checkout__input__add"
                                            type="text"
                                            asp-for="@Model.UserFullName"
                                            value="@Model.UserFullName">
                                     <span asp-validation-for="@Model.UserFullName" class="text-danger"></span>
                                 </div>
-                            </div>
+                            </div>*@
                         </div>
                         <div class="checkout__input">
-                            <label asp-for="@Model.UserEmail">Email<span>*</span></label>
+                            <label asp-for="@Model.ShippingAddress">Адрес<span>*</span></label>
+                            <input class="checkout__input__add"
+                                   type="text"
+                                   asp-for="@Model.ShippingAddress"
+                                   value="@Model.ShippingAddress">
+                            <span asp-validation-for="@Model.ShippingAddress" class="text-danger"></span>
+                        </div>
+                        <div class="checkout__input">
+                            <label asp-for="@Model.UserEmail">Имейл<span>*</span></label>
                             <input class="checkout__input__add"
                                    type="text"
                                    asp-for="@Model.UserEmail"
@@ -90,7 +90,7 @@
                             <span asp-validation-for="@Model.UserEmail" class="text-danger"></span>
                         </div>
                         <div class="checkout__input">
-                            <label asp-for="@Model.Notes">Order notes<span>*</span></label>
+                            <label asp-for="@Model.Notes">Допълнителна информация<span>*</span></label>
                             <input class="checkout__input__add"
                                    placeholder="Notes about your order, e.g. special notes for delivery."
                                    type="text"
@@ -102,7 +102,7 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="checkout__order">
                             @await Component.InvokeAsync(typeof(CartProductsSimpleComponent))
-                            <button type="submit" class="site-btn">PLACE ORDER</button>
+                            <button type="submit" class="site-btn">ПОРЪЧАЙ</button>
                         </div>
                     </div>
                 </div>

@@ -113,6 +113,18 @@
             return await query.CountAsync();
         }
 
+        public async Task<IEnumerable<T>> GetTopDiscountedItems<T>(int take = 8)
+        {
+            var products = this.productsRepository
+                .All()
+                .Where(p => p.DiscountPrice != null)
+                .OrderByDescending(p => p.Price - p.DiscountPrice.Value)
+                .ThenByDescending(p => p.OrderProducts.Count)
+                .Take(take);
+
+            return await products.To<T>().ToListAsync();
+        }
+
         public async Task<int> GetCountAsync(int? minPrice = null, int? maxPrice = null)
         {
             var query = this.productsRepository

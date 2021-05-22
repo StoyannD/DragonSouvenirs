@@ -4,7 +4,7 @@
 }
 <div class="sidebar__item">
     <div class="latest-product__text">
-        <h4>Latest Products</h4>
+        <h4>Най-нови</h4>
         <div class="latest-product__slider owl-carousel">
             @for (int i = 0; i < this.Model.Count(); i += 3)
             {
@@ -12,8 +12,8 @@
                     @for (int j = 0; j < perSlider; j++)
                     {
                         <a asp-controller="Products"
-                           asp-action="ById"
-                           asp-route-id="@this.Model.ElementAt(i + j).Id"
+                           asp-action="ByName"
+                           asp-route-title="@this.Model.ElementAt(i).TitleLink"
                            class="latest-product__item">
                             <div class="latest-product__item__pic">
                                 <img src="@this.Model.ElementAt(i + j).ImgUrl" alt="" >

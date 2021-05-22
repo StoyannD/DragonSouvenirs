@@ -30,7 +30,7 @@
 
         public string UserEmail { get; set; }
 
-        public string UserFullName { get; set; }
+        public string ClientFullName { get; set; }
 
         public string InvoiceNumber { get; set; }
 

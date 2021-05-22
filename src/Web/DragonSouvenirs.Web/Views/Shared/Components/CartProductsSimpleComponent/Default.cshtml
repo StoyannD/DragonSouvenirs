@@ -1,8 +1,8 @@
 ﻿@using DragonSouvenirs.Common
 @model DragonSouvenirs.Web.ViewModels.Components.CartProductsSimpleComponent.CartViewModel
 
-<h4>Your Order</h4>
-<div class="checkout__order__products">Products <span>Total</span></div>
+<h4>Поръчка</h4>
+<div class="checkout__order__products">Продукти <span>Total</span></div>
 <ul>
     @foreach (var carProduct in this.Model.Products)
     {
@@ -20,23 +20,23 @@
     }
 </ul>
 <div class="checkout__order__subtotal">
-    Subtotal <span>@Model.TotalPriceBeforeDiscounts лв.</span>
+    Общо <span>@Model.TotalPriceBeforeDiscounts лв.</span>
     <br />
-    Delivery price <span>@GlobalConstants.Order.DeliveryPrice лв.</span>
+    Доставка <span>@GlobalConstants.Order.DeliveryPrice лв.</span>
     <br/>
-    Discounts <span>@(Model.TotalPriceBeforeDiscounts-Model.TotalPrice) лв.</span>
+    Намаления <span>@(Model.TotalPriceBeforeDiscounts-Model.TotalPrice) лв.</span>
 </div>
 <div class="checkout__order__total">Total <span>@(Model.TotalPrice+GlobalConstants.Order.DeliveryPrice) лв.</span></div>
 <div class="checkout__input__checkbox">
     <label for="payment">
-        Check Payment
+        Наложен платеж
         <input type="checkbox" id="payment">
         <span class="checkmark"></span>
     </label>
 </div>
 <div class="checkout__input__checkbox">
     <label for="paypal">
-        Paypal
+        Кредитна карта
         <input type="checkbox" id="paypal">
         <span class="checkmark"></span>
     </label>

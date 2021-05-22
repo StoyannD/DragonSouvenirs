@@ -16,6 +16,8 @@
 
         Task<int> GetCountByCategoryIdAsync(int categoryId, int? minPrice = null, int? maxPrice = null);
 
+        Task<IEnumerable<T>> GetTopDiscountedItems<T>(int take = 8);
+
         Task<int> GetCountAsync(int? minPrice = null, int? maxPrice = null);
 
         Task<T> GetByIdAsync<T>(int? id);
