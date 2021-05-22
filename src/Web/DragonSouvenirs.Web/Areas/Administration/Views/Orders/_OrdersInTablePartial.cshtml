@@ -16,10 +16,10 @@
               asp-route-orderId="@Model.Id">
             <select asp-for="@this.Model.OrderStatus"
                     asp-items="@Html.GetEnumSelectList<OrderStatus>()"
-                    class="form-control">
+                    class="form-control"
+                    onchange="this.form.submit();">
                 <option selected="selected" value="@this.Model.OrderStatus"></option>
             </select>
-            <button type="submit" class="btn btn-success ml-2">Go</button>
         </form>
     </div>
 </td>

@@ -15,6 +15,8 @@
 
         public string Content { get; set; }
 
+        public CategoryPaginationInfo CategoryPaginationInfo { get; set; }
+
         public IEnumerable<ProductInCategoryViewModel> Products { get; set; }
     }
 }

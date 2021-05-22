@@ -16,6 +16,8 @@
 
         public string ShippingAddress { get; set; }
 
+        public string Notes { get; set; }
+
         public OrderStatus OrderStatus { get; set; }
 
         public DateTime? ExpectedDeliveryDate { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace DragonSouvenirs.Web.Areas.Administration.Controllers
 {
-    using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using DragonSouvenirs.Common;
@@ -79,6 +79,9 @@
             {
                 return this.NotFound();
             }
+
+            var categories = await this.categoriesService.GetAllByProductIdAsync<CategoriesViewModel>(id);
+            viewModel.Categories = categories.ToList();
 
             // Find a way to do it smarter
             while (viewModel.Images.Count < GlobalConstants.Image.ImagesPerProduct)

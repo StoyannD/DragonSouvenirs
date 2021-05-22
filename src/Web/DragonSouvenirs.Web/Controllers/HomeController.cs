@@ -6,7 +6,6 @@
 
     using DragonSouvenirs.Services.Data;
     using DragonSouvenirs.Web.ViewModels;
-    using DragonSouvenirs.Web.ViewModels.Categories;
     using DragonSouvenirs.Web.ViewModels.Home;
     using Microsoft.AspNetCore.Mvc;
 
@@ -34,6 +33,14 @@
             this.TempData.Keep();
 
             return this.View(viewModel);
+        }
+
+        [Route(
+            "/Contact",
+            Name = "contactRoute")]
+        public IActionResult Contact()
+        {
+            return this.View();
         }
 
         public IActionResult Privacy()

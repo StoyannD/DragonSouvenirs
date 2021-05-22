@@ -1,0 +1,31 @@
+﻿@model IEnumerable<DragonSouvenirs.Web.ViewModels.Components.LatestProductsComponent.LatestProductsViewModel>
+@{
+    var perSlider = 3;
+}
+<div class="sidebar__item">
+    <div class="latest-product__text">
+        <h4>Latest Products</h4>
+        <div class="latest-product__slider owl-carousel">
+            @for (int i = 0; i < this.Model.Count(); i += 3)
+            {
+                <div class="latest-prdouct__slider__item">
+                    @for (int j = 0; j < perSlider; j++)
+                    {
+                        <a asp-controller="Products"
+                           asp-action="ById"
+                           asp-route-id="@this.Model.ElementAt(i + j).Id"
+                           class="latest-product__item">
+                            <div class="latest-product__item__pic">
+                                <img src="@this.Model.ElementAt(i + j).ImgUrl" alt="" >
+                            </div>
+                            <div class="latest-product__item__text">
+                                <h6>@this.Model.ElementAt(i + j).Name</h6>
+                                <span>@this.Model.ElementAt(i + j).Price лв.</span>
+                            </div>
+                        </a>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>

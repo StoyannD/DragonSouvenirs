@@ -1,12 +1,9 @@
 ﻿namespace DragonSouvenirs.Web.ViewModels.Components.CartProductsComponent
 {
-    using System;
     using System.Collections.Generic;
-    using System.Text;
 
     using DragonSouvenirs.Data.Models;
     using DragonSouvenirs.Services.Mapping;
-    using DragonSouvenirs.Web.ViewModels.Cart;
 
     public class CartProductsViewModel : IMapFrom<CartProduct>
     {

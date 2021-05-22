@@ -87,7 +87,9 @@
             <label asp-for="@this.Model.Categories[0].Name"> Category</label>
             <select asp-for="@this.Model.Categories[0].Name"
                     asp-items="categories"
-                    class="form-control"></select>
+                    class="form-control">
+                <option selected="selected" style="background-color: greenyellow" value="@(this.Model.Categories[0].Id)">@this.Model.Categories[0].Name</option>
+            </select>
             <span asp-validation-for="@this.Model.Categories[0].Name" class="text-danger"></span>
         </div>
         <div class="form-row">

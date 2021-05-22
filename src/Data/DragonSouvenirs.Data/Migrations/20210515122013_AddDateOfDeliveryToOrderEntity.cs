@@ -1,8 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace DragonSouvenirs.Data.Migrations
+﻿namespace DragonSouvenirs.Data.Migrations
 {
+    using System;
+
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class AddDateOfDeliveryToOrderEntity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

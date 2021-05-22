@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
 
     using DragonSouvenirs.Data.Common.Repositories;
@@ -19,17 +18,20 @@
         private readonly IDeletableEntityRepository<OrderProduct> orderProductRepository;
         private readonly IDeletableEntityRepository<CartProduct> cartProductRepository;
         private readonly IDeletableEntityRepository<Cart> cartRepository;
+        private readonly IDeletableEntityRepository<Product> productRepository;
 
         public OrderService(
             IDeletableEntityRepository<Order> orderRepository,
             IDeletableEntityRepository<OrderProduct> orderProductRepository,
             IDeletableEntityRepository<CartProduct> cartProductRepository,
-            IDeletableEntityRepository<Cart> cartRepository)
+            IDeletableEntityRepository<Cart> cartRepository,
+            IDeletableEntityRepository<Product> productRepository)
         {
             this.orderRepository = orderRepository;
             this.orderProductRepository = orderProductRepository;
             this.cartProductRepository = cartProductRepository;
             this.cartRepository = cartRepository;
+            this.productRepository = productRepository;
         }
 
         public async Task CreateOrderAsync(CreateOrderViewModel model)
@@ -38,6 +40,7 @@
                 .All()
                 .AnyAsync(o => o.OrderStatus == OrderStatus.Created))
             {
+                var userFullName = model.FirstName + " " + model.LastName;
                 var order = new Order()
                 {
                     CreatedOn = DateTime.UtcNow,
@@ -49,7 +52,8 @@
                     TotalPrice = model.TotalPrice,
                     UserEmail = model.UserEmail,
                     InvoiceNumber = model.InvoiceNumber,
-                    UserFullName = model.UserFullName,
+                    UserFullName = userFullName,
+                    Notes = model.Notes,
                 };
 
                 await this.orderRepository.AddAsync(order);
@@ -104,9 +108,17 @@
             order.OrderStatus = OrderStatus.Processing;
             await this.orderRepository.SaveChangesAsync();
 
+            // Reduce quantity of products
             // Empty user cart
             foreach (var cartProduct in cartProducts)
             {
+                var product = await this.productRepository.All().FirstOrDefaultAsync(p => p.Id == cartProduct.ProductId);
+                if (product.Quantity < cartProduct.Quantity)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+
+                product.Quantity -= cartProduct.Quantity;
                 this.cartProductRepository.HardDelete(cartProduct);
             }
 
@@ -114,6 +126,8 @@
                 .All()
                 .FirstOrDefaultAsync(c => c.UserId == userId);
             this.cartRepository.HardDelete(cart);
+
+            await this.productRepository.SaveChangesAsync();
             await this.cartProductRepository.SaveChangesAsync();
             await this.cartRepository.SaveChangesAsync();
         }

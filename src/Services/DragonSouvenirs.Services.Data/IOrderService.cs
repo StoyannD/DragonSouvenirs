@@ -1,12 +1,9 @@
-﻿using DragonSouvenirs.Data.Models.Enums;
-
-namespace DragonSouvenirs.Services.Data
+﻿namespace DragonSouvenirs.Services.Data
 {
-    using System;
     using System.Collections.Generic;
-    using System.Text;
     using System.Threading.Tasks;
 
+    using DragonSouvenirs.Data.Models.Enums;
     using DragonSouvenirs.Web.ViewModels.Orders;
 
     public interface IOrderService

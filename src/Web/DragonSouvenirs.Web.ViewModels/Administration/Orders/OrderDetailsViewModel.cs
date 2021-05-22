@@ -1,12 +1,9 @@
-﻿using DragonSouvenirs.Data.Models.Enums;
-
-namespace DragonSouvenirs.Web.ViewModels.Administration.Orders
+﻿namespace DragonSouvenirs.Web.ViewModels.Administration.Orders
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
 
     using DragonSouvenirs.Data.Models;
+    using DragonSouvenirs.Data.Models.Enums;
     using DragonSouvenirs.Services.Mapping;
 
     public class OrderDetailsViewModel : IMapFrom<Order>
@@ -22,6 +19,8 @@ namespace DragonSouvenirs.Web.ViewModels.Administration.Orders
         public string InvoiceNumber { get; set; }
 
         public string ShippingAddress { get; set; }
+
+        public string Notes { get; set; }
 
         public DateTime ExpectedDeliveryDate { get; set; }
 

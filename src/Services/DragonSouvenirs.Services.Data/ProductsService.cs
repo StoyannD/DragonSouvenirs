@@ -7,6 +7,7 @@
     using System.Threading.Tasks;
 
     using DragonSouvenirs.Common;
+    using DragonSouvenirs.Common.Enums;
     using DragonSouvenirs.Data.Common.Repositories;
     using DragonSouvenirs.Data.Models;
     using DragonSouvenirs.Services.Mapping;
@@ -17,16 +18,13 @@
     {
         private readonly IDeletableEntityRepository<Product> productsRepository;
         private readonly IDeletableEntityRepository<ProductCategory> productCategoryRepository;
-        private readonly IDeletableEntityRepository<Image> imagesRepository;
 
         public ProductsService(
             IDeletableEntityRepository<Product> productsRepository,
-            IDeletableEntityRepository<ProductCategory> productCategoryRepository,
-            IDeletableEntityRepository<Image> imagesRepository)
+            IDeletableEntityRepository<ProductCategory> productCategoryRepository)
         {
             this.productsRepository = productsRepository;
             this.productCategoryRepository = productCategoryRepository;
-            this.imagesRepository = imagesRepository;
         }
 
         public async Task<IEnumerable<T>> GetAllAdminAsync<T>()
@@ -40,22 +38,94 @@
             return products;
         }
 
-        public async Task<IEnumerable<T>> GetAllByCategoryNameAsync<T>(string name)
+        public async Task<IEnumerable<T>> GetAllAsync<T>(int take, int skip, SortBy sortBy = SortBy.MostPopular, int? minPrice = null, int? maxPrice = null)
         {
-            var products = await this.productsRepository
-                .All()
-                .OrderBy(p => p.CreatedOn)
-                .Where(p => p.ProductCategories.Any(pc => pc.Category.Name == name && pc.ProductId == p.Id))
-                .To<T>()
-                .ToListAsync();
+            var products = this.productsRepository
+                .All();
 
-            if (products == null)
+            if (minPrice != null && maxPrice != null)
             {
-                // TODO add message
-                throw new NullReferenceException();
+                products = products
+                    .Where(p => p.Price >= minPrice.Value
+                                && p.Price <= maxPrice.Value);
             }
 
-            return products;
+            products = sortBy switch
+            {
+                SortBy.Newest => products.OrderByDescending(p => p.CreatedOn),
+                SortBy.PriceDescending => products.OrderByDescending(p => p.Price),
+                SortBy.PriceAscending => products.OrderBy(p => p.Price),
+                _ => products.OrderByDescending(p => p.OrderProducts.Count),
+            };
+
+            return await products
+                .Skip(skip)
+                .Take(take)
+                .To<T>()
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<T>> GetAllByCategoryNameAsync<T>(string name, int take, int skip, SortBy sortBy = SortBy.MostPopular, int? minPrice = null, int? maxPrice = null)
+        {
+            var products = this.productsRepository
+                .All()
+                .Where(p => p.ProductCategories
+                    .Any(pc => pc.Category.Name == name
+                               && pc.ProductId == p.Id));
+
+            if (minPrice != null && maxPrice != null)
+            {
+                products = products
+                    .Where(p => p.Price >= minPrice.Value
+                                && p.Price <= maxPrice.Value);
+            }
+
+            products = sortBy switch
+            {
+                SortBy.Newest => products.OrderByDescending(p => p.CreatedOn),
+                SortBy.PriceDescending => products.OrderByDescending(p => p.Price),
+                SortBy.PriceAscending => products.OrderBy(p => p.Price),
+                _ => products.OrderByDescending(p => p.OrderProducts.Count),
+            };
+
+            return await products
+                .Skip(skip)
+                .Take(take)
+                .To<T>()
+                .ToListAsync();
+        }
+
+        public async Task<int> GetCountByCategoryIdAsync(int categoryId, int? minPrice = null, int? maxPrice = null)
+        {
+            var query = this.productsRepository
+                .All()
+                .Where(p => p.ProductCategories
+                    .Any(pc => pc.Category.Id == categoryId
+                               && pc.ProductId == p.Id));
+
+            if (minPrice != null && maxPrice != null)
+            {
+                query = query
+                    .Where(p => p.Price >= minPrice.Value
+                                         && p.Price <= maxPrice.Value);
+            }
+
+            return await query.CountAsync();
+        }
+
+        public async Task<int> GetCountAsync(int? minPrice = null, int? maxPrice = null)
+        {
+            var query = this.productsRepository
+                .All();
+
+            if (minPrice != null && maxPrice != null)
+            {
+                query = query
+                    .Where(p => p.Price >= minPrice.Value
+                                && p.Price <= maxPrice.Value);
+            }
+
+            return await query.CountAsync();
         }
 
         public async Task<T> GetByIdAsync<T>(int? id)
@@ -63,6 +133,23 @@
             var product = await this.productsRepository
                 .All()
                 .Where(p => p.Id == id.Value)
+                .To<T>()
+                .FirstOrDefaultAsync();
+
+            if (product == null)
+            {
+                // TODO add message
+                throw new NullReferenceException();
+            }
+
+            return product;
+        }
+
+        public async Task<T> GetByNameAsync<T>(string title)
+        {
+            var product = await this.productsRepository
+                .All()
+                .Where(p => p.Title == title.Replace('-', ' '))
                 .To<T>()
                 .FirstOrDefaultAsync();
 
@@ -127,11 +214,11 @@
                 .Images
                 .Where(i => i.ImgUrl != null)
                 .Select(i => new Image()
-            {
-                CreatedOn = DateTime.UtcNow,
-                ImgUrl = i.ImgUrl,
-                ProductId = product.Id,
-            }).ToList();
+                {
+                    CreatedOn = DateTime.UtcNow,
+                    ImgUrl = i.ImgUrl,
+                    ProductId = product.Id,
+                }).ToList();
 
             var editedProductCategory = new ProductCategory()
             {
@@ -207,10 +294,16 @@
             await this.productsRepository.SaveChangesAsync();
         }
 
-        public async Task<bool> HasProductWithId(int productId)
+        public async Task<decimal> MostExpensiveProductPrice()
         {
             return await this.productsRepository.All()
-                .AnyAsync(p => p.Id == productId);
+                .MaxAsync(p => p.Price);
+        }
+
+        public async Task<decimal> LeastExpensiveProductPrice()
+        {
+            return await this.productsRepository.All()
+                .MinAsync(p => p.Price);
         }
     }
 }

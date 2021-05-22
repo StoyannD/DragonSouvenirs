@@ -1,0 +1,49 @@
+﻿@using DragonSouvenirs.Common
+@using DragonSouvenirs.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@if (this.SignInManager.IsSignedIn(this.User))
+{
+    <div class="header__top__right__language">
+        <div>
+            @this.User.Identity?.Name
+        </div>
+        <span class="arrow_carrot-down"></span>
+        <ul>
+            <li>
+
+                <a asp-area="Identity"
+                   asp-page="/Account/Manage/Index">My Profile</a>
+            </li>
+            @if (this.User.IsInRole(@GlobalConstants.AdministratorRoleName))
+            {
+                <li>
+
+                    <a asp-area="Administration"
+                       asp-controller="Orders"
+                       asp-action="Index">Admin Panel</a>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="header__top__right__auth">
+        <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@this.Url.Action("Index", "Home", new {area = string.Empty})">
+            <button type="submit">Logout</button>
+        </form>
+        <i class="fa fa-user"></i>
+    </div>
+}else
+{
+    <div class="header__top__right__auth">
+        <a asp-area="Identity" asp-page="/Account/Login">
+            Login
+        </a>
+        /
+        <a asp-area="Identity" asp-page="/Account/Register">
+            Register
+        </a>
+        <i class="fa fa-user"></i> 
+    </div>
+}

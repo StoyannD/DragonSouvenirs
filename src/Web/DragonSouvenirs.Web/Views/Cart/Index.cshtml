@@ -2,110 +2,138 @@
 @model DragonSouvenirs.Web.ViewModels.Cart.CartAllProductsViewModel
 
 
-<div class="px-4 px-lg-0">
-    <div class="pb-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 p-5 bg-white rounded shadow-sm mb-5">
-
-                    <!-- Shopping cart table -->
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col" class="border-0 bg-light">
-                                        <div class="p-2 px-3 text-uppercase">Product</div>
-                                    </th>
-                                    <th scope="col" class="border-0 bg-light">
-                                        <div class="py-2 text-uppercase">Price</div>
-                                    </th>
-                                    <th scope="col" class="border-0 bg-light">
-                                        <div class="py-2 text-uppercase">Quantity</div>
-                                    </th>
-                                    <th scope="col" class="border-0 bg-light">
-                                        <div class="py-2 text-uppercase">Remove</div>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var product in this.Model.CartProducts)
-                                {
-                                    <tr>
-                                        <th scope="row" class="border-0">
-                                            <div class="p-2">
-                                                <img src="@(product.ProductImages
-                                                      .FirstOrDefault()?.ImgUrl ?? string.Empty)"
-                                                     alt=""
-                                                     width="70"
-                                                     class="img-fluid rounded shadow-sm">
-                                                <div class="ml-3 d-inline-block align-middle">
-                                                    <h5 class="mb-0">
-                                                        <a asp-controller="Products"
-                                                           asp-action="ById"
-                                                           asp-route-id="@product.ProductId"
-                                                           class="text-dark d-inline-block align-middle">
-                                                            @product.ProductName
-                                                        </a>
-                                                    </h5><span class="text-muted font-weight-normal font-italic d-block">
-                                                        @product.ProductProductCategories.FirstOrDefault()?.CategoryName
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </th>
-                                        <td class="border-0 align-middle">
-                                            <strong>@product.ProductPrice x @product.Quantity = @product.TotalPrice лв.</strong>
-                                        </td>
-                                        <td class="border-0 align-middle" style="width: 10rem;">
-                                            <form enctype="multipart/form-data"
-                                                  method="post"
-                                                  asp-controller="Cart"
-                                                  asp-action="Edit"
-                                                  asp-route-id="@product.ProductId"
-                                                  asp-route-quantity="quantity">
-                                                <div class="row">
-                                                    <input type="number"
-                                                           min="1"
-                                                           max="@product.ProductQuantity"
-                                                           id="quantity"
-                                                           name="quantity"
-                                                           class="form-control col-sm-5"
-                                                           value="@product.Quantity" />&nbsp;
-                                                    <span asp-validation-for="@product.Quantity"
-                                                          class="text-danger"></span>
-                                                    <button type="submit" class="btn btn-sm btn-primary">Edit</button>
-                                                </div>
-                                            </form>
-                                        </td>
-                                        <td class="border-0 align-middle">
-                                            <a asp-controller="Cart"
-                                               asp-action="Remove"
-                                               asp-route-id="@product.ProductId"
-                                               class="text-dark">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
+<section class="breadcrumb-section set-bg"
+         data-setbg=""
+         style="background-color: #85603f">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>Shopping Cart</h2>
+                    <div class="breadcrumb__option">
+                        <a asp-controller="Home"
+                           asp-action="Index">Home</a>
+                        <span>Shopping Cart</span>
                     </div>
-                    <div class="float-right">
-                        <div>
-                            <strong>
-                                Total : @Model.TotalPrice лв.
-                            </strong>
-                        </div>
-                        <div>
-                            <a class="btn btn-outline-primary" 
-                               asp-controller="Orders"
-                               asp-action="Create">
-                                Поръчай <i class="fas fa-shopping-cart"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <!-- End -->
                 </div>
             </div>
         </div>
     </div>
-</div>
+</section>
+<!-- Breadcrumb Section End -->
+
+<!-- Shoping Cart Section Begin -->
+<section class="shoping-cart spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="shoping__cart__table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="shoping__product">Products</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var product in this.Model.CartProducts)
+                            {
+                            <tr>
+                                <td class="shoping__cart__item">
+                                    <img src="@(product.ProductImages
+                                                  .FirstOrDefault()?.ImgUrl ?? string.Empty)"
+                                         width="90"
+                                         alt="">
+                                    <h5>
+                                        <strong>@product.ProductName</strong>
+                                        <span class="text-muted font-weight-normal font-italic d-block">
+                                            @product.ProductProductCategories.FirstOrDefault()?.CategoryName
+                                        </span>
+                                    </h5>
+                                </td>
+                                <td class="shoping__cart__price">
+                                    @product.ProductPrice лв.
+                                </td>
+                                <td class="shoping__cart__quantity">
+                                    <div class="quantity">
+                                        <form enctype="multipart/form-data"
+                                              method="post"
+                                              asp-controller="Cart"
+                                              asp-action="Edit"
+                                              asp-route-id="@product.ProductId"
+                                              asp-route-quantity="quantity">
+                                            <div class="pro-qty">
+                                                <input type="number"
+                                                       min="1"
+                                                       max="@product.ProductQuantity"
+                                                       id="quantity"
+                                                       name="quantity"
+                                                       value="@product.Quantity" />
+
+                                            </div>
+                                            <span asp-validation-for="@product.Quantity"
+                                                  class="text-danger"></span>
+                                            <button type="submit" class="btn btn-sm btn-primary">Edit</button>
+                                        </form>
+                                    </div>
+                                </td>
+                                <td class="shoping__cart__total">
+                                    @product.TotalPrice лв.
+                                </td>
+                                <td class="shoping__cart__item__close">
+                                    <a asp-controller="Cart"
+                                       asp-action="Remove"
+                                       asp-route-id="@product.ProductId">
+                                        <span class="icon_close"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="shoping__cart__btns">
+                    <a asp-route="shopRoute"
+                       class="primary-btn cart-btn">CONTINUE SHOPPING</a>
+                    <a href="#" class="primary-btn cart-btn cart-btn-right">
+                        <span class="icon_loading"></span>
+                        Upadate Cart
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="shoping__continue">
+                    <div class="shoping__discount">
+                        <h5>Discount Codes</h5>
+                        <form action="#">
+                            <input type="text" placeholder="Enter your coupon code">
+                            <button type="submit" class="site-btn">APPLY COUPON</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="shoping__checkout">
+                    <h5>Cart Total</h5>
+                    <ul>
+                        <li>Subtotal <span>@Model.TotalPrice лв.</span></li>
+                        <li>Total <span>@Model.TotalPrice лв.</span></li>
+                    </ul>
+                    <a class="primary-btn"
+                       asp-controller="Orders"
+                       asp-action="Create">
+                        PROCEED TO CHECKOUT
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Shoping Cart Section End -->

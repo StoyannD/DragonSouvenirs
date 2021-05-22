@@ -2,15 +2,11 @@
 {
     using System.Threading.Tasks;
 
-    using AutoMapper.Configuration.Annotations;
     using DragonSouvenirs.Common;
-    using DragonSouvenirs.Data.Models;
     using DragonSouvenirs.Data.Models.Enums;
     using DragonSouvenirs.Services.Data;
-    using DragonSouvenirs.Web.Controllers;
     using DragonSouvenirs.Web.ViewModels.Administration.Orders;
     using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]

@@ -48,7 +48,7 @@
             return this.View(viewModel);
         }
 
-        public async Task<ActionResult> Add(int? id, int? toCart)
+        public async Task<ActionResult> Add(int? id, bool toCart, int? quantity)
         {
             if (id == null)
             {
@@ -58,14 +58,14 @@
             if (this.User.Identity.IsAuthenticated)
             {
                 var user = await this.userManager.GetUserAsync(this.User);
-                await this.cartService.AddProductToCartAsync(user.Id, id.Value);
+                await this.cartService.AddProductToCartAsync(user.Id, id.Value, quantity ?? 1);
             }
             else
             {
                 // TODO: GuestCartAdd
             }
 
-            if (toCart != null)
+            if (toCart)
             {
                 return this.RedirectToAction(nameof(this.Index));
             }

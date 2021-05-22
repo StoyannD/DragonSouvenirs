@@ -4,7 +4,7 @@
 @{
     ViewData["Title"] = "Order Summary";
 }
-<h1>@ViewData["Title"]</h1>
+<h2 align="center" class="mt-2 mb-3">@ViewData["Title"]</h2>
 
 @await Component.InvokeAsync(typeof(OrderProductsComponent),
     new { userId = Model.UserId, orderId = Model.Id })
@@ -13,45 +13,51 @@
     <div class="col-lg-6">
         <div class="bg-light rounded-pill px-4 py-3 text-uppercase font-weight-bold">Order summary </div>
         <div class="p-4">
-            <p class="font-italic mb-4">Shipping and additional costs are calculated based on values you have entered.</p>
-            <ul class="list-unstyled mb-4">
+            <ul class="list-unstyled mb-4 m-sm-5">
                 <li class="d-flex justify-content-between py-3 border-bottom">
                     <strong class="text-muted">Username</strong>
-                    <strong>@Model.UserFullName</strong>
+                    <h5>@Model.UserFullName</h5>
                 </li>
                 <li class="d-flex justify-content-between py-3 border-bottom">
                     <strong class="text-muted">Email</strong>
-                    <strong>@Model.UserEmail</strong>
+                    <h5>@Model.UserEmail</h5>
                 </li>
                 <li class="d-flex justify-content-between py-3 border-bottom">
                     <strong class="text-muted">Phone number</strong>
-                    <strong>@Model.InvoiceNumber</strong>
+                    <h5>@Model.InvoiceNumber</h5>
                 </li>
                 <li class="d-flex justify-content-between py-3 border-bottom">
                     <strong class="text-muted">Shipping address</strong>
-                    <strong>@Model.ShippingAddress</strong>
+                    <h5>@Model.ShippingAddress</h5>
                 </li>
+                @if (@Model.Notes != null)
+                {
+                    <li class="d-flex justify-content-between py-3 border-bottom">
+                        <strong class="text-muted">Notes</strong>
+                        <h5>@Model.Notes</h5>
+                    </li>
+                }
                 @if (this.Model.OrderStatus == OrderStatus.Completed)
                 {
                     <li class="d-flex justify-content-between py-3 border-bottom">
                         <strong class="text-muted">Date of Delivery</strong>
-                        <strong>@Model.DateOfDelivery?.ToString("yyyy MMMM dd")</strong>
+                        <h5>@Model.DateOfDelivery?.ToString("yyyy MMMM dd")</h5>
                     </li>
                 }
                 else
                 {
                     <li class="d-flex justify-content-between py-3 border-bottom">
                         <strong class="text-muted">Expected Delivery Date</strong>
-                        <strong>@Model.ExpectedDeliveryDate.ToString("yyyy MMMM dd")</strong>
+                        <h5>@Model.ExpectedDeliveryDate.ToString("yyyy MMMM dd")</h5>
                     </li>
                 }
                 <li class="d-flex justify-content-between py-3 border-bottom">
                     <strong class="text-muted">Order Subtotal </strong>
-                    <strong>@($"{Model.TotalPrice:f2}") лв.</strong>
+                    <h5>@($"{Model.TotalPrice:f2}") лв.</h5>
                 </li>
                 <li class="d-flex justify-content-between py-3 border-bottom">
                     <strong class="text-muted">Shipping and handling</strong>
-                    <strong>@Model.DeliveryPrice лв.</strong>
+                    <h5>@Model.DeliveryPrice лв.</h5>
                 </li>
                 <li class="d-flex justify-content-between py-3 border-bottom">
                     <strong class="text-muted">Total</strong>

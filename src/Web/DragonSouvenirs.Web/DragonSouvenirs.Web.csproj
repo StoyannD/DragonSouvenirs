@@ -38,6 +38,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Administration\Components\" />
+    <None Include="..\..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
 </Project>

@@ -3,15 +3,24 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using DragonSouvenirs.Common.Enums;
     using DragonSouvenirs.Web.ViewModels.Administration.Products;
 
     public interface IProductsService
     {
         Task<IEnumerable<T>> GetAllAdminAsync<T>();
 
-        Task<IEnumerable<T>> GetAllByCategoryNameAsync<T>(string name);
+        Task<IEnumerable<T>> GetAllAsync<T>(int take, int skip, SortBy sortBy = SortBy.MostPopular, int? minPrice = null, int? maxPrice = null);
+
+        Task<IEnumerable<T>> GetAllByCategoryNameAsync<T>(string name, int take, int skip, SortBy sortBy = SortBy.MostPopular, int? minPrice = null, int? maxPrice = null);
+
+        Task<int> GetCountByCategoryIdAsync(int categoryId, int? minPrice = null, int? maxPrice = null);
+
+        Task<int> GetCountAsync(int? minPrice = null, int? maxPrice = null);
 
         Task<T> GetByIdAsync<T>(int? id);
+
+        Task<T> GetByNameAsync<T>(string title);
 
         Task<T> AdminGetByIdAsync<T>(int? id);
 
@@ -21,6 +30,8 @@
 
         Task CreateAsync(AdminProductInputModel inputModel);
 
-        Task<bool> HasProductWithId(int productId);
+        Task<decimal> MostExpensiveProductPrice();
+
+        Task<decimal> LeastExpensiveProductPrice();
     }
 }

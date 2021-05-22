@@ -127,6 +127,14 @@
                 endpoints =>
                     {
                         endpoints.MapControllerRoute(
+                            "byName",
+                            "/{name:minlength(2)}",
+                            new { controller = "Categories", action = "ByName" });
+                        endpoints.MapControllerRoute(
+                            "byName",
+                            "{controller=Products}/{title}",
+                            new { controller = "Products", action = "byName" });
+                        endpoints.MapControllerRoute(
                             "areaRoute",
                             "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapControllerRoute(

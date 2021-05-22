@@ -63,6 +63,7 @@
             public const int QuantityMin = 0;
             public const int SizeMax = int.MaxValue;
             public const int SizeMin = 0;
+            public const int PerPageDefault = 12;
 
             public const string NameLengthError = "Name must be between {2} and {1} symbols.";
             public const string TitleLengthError = "Title must be between {2} and {1} symbols.";
@@ -92,9 +93,11 @@
         public class Order
         {
             public const int UserFullNameMaxLength = 60;
-            public const int UserFullNameMinLength = 10;
+            public const int UserFullNameMinLength = 2;
             public const int ShippingAddressMaxLength = 100;
             public const int ShippingAddressMinLength = 10;
+            public const int NotesMaxLength = 100;
+            public const int NotesMinLength = 5;
 
             public const decimal DeliveryPrice = 10M;
 
@@ -106,6 +109,7 @@
             public const string UserEmailError = "Please enter a valid Email.";
             public const string InvoiceNumberError = "Please enter a valid phone number.";
             public const string ShippingAddressError = "Address length must be between {2} and {1} symbols.";
+            public const string NotesError = "Notes length must be between {2} and {1} symbols.";
         }
     }
 }

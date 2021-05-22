@@ -1,8 +1,6 @@
 ﻿namespace DragonSouvenirs.Web.ViewModels.Components.OrderProductsComponent
 {
-    using System;
     using System.Collections.Generic;
-    using System.Text;
 
     using DragonSouvenirs.Data.Models;
     using DragonSouvenirs.Services.Mapping;
@@ -22,8 +20,8 @@
                     return string.Empty;
                 }
 
-                var content = this.ProductDescription.Length > 30
-                    ? this.ProductDescription.Substring(0, 30) + "..."
+                var content = this.ProductDescription.Length > 50
+                    ? this.ProductDescription.Substring(0, 50) + "..."
                     : this.ProductDescription;
                 return content;
             }

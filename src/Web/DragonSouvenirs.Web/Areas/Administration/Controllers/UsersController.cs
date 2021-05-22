@@ -7,7 +7,6 @@
     using DragonSouvenirs.Common;
     using DragonSouvenirs.Data.Models;
     using DragonSouvenirs.Services.Mapping;
-    using DragonSouvenirs.Web.ViewModels.Administration;
     using DragonSouvenirs.Web.ViewModels.Administration.Users;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;

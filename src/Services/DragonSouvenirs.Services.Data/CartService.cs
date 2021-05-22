@@ -51,7 +51,7 @@
             return totalPrice;
         }
 
-        public async Task AddProductToCartAsync(string userId, int productId)
+        public async Task AddProductToCartAsync(string userId, int productId, int quantity)
         {
             var user = await this.userRepository
                 .AllWithDeleted()
@@ -72,10 +72,15 @@
 
             var cartProduct = new CartProduct();
 
-            if (!await this.productRepository.All()
-                .AnyAsync(p => p.Id == productId))
+            var product = await this.productRepository.All().FirstOrDefaultAsync(p => p.Id == productId);
+            if (product == null)
             {
                 throw new ArgumentException();
+            }
+
+            if (product.Quantity < quantity)
+            {
+                return;
             }
 
             // Check if a deleted CardProduct with the same product exists.
@@ -90,24 +95,26 @@
 
                 if (cartProduct.IsDeleted)
                 {
-                    cartProduct.Quantity = 1;
+                    cartProduct.Quantity = quantity;
                     cartProduct.IsDeleted = false;
                 }
                 else
                 {
-                    cartProduct.Quantity++;
+                    cartProduct.Quantity += quantity;
                 }
             }
             else
             {
                 cartProduct.Cart = user.Cart;
-                cartProduct.Quantity = 1;
+                cartProduct.Quantity = quantity;
                 cartProduct.CreatedOn = DateTime.UtcNow;
                 cartProduct.ProductId = productId;
 
                 await this.cartProductRepository.AddAsync(cartProduct);
             }
 
+            // product.Quantity -= quantity;
+            // await this.productRepository.SaveChangesAsync();
             await this.cartProductRepository.SaveChangesAsync();
         }
 
@@ -149,6 +156,11 @@
                 .All()
                 .FirstOrDefaultAsync(p => p.Id == productId);
 
+            if (product.Quantity < quantity)
+            {
+                return;
+            }
+
             cartProduct.Quantity = product.Quantity < quantity
                 ? product.Quantity
                 : quantity;
@@ -156,11 +168,11 @@
             await this.cartProductRepository.SaveChangesAsync();
         }
 
-        public async Task<T> GetCartByUsernameAsync<T>(string username)
+        public async Task<T> GetCartByIdAsync<T>(string id)
         {
             var cart = await this.cartRepository
                 .All()
-                .Where(c => c.User.UserName == username)
+                .Where(c => c.User.Id == id)
                 .To<T>()
                 .FirstOrDefaultAsync();
 

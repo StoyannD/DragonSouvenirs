@@ -1,13 +1,10 @@
 ﻿namespace DragonSouvenirs.Web.Controllers
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using DragonSouvenirs.Common;
     using DragonSouvenirs.Data.Models;
-    using DragonSouvenirs.Data.Models.Enums;
     using DragonSouvenirs.Services.Data;
     using DragonSouvenirs.Web.ViewModels.Orders;
     using Microsoft.AspNetCore.Identity;

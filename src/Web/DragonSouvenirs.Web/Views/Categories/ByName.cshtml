@@ -1,20 +1,125 @@
-﻿@model DragonSouvenirs.Web.ViewModels.Categories.CategoryViewModel
-@{
-    this.ViewData["Title"] = Model.Title;
-}
+﻿@using DragonSouvenirs.Common
+@using System.Collections.Specialized
+@using System.Drawing
+@using System.IO
+@using DragonSouvenirs.Common.Enums
+@using DragonSouvenirs.Web.Components
+@model DragonSouvenirs.Web.ViewModels.Categories.CategoryViewModel
 
-<h1 class="display-4">@Model.Name</h1>
-<div class="alert alert-info">
-    @Model.Content
-</div>
-
-
-<div class="container">
-    <div class="row">
-        @foreach (var product in @Model.Products)
-        {
-            <partial name="_ProductsInCategoryPartial" model="product"/>
-        }
+<section class="breadcrumb-section set-bg"
+         data-setbg=""
+         style="background-color: #85603f">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="breadcrumb__text">
+                    <h2>@Model.Name</h2>
+                    <div class="breadcrumb__option">
+                        <a asp-controller="Home"
+                           asp-action="Index">Home</a>
+                        <span>@Model.Name</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</section>
 
+<section class="product spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-5">
+                <div class="sidebar">
+                    @await Component.InvokeAsync("ExtendedFilterComponent", new { currentCategory = this.Model.Name })
+                    @await this.Component.InvokeAsync(typeof(LatestProductsComponent))
+                </div>
+            </div>
+            <div class="col-lg-9 col-md-7">
+                <form asp-route="byName"
+                      asp-route-name="@this.Model.Name"
+                      method="get">
+
+                    @if (this.Model.CategoryPaginationInfo.MinPrice != null &&
+                        this.Model.CategoryPaginationInfo.MaxPrice != null)
+                    {
+                        <a asp-route="byName"
+                           asp-route-name="@this.Model.Name"
+                           class="badge badge-light">
+                            Цена: @this.Model.CategoryPaginationInfo.MinPrice - @this.Model.CategoryPaginationInfo.MaxPrice лв.
+                        </a>
+                    }
+                    <div class="filter__item">
+                        <div class="row">
+                            <div class="col-lg-4 col-md-5">
+                                <div class="filter__sort">
+                                    <span>Sort By</span>
+                                    <select name="sortBy"
+                                            onchange="this.form.submit();">
+                                        <option value="1"
+                                                selected="@(this.Model.CategoryPaginationInfo.SortBy
+                                                            == SortBy.MostPopular ? true : false)">
+                                            Най-Популярни
+                                        </option>
+                                        <option value="2"
+                                                selected="@(this.Model.CategoryPaginationInfo.SortBy
+                                                            == SortBy.Newest ? true : false)">
+                                            Най-нови
+                                        </option>
+                                        <option value="3"
+                                                selected="@(this.Model.CategoryPaginationInfo.SortBy
+                                                            == SortBy.PriceAscending ? true : false)">
+                                            Цена (възх.)
+                                        </option>
+                                        <option value="4"
+                                                selected="@(this.Model.CategoryPaginationInfo.SortBy
+                                                            == SortBy.PriceDescending ? true : false)">
+                                            Цена (низх.)
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <input name="minPrice"
+                                   type="hidden"
+                                   value="@this.Model.CategoryPaginationInfo.MinPrice" id="minamount" />
+                            <input name="maxPrice"
+                                   type="hidden"
+                                   value="@this.Model.CategoryPaginationInfo.MaxPrice" id="maxamount" />
+
+                            <div class="col-lg-4 col-md-4">
+                                <div class="filter__found">
+                                    <h6><span>@Model.CategoryPaginationInfo.AllProductsCount</span> Products found</h6>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-3">
+                                @if (this.Model.CategoryPaginationInfo.CurrentPage == 1)
+                                {
+                                    <div class="filter__sort">
+                                        <span>Products per page </span>
+                                        <select name="perPage"
+                                                onchange="this.form.submit();">
+                                            @for (int i = 3; i <= 12; i += 3)
+                                            {
+                                                <option value="@i"
+                                                        selected="@(Model.CategoryPaginationInfo.ProductsPerPage == i ? true : false)">
+                                                    @i
+                                                </option>
+                                            }
+                                        </select>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    @foreach (var product in @Model.Products)
+                    {
+                        <partial name="Partials/_ProductsInCategoryPartial" model="product" />
+                    }
+                </div>
+                <partial name="Partials/_PaginationPartial"
+                         model="this.Model.CategoryPaginationInfo" />
+            </div>
+        </div>
+    </div>
+</section>
