@@ -36,15 +36,7 @@
                                     </h5>
                                 </td>
                                 <td class="shoping__cart__price">
-                                    @if (product.ProductDiscountPrice == null)
-                                    {
-                                        @(product.ProductPrice + " лв.")
-                                    }
-                                    else
-                                    {
-                                        <span>@product.ProductPrice</span>
-                                        @(product.ProductDiscountPrice + " лв.")
-                                    }
+                                    @(product.ProductPrice + " лв.")
                                 </td>
                                 <td class="shoping__cart__quantity">
                                     <strong>
