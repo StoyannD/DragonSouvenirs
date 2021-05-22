@@ -93,7 +93,7 @@
                     OrderId = order.Id,
                     ProductId = x.ProductId,
                     Quantity = x.Quantity,
-                    Price = x.Product.Price,
+                    Price = x.Product.DiscountPrice ?? x.Product.Price,
                 })
                 .ToList();
 

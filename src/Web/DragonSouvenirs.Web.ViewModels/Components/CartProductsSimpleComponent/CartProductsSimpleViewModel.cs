@@ -9,8 +9,14 @@
 
         public decimal ProductPrice { get; set; }
 
+        public decimal? ProductDiscountPrice { get; set; }
+
         public int Quantity { get; set; }
 
-        public decimal TotalPrice => this.Quantity * this.ProductPrice;
+        public decimal TotalPrice =>
+            this.Quantity * (this.ProductDiscountPrice ?? this.ProductPrice);
+
+        public decimal TotalPriceBeforeDiscounts =>
+            this.Quantity * this.ProductPrice;
     }
 }

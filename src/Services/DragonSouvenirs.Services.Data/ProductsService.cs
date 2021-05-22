@@ -230,6 +230,7 @@
             product.Title = viewModel.Title;
             product.Description = viewModel.Description;
             product.Price = viewModel.Price;
+            product.DiscountPrice = viewModel.DiscountPrice;
             product.Quantity = viewModel.Quantity;
             product.Height = viewModel.Height;
             product.Width = viewModel.Width;
@@ -262,6 +263,7 @@
                 Title = inputModel.Title,
                 Description = inputModel.Description,
                 Price = inputModel.Price,
+                DiscountPrice = inputModel.DiscountPrice,
                 Quantity = inputModel.Quantity,
                 Height = inputModel.Height,
                 Width = inputModel.Width,

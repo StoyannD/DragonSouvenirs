@@ -1409,6 +1409,7 @@ ol {
 	font-size: 18px;
 	color: #1c1c1c;
 	font-weight: 700;
+    margin-top: 0.2rem;
 }
 
 .product__discount__item__text .product__item__price span {
@@ -1416,6 +1417,8 @@ ol {
 	font-weight: 400;
 	text-decoration: line-through;
 	margin-left: 10px;
+	font-size: 18px;
+    color: red;
 }
 
 .product__discount__slider .col-lg-4 {
@@ -1726,11 +1729,14 @@ ol {
 
 .product__details__text .product__details__price {
 	font-size: 30px;
-	color: #dd2222;
+    color: black;
 	font-weight: 600;
 	margin-bottom: 15px;
 }
-
+.product__details__price span {
+	text-decoration: line-through;
+	color: #d41515;
+}
 .product__details__text p {
 	margin-bottom: 45px;
 }
@@ -1956,7 +1962,10 @@ ol {
 	font-weight: 700;
 	width: 100px;
 }
-
+.shoping__cart__price span {
+    color: #d41515;
+    text-decoration: line-through;
+}
 .shoping__cart__table table tbody tr td.shoping__cart__total {
 	font-size: 18px;
 	color: #1c1c1c;
@@ -2079,10 +2088,14 @@ ol {
 
 .shoping__checkout ul li span {
 	font-size: 18px;
-	color: #dd2222;
 	float: right;
 }
 
+.shoping__checkout ul li span.CartDiscount {
+    font-size: 18px;
+    color: #dd2222;
+    float: right;
+}
 .shoping__checkout .primary-btn {
 	display: block;
 	text-align: center;
@@ -2235,6 +2248,13 @@ ol {
 
 .checkout__order .checkout__order__products span {
 	float: right;
+}
+
+span.beforeDiscount {
+	text-decoration: line-through;
+    color: #db2121;
+    float: right;
+    margin-right: 0.2rem;
 }
 
 .checkout__order ul {
@@ -3529,4 +3549,8 @@ li.currentCategory {
 .form-group button {
     width: 15rem;
     margin-top: 2rem;
+}
+a.discountItemPrice {
+	color: #252525;
+    text-decoration: none;
 }

@@ -49,6 +49,12 @@
             ErrorMessage = GlobalConstants.Product.PriceInRangeError)]
         public decimal Price { get; set; }
 
+        [Range(
+            (double)GlobalConstants.Product.PriceMin,
+            (double)GlobalConstants.Product.PriceMax,
+            ErrorMessage = GlobalConstants.Product.PriceInRangeError)]
+        public decimal? DiscountPrice { get; set; }
+
         [Required]
         [Range(
             GlobalConstants.Product.QuantityMin,

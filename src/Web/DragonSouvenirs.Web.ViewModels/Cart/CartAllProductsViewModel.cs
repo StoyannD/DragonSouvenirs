@@ -10,5 +10,9 @@
         public decimal? TotalPrice =>
             this.CartProducts
                 .Sum(cp => cp.TotalPrice);
+
+        public decimal? TotalPriceBeforeDiscount =>
+            this.CartProducts
+                .Sum(cp => cp.TotalPriceBeforeDiscounts);
     }
 }

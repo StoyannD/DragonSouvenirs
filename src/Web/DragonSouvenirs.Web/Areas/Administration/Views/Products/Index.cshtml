@@ -22,19 +22,19 @@
 }
 <table class="table table-hover table-bordered text-center">
     <thead class="thead-dark">
-        <tr class="text-center">
-            <th scope="col">@this.Model.Products.Count()</th>
-            <th scope="col">Image</th>
-            <th scope="col">@nameof(AdminProductViewModel.Title)</th>
-            <th scope="col">@nameof(AdminProductViewModel.Name)</th>
-            <th scope="col">@nameof(AdminProductViewModel.Price)</th>
-            <th scope="col">@nameof(AdminProductViewModel.Quantity)</th>
-            <th scope="col">Times Ordered</th>
-            <th scope="col">Categories</th>
-            <th scope="col">@nameof(AdminProductViewModel.CreatedOn)</th>
-            <th scope="col">@nameof(AdminProductViewModel.IsDeleted)</th>
-            <th scope="col">Manage</th>
-        </tr>
+    <tr class="text-center">
+        <th scope="col">@this.Model.Products.Count()</th>
+        <th scope="col">Image</th>
+        <th scope="col">@nameof(AdminProductViewModel.Title)</th>
+        <th scope="col">@nameof(AdminProductViewModel.Name)</th>
+        <th scope="col">@nameof(AdminProductViewModel.Price)</th>
+        <th scope="col">@nameof(AdminProductViewModel.Quantity)</th>
+        <th scope="col">Times Ordered</th>
+        <th scope="col">Categories</th>
+        <th scope="col">@nameof(AdminProductViewModel.CreatedOn)</th>
+        <th scope="col">@nameof(AdminProductViewModel.IsDeleted)</th>
+        <th scope="col">Manage</th>
+    </tr>
     </thead>
     <tbody>
     @for (int i = 0; i < this.Model.Products.Count(); i++)

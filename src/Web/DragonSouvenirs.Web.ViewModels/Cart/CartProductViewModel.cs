@@ -19,6 +19,8 @@
 
         public decimal ProductPrice { get; set; }
 
+        public decimal? ProductDiscountPrice { get; set; }
+
         public int ProductQuantity { get; set; }
 
         public int ProductHeight { get; set; }
@@ -31,6 +33,10 @@
 
         public int Quantity { get; set; }
 
-        public decimal TotalPrice => this.Quantity * this.ProductPrice;
+        public decimal TotalPrice =>
+            this.Quantity * (ProductDiscountPrice ?? this.ProductPrice);
+
+        public decimal TotalPriceBeforeDiscounts =>
+            this.Quantity * this.ProductPrice;
     }
 }

@@ -23,7 +23,8 @@
                 .ForMember(m => m.CartTotal, options =>
                 {
                     options.MapFrom(
-                        p => p.CartProducts.Sum(cp => cp.Quantity * cp.Product.Price));
+                        p => p.CartProducts
+                            .Sum(cp => cp.Quantity * (cp.Product.DiscountPrice ?? cp.Product.Price)));
                 });
         }
     }

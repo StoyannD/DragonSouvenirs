@@ -19,6 +19,8 @@
 
         public decimal Price { get; set; }
 
+        public decimal? DiscountPrice { get; set; }
+
         public int Quantity { get; set; }
 
         public int Height { get; set; }

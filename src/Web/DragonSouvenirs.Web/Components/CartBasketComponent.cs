@@ -26,7 +26,11 @@
             var user = await this.userManager.GetUserAsync(this.UserClaimsPrincipal);
 
             // TODO:add favorite products
-            var cart = await this.cartService.GetCartByIdAsync<CartBasketViewModel>(user.Id);
+            var cart = new CartBasketViewModel();
+            if (user != null)
+            {
+                cart = await this.cartService.GetCartByIdAsync<CartBasketViewModel>(user.Id);
+            }
 
             return this.View(cart);
         }

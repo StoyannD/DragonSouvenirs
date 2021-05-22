@@ -25,9 +25,12 @@
         {
             var user = await this.userManager.GetUserAsync(this.UserClaimsPrincipal);
 
-            var cartProducts = await this.cartService.GetCartProductsAsync<CartProductsSimpleViewModel>(user.Id);
+            var viewModel = new CartViewModel
+            {
+                Products = await this.cartService.GetCartProductsAsync<CartProductsSimpleViewModel>(user.Id),
+            };
 
-            return this.View(cartProducts);
+            return this.View(viewModel);
         }
     }
 }

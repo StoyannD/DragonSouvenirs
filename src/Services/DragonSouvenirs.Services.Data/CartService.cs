@@ -46,7 +46,7 @@
                 .All()
                 .Include(cp => cp.Cart)
                 .Where(cp => cp.Cart.UserId == userId)
-                .SumAsync(cp => cp.Quantity * cp.Product.Price);
+                .SumAsync(cp => cp.Quantity * (cp.Product.DiscountPrice ?? cp.Product.Price));
 
             return totalPrice;
         }
@@ -113,8 +113,6 @@
                 await this.cartProductRepository.AddAsync(cartProduct);
             }
 
-            // product.Quantity -= quantity;
-            // await this.productRepository.SaveChangesAsync();
             await this.cartProductRepository.SaveChangesAsync();
         }
 

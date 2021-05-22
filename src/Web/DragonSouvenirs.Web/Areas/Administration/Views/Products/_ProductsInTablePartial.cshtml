@@ -7,7 +7,9 @@
 </td>
 <td>@this.Model.Title</td>
 <td>@this.Model.Name</td>
-<td>@this.Model.Price</td>
+<td>@(this.Model.DiscountPrice == null
+        ? this.Model.Price 
+        : $"{this.Model.DiscountPrice} ({this.Model.Price})")</td>
 <td>@this.Model.Quantity</td>
 <td>@this.Model.OrderProductsCount</td>
 <td>@this.Model.ProductCategoriesNames</td>

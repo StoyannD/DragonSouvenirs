@@ -1,9 +1,9 @@
-﻿using AutoMapper;
-
-namespace DragonSouvenirs.Web.ViewModels.Categories
+﻿namespace DragonSouvenirs.Web.ViewModels.Categories
 {
     using System.Collections.Generic;
     using System.Linq;
+
+    using AutoMapper;
     using DragonSouvenirs.Data.Models;
     using DragonSouvenirs.Services.Mapping;
 
@@ -20,6 +20,8 @@ namespace DragonSouvenirs.Web.ViewModels.Categories
         public string Description { get; set; }
 
         public decimal Price { get; set; }
+
+        public decimal? DiscountPrice { get; set; }
 
         public int Quantity { get; set; }
 

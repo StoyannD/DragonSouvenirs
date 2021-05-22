@@ -51,7 +51,17 @@
                         <i class="fa fa-star-half-o"></i>
                         <span>(18 reviews)</span>
                     </div>
-                    <div class="product__details__price">@Model.Price лв.</div>
+                    <div class="product__details__price">
+                        @if (this.Model.DiscountPrice == null)
+                        {
+                            @(Model.Price + " лв.")
+                        }
+                        else
+                        {
+                            <span>@Model.Price</span>
+                             @(Model.DiscountPrice + " лв.")
+                        }
+                    </div>
                     <p>
                         @Model.Description
                     </p>

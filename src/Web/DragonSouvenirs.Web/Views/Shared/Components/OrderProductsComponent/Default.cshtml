@@ -16,7 +16,7 @@
                     <tbody>
                         @foreach (var product in this.Model)
                         {
-                            <tr>
+                            <tr class="align-text-top">
                                 <td class="shoping__cart__item">
                                     <img src="@(product.ProductImages
                                                   .FirstOrDefault()?.ImgUrl ?? string.Empty)"
@@ -36,7 +36,15 @@
                                     </h5>
                                 </td>
                                 <td class="shoping__cart__price">
-                                    @product.ProductPrice лв.
+                                    @if (product.ProductDiscountPrice == null)
+                                    {
+                                        @(product.ProductPrice + " лв.")
+                                    }
+                                    else
+                                    {
+                                        <span>@product.ProductPrice</span>
+                                        @(product.ProductDiscountPrice + " лв.")
+                                    }
                                 </td>
                                 <td class="shoping__cart__quantity">
                                     <strong>

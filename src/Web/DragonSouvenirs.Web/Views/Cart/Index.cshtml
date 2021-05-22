@@ -55,7 +55,15 @@
                                     </h5>
                                 </td>
                                 <td class="shoping__cart__price">
-                                    @product.ProductPrice лв.
+                                    @if (product.ProductDiscountPrice == null)
+                                    {
+                                        @(product.ProductPrice + " лв.")
+                                    }
+                                    else
+                                    {
+                                        <span>@product.ProductPrice</span>
+                                        @(product.ProductDiscountPrice + " лв.")
+                                    }
                                 </td>
                                 <td class="shoping__cart__quantity">
                                     <div class="quantity">
@@ -123,7 +131,8 @@
                 <div class="shoping__checkout">
                     <h5>Cart Total</h5>
                     <ul>
-                        <li>Subtotal <span>@Model.TotalPrice лв.</span></li>
+                        <li>Subtotal <span>@Model.TotalPriceBeforeDiscount лв.</span></li>
+                        <li>Discounts <span class="CartDiscount">@(Model.TotalPriceBeforeDiscount-Model.TotalPrice) лв.</span></li>
                         <li>Total <span>@Model.TotalPrice лв.</span></li>
                     </ul>
                     <a class="primary-btn"
