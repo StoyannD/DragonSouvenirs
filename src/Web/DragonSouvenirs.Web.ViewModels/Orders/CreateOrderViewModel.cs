@@ -2,7 +2,6 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using System.Linq;
 
     using DragonSouvenirs.Common;
     using DragonSouvenirs.Data.Models;

@@ -2,24 +2,8 @@
 @using DragonSouvenirs.Web.Components
 @model DragonSouvenirs.Web.ViewModels.Categories.CategoryViewModel
 
-<section class="breadcrumb-section set-bg"
-         data-setbg=""
-         style="background-color: #85603f">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12 text-center">
-                <div class="breadcrumb__text">
-                    <h2>@Model.Name</h2>
-                    <div class="breadcrumb__option">
-                        <a asp-controller="Home"
-                           asp-action="Index">Home</a>
-                        <span>@Model.Name</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<partial name="Partials/_BreadcrumbPartial" model="@Model.Name"/>
+
 <section class="product spad">
     <div class="container">
         <div class="row">

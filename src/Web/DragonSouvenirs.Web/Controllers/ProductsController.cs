@@ -120,6 +120,11 @@
             var success = await this.productsService
                 .FavouriteProductAsync(user.Id, title);
 
+            if (!success)
+            {
+                return this.RedirectToAction("Index", "Home");
+            }
+
             var url = this.TempData["Url"].ToString();
             this.TempData.Remove("Url");
 
