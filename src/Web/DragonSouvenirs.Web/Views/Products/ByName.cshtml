@@ -34,9 +34,8 @@
                     <div class="product__details__pic__slider owl-carousel">
                         @foreach (var productImg in @Model.Images)
                         {
-                            <img data-imgbigurl="@productImg.ImgUrl"
-                                src="@productImg.ImgUrl" alt="">
-                        }
+            <img data-imgbigurl="@productImg.ImgUrl"
+                 src="@productImg.ImgUrl" alt="">}
                     </div>
                 </div>
             </div>
@@ -53,26 +52,22 @@
                     </div>
                     <div class="product__details__price">
                         @if (this.Model.DiscountPrice == null)
-                        {
-                            @(Model.Price + " лв.")
-                        }
+                        {@(Model.Price + " лв.") }
                         else
                         {
-                            <span>@Model.Price</span>
-                             @(Model.DiscountPrice + " лв.")
-                        }
+            <span>@Model.Price</span> @(Model.DiscountPrice + " лв.")}
                     </div>
                     <p>
                         @Model.Description
                     </p>
                     <div class="product__details__quantity">
-                        <form enctype="multipart/form-data"
-                              method="post"
-                              asp-controller="Cart"
-                              asp-action="Add"
-                              asp-route-id="@Model.Id"
-                              asp-route-quantity="quantity">
-                            <div class="quantity">
+                        <div class="quantity d-flex">
+                            <form enctype="multipart/form-data"
+                                  method="post"
+                                  asp-controller="Cart"
+                                  asp-action="Add"
+                                  asp-route-id="@Model.Id"
+                                  asp-route-quantity="quantity">
                                 <div class="pro-qty">
                                     <input type="number"
                                            min="1"
@@ -87,12 +82,19 @@
                                         class="primary-btn">
                                     ADD TO CART
                                 </button>
+                            </form>
+                            <div>
+                                <form enctype="multipart/form-data"
+                                      asp-route="favouriteRoutePost"
+                                      asp-route-title="@Model.TitleLink"
+                                      method="post">
+                                    <button class="border-0 text-decoration-none heart-icon" type="submit">
+                                        <span class="icon_heart_alt"></span>
+                                    </button>
+                                </form>
                             </div>
-                        </form>
+                        </div>
                     </div>
-                    <a href="#" class="heart-icon">
-                        <span class="icon_heart_alt"></span>
-                    </a>
                     <ul>
                         <li>
                             <b>Availability</b>

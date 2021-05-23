@@ -1,0 +1,17 @@
+﻿@model DragonSouvenirs.Web.ViewModels.Products.FavouriteProductsViewModel
+
+<div class="container ">
+    <div class="row w-100 justify-content-center">
+        @if (this.Model.Products.Any()) 
+        {
+            @foreach (var product in this.Model.Products)
+            {
+                <partial name="Partials/_FavouritesProductsPartial" model="product"/>
+            }
+        }
+        else
+        {
+            <p>Не сте избрали любими продукти.</p>
+        }
+    </div>
+</div>

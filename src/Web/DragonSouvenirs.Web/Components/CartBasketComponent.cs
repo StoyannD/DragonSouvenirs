@@ -11,13 +11,16 @@
     public class CartBasketComponent : ViewComponent
     {
         private readonly ICartService cartService;
+        private readonly IProductsService productsService;
         private readonly UserManager<ApplicationUser> userManager;
 
         public CartBasketComponent(
             ICartService cartService,
+            IProductsService productsService,
             UserManager<ApplicationUser> userManager)
         {
             this.cartService = cartService;
+            this.productsService = productsService;
             this.userManager = userManager;
         }
 
@@ -26,13 +29,15 @@
             var user = await this.userManager.GetUserAsync(this.UserClaimsPrincipal);
 
             // TODO:add favorite products
-            var cart = new CartBasketViewModel();
+            var viewModel = new ComponentViewModel();
             if (user != null)
             {
-                cart = await this.cartService.GetCartByIdAsync<CartBasketViewModel>(user.Id);
+                viewModel.FavouriteProducts = await this.productsService
+                    .GetFavouriteProductsAsync<FavouriteProductViewModel>(user.Id);
+                viewModel.Cart = await this.cartService.GetCartByIdAsync<CartBasketViewModel>(user.Id);
             }
 
-            return this.View(cart);
+            return this.View(viewModel);
         }
     }
 }

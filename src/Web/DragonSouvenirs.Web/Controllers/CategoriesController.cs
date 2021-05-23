@@ -65,8 +65,9 @@
             viewModel.CategoryPaginationInfo.ProductsPerPage = perPage;
             viewModel.CategoryPaginationInfo.AllProductsCount = count;
             viewModel.CategoryPaginationInfo.CategoryName = name;
-            viewModel.CategoryPaginationInfo.Route = "byName";
+            viewModel.CategoryPaginationInfo.Route = "categoriesByName";
 
+            this.TempData["Url"] = this.Request.Path.Value;
             return this.View(viewModel);
         }
     }

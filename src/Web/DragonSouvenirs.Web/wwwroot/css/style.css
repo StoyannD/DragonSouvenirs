@@ -1603,9 +1603,21 @@ ol {
 	border-color: #85603f;
 }
 
+/*button*/
+.product__item__pic__hover li:hover button {
+    background: #85603f;
+    border-color: #85603f;
+}
+
 .product__item__pic__hover li:hover a i {
 	color: #ffffff;
 	transform: rotate(360deg);
+}
+
+/*button*/
+.product__item__pic__hover li:hover button i {
+    color: #ffffff;
+    transform: rotate(360deg);
 }
 
 .product__item__pic__hover li a {
@@ -1626,6 +1638,25 @@ ol {
 	transition: all, 0.5s;
 }
 
+/*button*/
+.product__item__pic__hover li button {
+    font-size: 16px;
+    color: #1c1c1c;
+    height: 40px;
+    width: 40px;
+    line-height: 40px;
+    text-align: center;
+    border: 1px solid #ebebeb;
+    background: #ffffff;
+    display: block;
+    border-radius: 50%;
+    -webkit-transition: all, 0.5s;
+    -moz-transition: all, 0.5s;
+    -ms-transition: all, 0.5s;
+    -o-transition: all, 0.5s;
+    transition: all, 0.5s;
+}
+
 .product__item__pic__hover li a i {
 	position: relative;
 	transform: rotate(0);
@@ -1636,6 +1667,16 @@ ol {
 	transition: all, 0.3s;
 }
 
+/*button*/
+.product__item__pic__hover li button i {
+    position: relative;
+    transform: rotate(0);
+    -webkit-transition: all, 0.3s;
+    -moz-transition: all, 0.3s;
+    -ms-transition: all, 0.3s;
+    -o-transition: all, 0.3s;
+    transition: all, 0.3s;
+}
 .product__item__text {
 	text-align: center;
 	padding-top: 15px;

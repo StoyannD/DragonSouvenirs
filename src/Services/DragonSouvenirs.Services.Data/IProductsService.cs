@@ -18,6 +18,10 @@
 
         Task<IEnumerable<T>> GetTopDiscountedItems<T>(int take = 8);
 
+        Task<IEnumerable<T>> GetFavouriteProductsAsync<T>(string userId);
+
+        Task<bool> FavouriteProductAsync(string userId, string title);
+
         Task<int> GetCountAsync(int? minPrice = null, int? maxPrice = null);
 
         Task<T> GetByIdAsync<T>(int? id);

@@ -1,17 +1,21 @@
-﻿@model DragonSouvenirs.Web.ViewModels.Components.CartBasketComponent.CartBasketViewModel
+﻿@model DragonSouvenirs.Web.ViewModels.Components.CartBasketComponent.ComponentViewModel
 
 <div class="col-lg-3">
     <div class="header__cart">
         <ul>
-            <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
+            <li>
+                <a asp-route="favouritesRoute">
+                    <i class="fa fa-heart"></i> <span>@this.Model.FavouriteProductsCount</span>
+                </a>
+            </li>
             <li>
                 <a asp-route="cartRoute">
-                    <i class="fa fa-shopping-bag"></i> <span>@(this.Model?.CartProductsCount ?? 0)</span>
+                    <i class="fa fa-shopping-bag"></i> <span>@(this.Model?.Cart?.CartProductsCount ?? 0)</span>
                 </a>
             </li>
         </ul>
         <div class="header__cart__price">
-            Total: @($"{(this.Model?.CartTotal ?? 0M):F2}") лв.
+            Total: @($"{(this.Model?.Cart?.CartTotal ?? 0M):F2}") лв.
             <span>
             </span>
         </div>

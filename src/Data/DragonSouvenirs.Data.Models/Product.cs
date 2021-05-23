@@ -12,6 +12,7 @@
             this.ProductCategories = new HashSet<ProductCategory>();
             this.Images = new HashSet<Image>();
             this.CartProducts = new HashSet<CartProduct>();
+            this.FavouriteProducts = new HashSet<FavouriteProduct>();
         }
 
         public string Name { get; set; }
@@ -37,5 +38,7 @@
         public virtual ICollection<Image> Images { get; set; }
 
         public virtual ICollection<CartProduct> CartProducts { get; set; }
+
+        public virtual ICollection<FavouriteProduct> FavouriteProducts { get; set; }
     }
 }

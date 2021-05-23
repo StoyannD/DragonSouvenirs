@@ -1,22 +1,31 @@
-﻿namespace DragonSouvenirs.Web.Controllers
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
+
+namespace DragonSouvenirs.Web.Controllers
 {
     using System;
     using System.Threading.Tasks;
 
     using DragonSouvenirs.Common;
     using DragonSouvenirs.Common.Enums;
+    using DragonSouvenirs.Data.Models;
     using DragonSouvenirs.Services.Data;
     using DragonSouvenirs.Web.ViewModels.Categories;
     using DragonSouvenirs.Web.ViewModels.Products;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     public class ProductsController : Controller
     {
         private readonly IProductsService productsService;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public ProductsController(IProductsService productsService)
+        public ProductsController(
+            IProductsService productsService,
+            UserManager<ApplicationUser> userManager)
         {
             this.productsService = productsService;
+            this.userManager = userManager;
         }
 
         public async Task<ActionResult> ByName(string title)
@@ -34,6 +43,7 @@
                 return this.NotFound();
             }
 
+            this.TempData["Url"] = this.Request.Path.Value;
             return this.View(viewmodel);
         }
 
@@ -74,7 +84,48 @@
             viewModel.CategoryPaginationInfo.AllProductsCount = count;
             viewModel.CategoryPaginationInfo.Route = "shopRoute";
 
+            this.TempData["Url"] = this.Request.Path.Value;
             return this.View(viewModel);
+        }
+
+        [Route(
+            "/Favourites",
+            Name = "favouritesRoute")]
+        public async Task<ActionResult> Favourites()
+        {
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            var viewModel = new FavouriteProductsViewModel
+            {
+                Products = await this.productsService
+                .GetFavouriteProductsAsync<FavouriteProductViewModel>(user.Id),
+            };
+
+            this.TempData["Url"] = this.Request.Path.Value;
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route(
+            "/Favourite",
+            Name = "favouriteRoutePost")]
+        public async Task<ActionResult> Favourite(string title)
+        {
+            if (title == null)
+            {
+                return this.NotFound();
+            }
+
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            var success = await this.productsService
+                .FavouriteProductAsync(user.Id, title);
+
+            var url = this.TempData["Url"].ToString();
+            this.TempData.Remove("Url");
+
+            return this.Redirect(url);
         }
     }
 }

@@ -35,14 +35,14 @@
                 </div>
             </div>
             <div class="col-lg-9 col-md-7">
-                <form asp-route="byName"
+                <form asp-route="categoriesByName"
                       asp-route-name="@this.Model.Name"
                       method="get">
 
                     @if (this.Model.CategoryPaginationInfo.MinPrice != null &&
                         this.Model.CategoryPaginationInfo.MaxPrice != null)
                     {
-                        <a asp-route="byName"
+                        <a asp-route="categoriesByName"
                            asp-route-name="@this.Model.Name"
                            class="badge badge-light">
                             Цена: @this.Model.CategoryPaginationInfo.MinPrice - @this.Model.CategoryPaginationInfo.MaxPrice лв.

@@ -1,16 +1,16 @@
-﻿@model DragonSouvenirs.Web.ViewModels.Categories.ProductInCategoryViewModel
-<div class="col-lg-4 col-md-6 col-sm-6">
+﻿@model DragonSouvenirs.Web.ViewModels.Products.FavouriteProductViewModel
+<div class="col-lg-3 col-md-6 col-sm-6 ">
     <form enctype="multipart/form-data"
           asp-route="favouriteRoutePost"
-          asp-route-title="@Model.TitleLink"
+          asp-route-title="@Model.ProductTitleLink"
           method="post">
-        @if (this.Model.DiscountPrice != null)
+        @if (this.Model.ProductDiscountPrice != null)
         {
-            <div class="product__discount__item mb-5">
+            <div class="product__discount__item">
                 <div class="product__discount__item__pic set-bg"
-                     data-setbg="@Model.Images.FirstOrDefault()?.ImgUrl">
+                     data-setbg="@Model.ProductImages.FirstOrDefault()?.ImgUrl">
                     <div class="product__discount__percent">
-                        -@($"{(100 - (this.Model.DiscountPrice / this.Model.Price) * 100):F0}")%
+                        -@($"{(100-(this.Model.ProductDiscountPrice / this.Model.ProductPrice) * 100):F0}")%
                     </div>
                     <ul class="product__item__pic__hover">
                         <li>
@@ -21,14 +21,14 @@
                         <li>
                             <a asp-controller="Products"
                                asp-action="ByName"
-                               asp-route-title="@Model.TitleLink">
+                               asp-route-title="@Model.ProductTitleLink">
                                 <i class="fa fa-arrow-up"></i>
                             </a>
                         </li>
                         <li>
                             <a asp-controller="Cart"
                                asp-action="Add"
-                               asp-route-id="@Model.Id"
+                               asp-route-id="@Model.ProductId"
                                asp-route-toCart="true"><i class="fa fa-shopping-cart"></i></a>
                         </li>
                     </ul>
@@ -36,15 +36,15 @@
                 <div class="product__discount__item__text">
                     <a asp-controller="Products"
                        asp-action="ByName"
-                       asp-route-title="@Model.TitleLink"
+                       asp-route-title="@Model.ProductTitleLink"
                        class="discountItemPrice">
-                        <span>@Model.CategoryName</span>
+                        <span>@Model.ProductCategoryName</span>
                         <h6>
-                            @Model.Name
+                            @Model.ProductName
                         </h6>
                         <h5 class="product__item__price">
-                            <span>@Model.Price</span>
-                            @Model.DiscountPrice
+                            <span>@Model.ProductPrice</span>
+                            @Model.ProductDiscountPrice
                             лв.
                         </h5>
                     </a>
@@ -55,7 +55,7 @@
         {
             <div class="product__item">
                 <div class="product__item__pic set-bg"
-                     data-setbg="@Model.Images.FirstOrDefault()?.ImgUrl">
+                     data-setbg="@Model.ProductImages.FirstOrDefault()?.ImgUrl">
                     <ul class="product__item__pic__hover">
                         <li>
                             <button type="submit">
@@ -65,14 +65,14 @@
                         <li>
                             <a asp-controller="Products"
                                asp-action="ByName"
-                               asp-route-title="@Model.TitleLink">
+                               asp-route-title="@Model.ProductTitleLink">
                                 <i class="fa fa-arrow-up"></i>
                             </a>
                         </li>
                         <li>
                             <a asp-controller="Cart"
                                asp-action="Add"
-                               asp-route-id="@Model.Id"
+                               asp-route-id="@Model.ProductId"
                                asp-route-toCart="true"><i class="fa fa-shopping-cart"></i></a>
                         </li>
                     </ul>
@@ -80,13 +80,13 @@
                 <div class="product__item__text">
                     <a asp-controller="Products"
                        asp-action="ByName"
-                       asp-route-title="@Model.TitleLink">
-                        <span>@Model.CategoryName</span>
+                       asp-route-title="@Model.ProductTitleLink">
+                        <span>@Model.ProductCategoryName</span>
                         <h6>
-                            @Model.Name
+                            @Model.ProductName
                         </h6>
                         <h5>
-                            @Model.Price лв.
+                            @Model.ProductPrice лв.
                         </h5>
                     </a>
                 </div>

@@ -18,13 +18,16 @@
     {
         private readonly IDeletableEntityRepository<Product> productsRepository;
         private readonly IDeletableEntityRepository<ProductCategory> productCategoryRepository;
+        private readonly IDeletableEntityRepository<FavouriteProduct> favouriteProductRepository;
 
         public ProductsService(
             IDeletableEntityRepository<Product> productsRepository,
-            IDeletableEntityRepository<ProductCategory> productCategoryRepository)
+            IDeletableEntityRepository<ProductCategory> productCategoryRepository,
+            IDeletableEntityRepository<FavouriteProduct> favouriteProductRepository)
         {
             this.productsRepository = productsRepository;
             this.productCategoryRepository = productCategoryRepository;
+            this.favouriteProductRepository = favouriteProductRepository;
         }
 
         public async Task<IEnumerable<T>> GetAllAdminAsync<T>()
@@ -123,6 +126,51 @@
                 .Take(take);
 
             return await products.To<T>().ToListAsync();
+        }
+
+        public async Task<IEnumerable<T>> GetFavouriteProductsAsync<T>(string userId)
+        {
+            var products = this.favouriteProductRepository
+                .All()
+                .Where(fp => fp.UserId == userId)
+                .OrderByDescending(fp => fp.CreatedOn);
+
+            return await products.To<T>().ToListAsync();
+        }
+
+        public async Task<bool> FavouriteProductAsync(string userId, string title)
+        {
+            var product = await this.productsRepository
+                .All()
+                .FirstOrDefaultAsync(p => p.Title == title.Replace('-', ' '));
+
+            if (product == null)
+            {
+                return false;
+            }
+
+            var favouriteProduct = await this.favouriteProductRepository
+                .AllWithDeleted()
+                .FirstOrDefaultAsync(fp => fp.UserId == userId
+                                           && fp.ProductId == product.Id);
+
+            if (favouriteProduct == null)
+            {
+                favouriteProduct = new FavouriteProduct()
+                {
+                    ProductId = product.Id,
+                    UserId = userId,
+                    CreatedOn = DateTime.UtcNow,
+                };
+                await this.favouriteProductRepository.AddAsync(favouriteProduct);
+            }
+            else
+            {
+                favouriteProduct.IsDeleted = favouriteProduct.IsDeleted != true;
+            }
+
+            await this.favouriteProductRepository.SaveChangesAsync();
+            return true;
         }
 
         public async Task<int> GetCountAsync(int? minPrice = null, int? maxPrice = null)
