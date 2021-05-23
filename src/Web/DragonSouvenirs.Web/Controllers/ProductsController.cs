@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Extensions;
-
-namespace DragonSouvenirs.Web.Controllers
+﻿namespace DragonSouvenirs.Web.Controllers
 {
     using System;
     using System.Threading.Tasks;
@@ -12,6 +9,7 @@ namespace DragonSouvenirs.Web.Controllers
     using DragonSouvenirs.Services.Data;
     using DragonSouvenirs.Web.ViewModels.Categories;
     using DragonSouvenirs.Web.ViewModels.Products;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 

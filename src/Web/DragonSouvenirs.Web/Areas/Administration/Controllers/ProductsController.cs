@@ -66,6 +66,16 @@
             return RedirectToAction("Index", "Products", new { area = "Administration" });
         }
 
+        [HttpPost]
+        public async Task<ActionResult> HardDelete(int id)
+        {
+            var postTitle = await this.productsService.HardDeleteAsync(id);
+
+            this.TempData["success"] = string.Format(GlobalConstants.Product.ProductSuccessfullyDeleted, postTitle);
+
+            return RedirectToAction("Index", "Products", new { area = "Administration" });
+        }
+
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)

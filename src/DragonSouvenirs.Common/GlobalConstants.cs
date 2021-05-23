@@ -64,6 +64,7 @@
             public const int SizeMax = int.MaxValue;
             public const int SizeMin = 0;
             public const int PerPageDefault = 12;
+            public const int LatestProductsComponentsItemsPerSlide = 3;
 
             public const string NameLengthError = "Name must be between {2} and {1} symbols.";
             public const string TitleLengthError = "Title must be between {2} and {1} symbols.";

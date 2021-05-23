@@ -1,14 +1,9 @@
 ﻿namespace DragonSouvenirs.Web.Components
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
-    using DragonSouvenirs.Common.Enums;
     using DragonSouvenirs.Services.Data;
     using DragonSouvenirs.Web.ViewModels.Components.DiscountedProductsComponent;
-    using DragonSouvenirs.Web.ViewModels.Components.LatestProductsComponent;
     using Microsoft.AspNetCore.Mvc;
 
     public class DiscountedProductsComponent : ViewComponent

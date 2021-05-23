@@ -1,7 +1,6 @@
-﻿@model IEnumerable<DragonSouvenirs.Web.ViewModels.Components.LatestProductsComponent.LatestProductsViewModel>
-@{
-    var perSlider = 3;
-}
+﻿@using DragonSouvenirs.Common
+@model IEnumerable<DragonSouvenirs.Web.ViewModels.Components.LatestProductsComponent.LatestProductsViewModel>
+
 <div class="sidebar__item">
     <div class="latest-product__text">
         <h4>Най-нови</h4>
@@ -9,7 +8,7 @@
             @for (int i = 0; i < this.Model.Count(); i += 3)
             {
                 <div class="latest-prdouct__slider__item">
-                    @for (int j = 0; j < perSlider; j++)
+                    @for (int j = 0; j < GlobalConstants.Product.LatestProductsComponentsItemsPerSlide; j++)
                     {
                         <a asp-controller="Products"
                            asp-action="ByName"

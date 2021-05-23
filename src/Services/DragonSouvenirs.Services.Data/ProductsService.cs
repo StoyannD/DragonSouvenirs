@@ -257,6 +257,24 @@
             return id;
         }
 
+        public async Task<int> HardDeleteAsync(int id)
+        {
+            var product = await this.productsRepository
+                .AllWithDeleted()
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (product == null)
+            {
+                // TODO add message
+                throw new NullReferenceException();
+            }
+
+            this.productsRepository.HardDelete(product);
+            await this.productsRepository.SaveChangesAsync();
+
+            return id;
+        }
+
         public async Task EditAsync(AdminProductEditViewModel viewModel)
         {
             var product = await this.productsRepository
