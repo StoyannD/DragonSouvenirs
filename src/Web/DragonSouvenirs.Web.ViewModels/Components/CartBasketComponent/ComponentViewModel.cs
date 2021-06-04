@@ -9,6 +9,6 @@
 
         public IEnumerable<FavouriteProductViewModel> FavouriteProducts { get; set; }
 
-        public int FavouriteProductsCount => this.FavouriteProducts.Count();
+        public int FavouriteProductsCount => this.FavouriteProducts?.Count() ?? 0;
     }
 }

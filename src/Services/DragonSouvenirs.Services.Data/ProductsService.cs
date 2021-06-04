@@ -56,8 +56,8 @@
             products = sortBy switch
             {
                 SortBy.Newest => products.OrderByDescending(p => p.CreatedOn),
-                SortBy.PriceDescending => products.OrderByDescending(p => p.Price),
-                SortBy.PriceAscending => products.OrderBy(p => p.Price),
+                SortBy.PriceDescending => products.OrderByDescending(p => p.DiscountPrice ?? p.Price),
+                SortBy.PriceAscending => products.OrderBy(p => p.DiscountPrice ?? p.Price),
                 _ => products.OrderByDescending(p => p.OrderProducts.Count),
             };
 
@@ -86,8 +86,8 @@
             products = sortBy switch
             {
                 SortBy.Newest => products.OrderByDescending(p => p.CreatedOn),
-                SortBy.PriceDescending => products.OrderByDescending(p => p.Price),
-                SortBy.PriceAscending => products.OrderBy(p => p.Price),
+                SortBy.PriceDescending => products.OrderByDescending(p => p.DiscountPrice ?? p.Price),
+                SortBy.PriceAscending => products.OrderBy(p => p.DiscountPrice ?? p.Price),
                 _ => products.OrderByDescending(p => p.OrderProducts.Count),
             };
 

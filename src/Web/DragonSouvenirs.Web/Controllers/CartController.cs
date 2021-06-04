@@ -93,6 +93,7 @@
             return this.RedirectToAction(nameof(this.Index));
         }
 
+        [HttpPost]
         public async Task<ActionResult> Edit(int? id, int? quantity)
         {
             if (id == null || quantity == null)

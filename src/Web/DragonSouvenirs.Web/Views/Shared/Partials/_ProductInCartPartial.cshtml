@@ -1,10 +1,14 @@
 ﻿@model DragonSouvenirs.Web.ViewModels.Cart.CartProductViewModel
 <tr>
     <td class="shoping__cart__item">
-        <img src="@(this.Model.ProductImages
+        <a asp-controller="Products"
+           asp-action="ByName"
+           asp-route-title="@this.Model.ProductTitleLink">
+            <img src="@(this.Model.ProductImages
                       .FirstOrDefault()?.ImgUrl ?? string.Empty)"
-             width="90"
-             alt="">
+                 width="90"
+                 alt="">
+        </a>
         <h5>
             <strong>@this.Model.ProductName</strong>
             <span class="text-muted font-weight-normal font-italic d-block">
@@ -14,25 +18,25 @@
     </td>
     <td class="shoping__cart__price">
         @if (this.Model.ProductDiscountPrice == null)
-        {
-            @(this.Model.ProductPrice + " лв.")
-        }
-        else
-        {
-            <span>@this.Model.ProductPrice</span>
-            @(this.Model.ProductDiscountPrice + " лв.")
-        }
+        {@(this.Model.ProductPrice + " лв.") }
+            else
+            {
+<span>@this.Model.ProductPrice</span> @(this.Model.ProductDiscountPrice + " лв.")}
     </td>
     <td class="shoping__cart__quantity">
         <div class="quantity">
             <form enctype="multipart/form-data"
+                  id="test"
                   method="post"
                   asp-controller="Cart"
                   asp-action="Edit"
                   asp-route-id="@this.Model.ProductId"
                   asp-route-quantity="quantity">
-                <div class="pro-qty">
-                    <input type="number"
+                <input type="hidden" asp-for="@this.Model.ProductId"
+                       value="@this.Model.ProductId" />
+                <div class="pro-qty" data-max="@this.Model.ProductQuantity">
+                    <input asp-for="@this.Model.Quantity"
+                           type="number"
                            min="1"
                            max="@this.Model.ProductQuantity"
                            id="quantity"
@@ -41,7 +45,6 @@
                 </div>
                 <span asp-validation-for="@this.Model.Quantity"
                       class="text-danger"></span>
-                <button type="submit" class="btn btn-sm btn-primary">Edit</button>
             </form>
         </div>
     </td>
