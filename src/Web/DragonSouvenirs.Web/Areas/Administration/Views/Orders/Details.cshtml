@@ -30,13 +30,14 @@
                     <strong class="text-muted">Shipping address</strong>
                     <h5>@Model.ShippingAddress</h5>
                 </li>
-                @if (@Model.Notes != null)
-                {
-                    <li class="d-flex justify-content-between py-3 border-bottom">
-                        <strong class="text-muted">Notes</strong>
-                        <h5>@Model.Notes</h5>
-                    </li>
-                }
+                <li class="d-flex justify-content-between py-3 border-bottom">
+                    <strong class="text-muted">Shipping address</strong>
+                    <h5>@Model.DeliveryType</h5>
+                </li>
+                <li class="d-flex justify-content-between py-3 border-bottom">
+                    <strong class="text-muted">Notes</strong>
+                    <h5>@Model.Notes</h5>
+                </li>
                 @if (this.Model.OrderStatus == OrderStatus.Completed)
                 {
                     <li class="d-flex justify-content-between py-3 border-bottom">

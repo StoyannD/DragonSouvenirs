@@ -41,13 +41,40 @@
                 .AnyAsync(o => o.OrderStatus == OrderStatus.Created))
             {
                 var userFullName = model.FirstName + " " + model.LastName;
+                string shippingAddress;
+
+                if (model.DeliveryType == DeliveryType.ToAddress)
+                {
+                    shippingAddress = "гр. " + model.UserCity + ", кв. "
+                                      + model.UserNeighborhood
+                                      + ", ул. "
+                                      + model.UserStreet
+                                      + " "
+                                      + model.UserStreetNumber;
+
+                    shippingAddress += model.UserApartmentBuilding != null
+                        ? ", бл. " + model.UserApartmentBuilding + " " : string.Empty;
+                    shippingAddress += model.UserEntrance != null
+                        ? ", вх. " + model.UserEntrance + " " : string.Empty;
+
+                    shippingAddress += ", ет. "
+                                       + model.UserFloor
+                                       + ", ап. "
+                                       + model.UserApartmentNumber;
+                }
+                else
+                {
+                    shippingAddress = model.OfficeName;
+                }
+
                 var order = new Order()
                 {
                     CreatedOn = DateTime.UtcNow,
                     UserId = model.UserId,
                     OrderStatus = OrderStatus.Created,
+                    DeliveryType = model.DeliveryType,
                     ExpectedDeliveryDate = model.ExpectedDeliveryDate,
-                    ShippingAddress = model.ShippingAddress,
+                    ShippingAddress = shippingAddress,
                     DeliveryPrice = model.DeliveryPrice,
                     TotalPrice = model.TotalPrice,
                     UserEmail = model.UserEmail,

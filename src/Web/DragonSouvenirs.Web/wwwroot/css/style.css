@@ -2301,9 +2301,10 @@ ol {
 
 span.beforeDiscount {
 	text-decoration: line-through;
-    color: #db2121;
-    float: right;
-    margin-right: 0.2rem;
+	color: #db2121;
+	float: right;
+	margin-right: 0.2rem;
+    font-size: 14px;
 }
 
 .checkout__order ul {
@@ -2311,7 +2312,8 @@ span.beforeDiscount {
 }
 
 .checkout__order ul li {
-	font-size: 16px;
+	font-size: 0.9rem;
+    font-weight: bold;
 	color: #6f6f6f;
 	line-height: 40px;
 	list-style: none;
@@ -3597,7 +3599,6 @@ li.currentCategory {
 }
 .form-group button {
     width: 15rem;
-    margin-top: 2rem;
 }
 a.discountItemPrice {
 	color: #252525;

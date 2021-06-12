@@ -17,10 +17,34 @@
             public const int FullNameMinLength = 10;
             public const int DefaultShippingAddressMaxLength = 60;
             public const int DefaultShippingAddressMinLength = 10;
+            public const int CityMinLength = 3;
+            public const int CityMaxLength = 25;
+            public const int NeighborhoodMinLength = 3;
+            public const int NeighborhoodMaxLength = 25;
+            public const int StreetMinLength = 5;
+            public const int StreetMaxLength = 100;
+            public const int StreetNumberMax = 1000;
+            public const int StreetNumberMin = 1;
+            public const int ApartmentBuildingMinLength = 1;
+            public const int ApartmentBuildingMaxLength = 4;
+            public const int EntranceMinLength = 1;
+            public const int EntranceMaxLength = 4;
+            public const int FloorMax = 1000;
+            public const int FloorMin = 1;
+            public const int ApartmentNumberMax = 1000;
+            public const int ApartmentNumberMin = 1;
 
             public const string UserNameLengthError = "Username must be between {2} and {1} symbols.";
             public const string FullNameLengthError = "FullName must be between {2} and {1} symbols.";
             public const string DefaultShippingAddressLengthError = "Shipping Address must be between {2} and {1} symbols.";
+            public const string CityError = "City length must be between {2} and {1} symbols.";
+            public const string NeighborhoodError = "Neighborhood length must be between {2} and {1} symbols.";
+            public const string StreetError = "Street length must be between {2} and {1} symbols.";
+            public const string StreetNumberError = "Street number should be in range [{2}-{1}].";
+            public const string ApartmentBuildingError = "Apartment building length must be between {2} and {1} symbols.";
+            public const string EntranceError = "Entrance length must be between {2} and {1} symbols.";
+            public const string FloorError = "Floor should be in range [{2}-{1}].";
+            public const string ApartmentNumberError = "Apartment number should be in range [{2}-{1}].";
 
             public const string EmailAddressError = "Invalid Email address.";
             public const string UserSuccessfullyBannedMessage = "User {0} Banned successfully.";
@@ -95,10 +119,29 @@
         {
             public const int UserFullNameMaxLength = 60;
             public const int UserFullNameMinLength = 2;
-            public const int ShippingAddressMaxLength = 100;
-            public const int ShippingAddressMinLength = 10;
+
+            public const int CityMinLength = 3;
+            public const int CityMaxLength = 25;
+            public const int NeighborhoodMinLength = 3;
+            public const int NeighborhoodMaxLength = 25;
+            public const int StreetMinLength = 5;
+            public const int StreetMaxLength = 100;
+            public const int StreetNumberMax = 1000;
+            public const int StreetNumberMin = 1;
+            public const int ApartmentBuildingMinLength = 1;
+            public const int ApartmentBuildingMaxLength = 4;
+            public const int EntranceMinLength = 1;
+            public const int EntranceMaxLength = 4;
+            public const int FloorMax = 1000;
+            public const int FloorMin = 1;
+            public const int ApartmentNumberMax = 1000;
+            public const int ApartmentNumberMin = 1;
+
             public const int NotesMaxLength = 100;
             public const int NotesMinLength = 5;
+
+            public const int OfficeMaxLength = 100;
+            public const int OfficeMinLength = 5;
 
             public const decimal DeliveryPrice = 10M;
 
@@ -110,7 +153,24 @@
             public const string UserEmailError = "Please enter a valid Email.";
             public const string InvoiceNumberError = "Please enter a valid phone number.";
             public const string ShippingAddressError = "Address length must be between {2} and {1} symbols.";
+            public const string CityError = "City length must be between {2} and {1} symbols.";
+            public const string NeighborhoodError = "Neighborhood length must be between {2} and {1} symbols.";
+            public const string StreetError = "Street length must be between {2} and {1} symbols.";
+            public const string StreetNumberError = "Street number should be in range [{2}-{1}].";
+            public const string ApartmentBuildingError = "Apartment building length must be between {2} and {1} symbols.";
+            public const string EntranceError = "Entrance length must be between {2} and {1} symbols.";
+            public const string FloorError = "Floor should be in range [{2}-{1}].";
+            public const string ApartmentNumberError = "Apartment number should be in range [{2}-{1}].";
             public const string NotesError = "Notes length must be between {2} and {1} symbols.";
+            public const string OfficeError = "Office name length must be between {2} and {1} symbols.";
+        }
+
+        public class Offices
+        {
+            public const string RequestUrl =
+                "https://demo.econt.com/ee/services/Nomenclatures/NomenclaturesService.getOffices.json";
+
+            public const string Country = "България";
         }
     }
 }

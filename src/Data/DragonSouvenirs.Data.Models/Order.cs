@@ -20,6 +20,8 @@
 
         public OrderStatus OrderStatus { get; set; }
 
+        public DeliveryType DeliveryType { get; set; }
+
         public DateTime? ExpectedDeliveryDate { get; set; }
 
         public DateTime? DateOfDelivery { get; set; }

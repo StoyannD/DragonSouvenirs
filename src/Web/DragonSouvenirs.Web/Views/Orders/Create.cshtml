@@ -1,9 +1,14 @@
 ﻿@using DragonSouvenirs.Web.Components
+@using DragonSouvenirs.Data.Models.Enums
 @model DragonSouvenirs.Web.ViewModels.Orders.CreateOrderViewModel
 @{
     var breadCrumbItem = "Поръчка";
+    var offices = this.Model.Offices.Offices
+        .Select(o => new SelectListItem($"{o.Name} /{o.Address}/", $"{o.Name} /{o.Address}/"));
+    var cities = this.Model.Cities.Cities
+        .Select(o => new SelectListItem($"{o.Name}", o.Name));
 }
-<partial name="Partials/_BreadcrumbPartial" model="breadCrumbItem"/>
+<partial name="Partials/_BreadcrumbPartial" model="breadCrumbItem" />
 
 <!-- Checkout Section Begin -->
 <section class="checkout spad">
@@ -39,6 +44,16 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="checkout__input">
+                                    <label asp-for="@Model.UserEmail">Имейл<span>*</span></label>
+                                    <input class="checkout__input__add"
+                                           type="text"
+                                           asp-for="@Model.UserEmail"
+                                           value="@Model.UserEmail">
+                                    <span asp-validation-for="@Model.UserEmail" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
                                     <label asp-for="@Model.InvoiceNumber">Тел. номер<span>*</span></label>
                                     <input class="checkout__input__add"
                                            type="text"
@@ -48,21 +63,130 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="checkout__input">
-                            <label asp-for="@Model.ShippingAddress">Адрес<span>*</span></label>
-                            <input class="checkout__input__add"
-                                   type="text"
-                                   asp-for="@Model.ShippingAddress"
-                                   value="@Model.ShippingAddress">
-                            <span asp-validation-for="@Model.ShippingAddress" class="text-danger"></span>
+                        <div class="mb-4">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input"
+                                       type="radio"
+                                       id="toOffice"
+                                       asp-for="@this.Model.DeliveryType"
+                                       value="@DeliveryType.ToOffice">
+                                <label class="form-check-label" for="toOffice">До Офис</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input"
+                                       type="radio"
+                                       id="toAddress"
+                                       asp-for="@this.Model.DeliveryType"
+                                       value="@DeliveryType.ToAddress">
+                                <label class="form-check-label" for="toAddress">До Адрес</label>
+                            </div>
                         </div>
-                        <div class="checkout__input">
-                            <label asp-for="@Model.UserEmail">Имейл<span>*</span></label>
-                            <input class="checkout__input__add"
-                                   type="text"
-                                   asp-for="@Model.UserEmail"
-                                   value="@Model.UserEmail">
-                            <span asp-validation-for="@Model.UserEmail" class="text-danger"></span>
+                        <div id="formToOffice">
+                            <div class="col-lg-3 mb-4">
+                                <div class="checkout__input">
+                                    <label asp-for="@this.Model.UserCity"> Град*</label>
+                                    <select asp-for="@this.Model.UserCity"
+                                            asp-items="@cities"
+                                            class="select2 form-control w-auto h-auto">
+                                        <option selected="selected" value="">Изберете град...</option>
+                                    </select>
+                                    <span asp-validation-for="@this.Model.UserCity" class="text-danger"></span>
+                                </div>
+                                <div class="checkout__input">
+                                    <label asp-for="@this.Model.OfficeName"> Офис*</label>
+                                    <select asp-for="@this.Model.OfficeName"
+                                            asp-items="@offices"
+                                            class="select2 form-control" style="width: 40rem;">
+                                        <option selected="selected" value="">Изберете офис...</option>
+                                    </select>
+                                    <span asp-validation-for="@this.Model.OfficeName" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="formToAddress" style="display: none;">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="checkout__input">
+                                        <label asp-for="@this.Model.UserCity"> Град*</label>
+                                        <select asp-for="@this.Model.UserCity"
+                                                asp-items="@cities"
+                                                class="select2 form-control mt-5 w-100 h-auto">
+                                            <option selected="selected" value="">Изберете град...</option>
+                                        </select>
+                                        <span asp-validation-for="@this.Model.UserCity" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="checkout__input">
+                                        <label asp-for="@Model.UserNeighborhood">Квартал<span>*</span></label>
+                                        <input class="checkout__input__add"
+                                               type="text"
+                                               asp-for="@Model.UserNeighborhood"
+                                               value="@Model.UserNeighborhood">
+                                        <span asp-validation-for="@Model.UserNeighborhood" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="checkout__input">
+                                        <label asp-for="@Model.UserStreet">Улица<span>*</span></label>
+                                        <input class="checkout__input__add"
+                                               type="text"
+                                               asp-for="@Model.UserStreet"
+                                               value="@Model.UserStreet">
+                                        <span asp-validation-for="@Model.UserStreet" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="checkout__input">
+                                        <label asp-for="@Model.UserStreetNumber">Номер<span>*</span></label>
+                                        <input class="checkout__input__add"
+                                               type="text"
+                                               asp-for="@Model.UserStreetNumber"
+                                               value="@Model.UserStreetNumber">
+                                        <span asp-validation-for="@Model.UserStreetNumber" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="checkout__input">
+                                        <label asp-for="@Model.UserApartmentBuilding">Блок</label>
+                                        <input class="checkout__input__add"
+                                               type="text"
+                                               asp-for="@Model.UserApartmentBuilding"
+                                               value="@Model.UserApartmentBuilding">
+                                        <span asp-validation-for="@Model.UserApartmentBuilding" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="checkout__input">
+                                        <label asp-for="@Model.UserEntrance">Вход</label>
+                                        <input class="checkout__input__add"
+                                               type="text"
+                                               asp-for="@Model.UserEntrance"
+                                               value="@Model.UserEntrance">
+                                        <span asp-validation-for="@Model.UserEntrance" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="checkout__input">
+                                        <label asp-for="@Model.UserFloor">Етаж<span>*</span></label>
+                                        <input class="checkout__input__add"
+                                               type="text"
+                                               asp-for="@Model.UserFloor"
+                                               value="@Model.UserFloor">
+                                        <span asp-validation-for="@Model.UserFloor" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2">
+                                    <div class="checkout__input">
+                                        <label asp-for="@Model.UserApartmentNumber">Ап.<span>*</span></label>
+                                        <input class="checkout__input__add"
+                                               type="text"
+                                               asp-for="@Model.UserApartmentNumber"
+                                               value="@Model.UserApartmentNumber">
+                                        <span asp-validation-for="@Model.UserApartmentNumber" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="checkout__input">
                             <label asp-for="@Model.Notes">Допълнителна информация<span>*</span></label>
@@ -86,3 +210,30 @@
     </div>
 </section>
 <!-- Checkout Section End -->
+<script>
+    const toAddressDiv = document.getElementById("formToAddress");
+    const toAddressBtn = document.getElementById("toAddress");
+    const toOfficeDiv = document.getElementById("formToOffice");
+    const toOfficeBtn = document.getElementById("toOffice");
+    toAddressBtn.onclick = function () {
+        if (toOfficeDiv.style.display !== "none") {
+            toOfficeDiv.style.display = "none";
+        }
+        if (toAddressDiv.style.display === "none") {
+            toAddressDiv.style.display = "block";
+        }
+        toAddressBtn.style.backgroundColor = "#85603f";
+        toOfficeBtn.style.backgroundColor = "#6c757d";
+    };
+
+    toOfficeBtn.onclick = function () {
+        if (toAddressDiv.style.display !== "none") {
+            toAddressDiv.style.display = "none";
+        }
+        if (toOfficeDiv.style.display === "none") {
+            toOfficeDiv.style.display = "block";
+        }
+        toOfficeBtn.style.backgroundColor = "#85603f";
+        toAddressBtn.style.backgroundColor = "#6c757d";
+    };
+</script>

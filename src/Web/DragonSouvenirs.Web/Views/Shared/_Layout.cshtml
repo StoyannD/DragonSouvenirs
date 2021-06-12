@@ -15,15 +15,17 @@
     <link rel="stylesheet" href="~/css/bootstrap.min.css" type="text/css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/font-awesome.min.css" type="text/css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/elegant-icons.css" type="text/css" asp-append-version="true">
-    <link rel="stylesheet" href="~/css/nice-select.css" type="text/css" asp-append-version="true">
+    @*<link rel="stylesheet" href="~/css/nice-select.css" type="text/css" asp-append-version="true">*@
     <link rel="stylesheet" href="~/css/jquery-ui.min.css" type="text/css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/owl.carousel.min.css" type="text/css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/slicknav.min.css" type="text/css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/style.css" type="text/css" asp-append-version="true">
 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
     @*<meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@this.ViewData["Title"] - @GlobalConstants.SystemName</title>*@
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@this.ViewData["Title"] - @GlobalConstants.SystemName</title>*@
     <!--<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />-->
     @*<link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />*@
     <!--<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -34,10 +36,10 @@
 <body>
     <!-- Page Preloder -->
     @*<div id="preloder">
-        <div class="loader"></div>
-    </div>*@
+            <div class="loader"></div>
+        </div>*@
     <partial name="Partials/_NavbarPartial" />
-    <div >
+    <div>
         <partial name="Partials/_CookieConsentPartial" />
         <main role="main" class="pb-3">
             @this.RenderBody()
@@ -48,22 +50,34 @@
 
     <script src="~/js/jquery-3.3.1.min.js" asp-append-version="true"></script>
     <script src="~/js/bootstrap.min.js" asp-append-version="true"></script>
-    <script src="~/js/jquery.nice-select.min.js" asp-append-version="true"></script>
+    @*<script src="~/js/jquery.nice-select.min.js" asp-append-version="true"></script>*@
     <script src="~/js/jquery-ui.min.js" asp-append-version="true"></script>
     <script src="~/js/jquery.slicknav.js" asp-append-version="true"></script>
     <script src="~/js/mixitup.min.js" asp-append-version="true"></script>
     <script src="~/js/owl.carousel.min.js" asp-append-version="true"></script>
     <script src="~/js/main.js" asp-append-version="true"></script>
 
+
+
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        // In your Javascript (external .js resource or <script> tag)
+        $(document).ready(function () {
+            $('.select2').select2();
+        });
+    </script>
+
+
     @await this.RenderSectionAsync("Scripts", required: false)
 
     @*<script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
-    <script src="~/js/site.min.js" asp-append-version="true"></script>
-    @await this.RenderSectionAsync("Scripts", required: false)*@
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+        @await this.RenderSectionAsync("Scripts", required: false)*@
 </body>
 </html>

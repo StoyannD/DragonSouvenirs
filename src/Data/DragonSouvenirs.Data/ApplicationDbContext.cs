@@ -43,6 +43,10 @@ namespace DragonSouvenirs.Data
 
         public DbSet<FavouriteProduct> FavouriteProducts { get; set; }
 
+        public DbSet<Office> Offices { get; set; }
+
+        public DbSet<City> Cities { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

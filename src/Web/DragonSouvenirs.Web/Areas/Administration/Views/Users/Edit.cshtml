@@ -37,9 +37,91 @@
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="DefaultShippingAddress">Shipping Address</label>
-            <input asp-for="DefaultShippingAddress" class="form-control" value="@this.Model.DefaultShippingAddress" />
-            <span asp-validation-for="DefaultShippingAddress" class="text-danger"></span>
+                <input disabled asp-for="DefaultShippingAddress" class="form-control" value="@this.Model.DefaultShippingAddress" />
+            </div>
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="checkout__input">
+                    <label asp-for="@Model.City">Град<span>*</span></label>
+                    <input class="checkout__input__add"
+                           type="text"
+                           asp-for="@Model.City"
+                           value="@Model.City">
+                    <span asp-validation-for="@Model.City" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="checkout__input">
+                    <label asp-for="@Model.Neighborhood">Квартал<span>*</span></label>
+                    <input class="checkout__input__add"
+                           type="text"
+                           asp-for="@Model.Neighborhood"
+                           value="@Model.Neighborhood">
+                    <span asp-validation-for="@Model.Neighborhood" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="checkout__input">
+                    <label asp-for="@Model.Street">Улица<span>*</span></label>
+                    <input class="checkout__input__add"
+                           type="text"
+                           asp-for="@Model.Street"
+                           value="@Model.Street">
+                    <span asp-validation-for="@Model.Street" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2">
+                <div class="checkout__input">
+                    <label asp-for="@Model.StreetNumber">Номер<span>*</span></label>
+                    <input class="checkout__input__add"
+                           type="text"
+                           asp-for="@Model.StreetNumber"
+                           value="@Model.StreetNumber">
+                    <span asp-validation-for="@Model.StreetNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="checkout__input">
+                    <label asp-for="@Model.ApartmentBuilding">Блок</label>
+                    <input class="checkout__input__add"
+                           type="text"
+                           asp-for="@Model.ApartmentBuilding"
+                           value="@Model.ApartmentBuilding">
+                    <span asp-validation-for="@Model.ApartmentBuilding" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="checkout__input">
+                    <label asp-for="@Model.Entrance">Вход</label>
+                    <input class="checkout__input__add"
+                           type="text"
+                           asp-for="@Model.Entrance"
+                           value="@Model.Entrance">
+                    <span asp-validation-for="@Model.Entrance" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="checkout__input">
+                    <label asp-for="@Model.Floor">Етаж<span>*</span></label>
+                    <input class="checkout__input__add"
+                           type="text"
+                           asp-for="@Model.Floor"
+                           value="@Model.Floor">
+                    <span asp-validation-for="@Model.Floor" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="checkout__input">
+                    <label asp-for="@Model.ApartmentNumber">Ап.<span>*</span></label>
+                    <input class="checkout__input__add"
+                           type="text"
+                           asp-for="@Model.ApartmentNumber"
+                           value="@Model.ApartmentNumber">
+                    <span asp-validation-for="@Model.ApartmentNumber" class="text-danger"></span>
+                </div>
+            </div>
         </div>
         <div class="form-row">
             <div class="form-group col-sm-1">

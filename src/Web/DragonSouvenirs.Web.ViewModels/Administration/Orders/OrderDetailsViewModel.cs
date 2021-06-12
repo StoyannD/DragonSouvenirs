@@ -31,5 +31,7 @@
         public decimal TotalPrice { get; set; }
 
         public OrderStatus OrderStatus { get; set; }
+
+        public DeliveryType DeliveryType { get; set; }
     }
 }

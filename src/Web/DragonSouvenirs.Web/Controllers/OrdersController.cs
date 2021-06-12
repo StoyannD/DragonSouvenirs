@@ -6,7 +6,9 @@
 
     using DragonSouvenirs.Common;
     using DragonSouvenirs.Data.Models;
+    using DragonSouvenirs.Data.Models.Enums;
     using DragonSouvenirs.Services.Data;
+    using DragonSouvenirs.Web.ViewModels.Offices;
     using DragonSouvenirs.Web.ViewModels.Orders;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -17,17 +19,20 @@
         private readonly IOrderService orderService;
         private readonly ICartService cartService;
         private readonly IProductsService productsService;
+        private readonly IOfficeService officeService;
 
         public OrdersController(
             UserManager<ApplicationUser> userManager,
             IOrderService orderService,
             ICartService cartService,
-            IProductsService productsService)
+            IProductsService productsService,
+            IOfficeService officeService)
         {
             this.userManager = userManager;
             this.orderService = orderService;
             this.cartService = cartService;
             this.productsService = productsService;
+            this.officeService = officeService;
         }
 
         public async Task<ActionResult> Create()
@@ -40,14 +45,33 @@
                 return this.RedirectToAction("Index", "Home");
             }
 
+            var offices = new OfficesViewModel
+            {
+                Offices = await this.officeService.GetAllOfficesAsync(),
+            };
+
+            var cities = new CitiesViewModel
+            {
+                Cities = await this.officeService.GetAllCitiesAsync(),
+            };
+
             var viewModel = new CreateOrderViewModel
             {
-                ShippingAddress = user.DefaultShippingAddress,
                 UserFullName = user.FullName,
                 FirstName = user.FullName.Split(' ').First(),
                 LastName = user.FullName[user.FullName.IndexOf(" ", StringComparison.Ordinal)..],
                 UserEmail = user.Email,
                 InvoiceNumber = user.PhoneNumber,
+                UserCity = user.City,
+                UserNeighborhood = user.Neighborhood,
+                UserStreet = user.Street,
+                UserStreetNumber = user.StreetNumber,
+                UserApartmentBuilding = user.ApartmentBuilding,
+                UserEntrance = user.Entrance,
+                UserFloor = user.Floor,
+                UserApartmentNumber = user.ApartmentNumber,
+                Offices = offices,
+                Cities = cities,
             };
 
             return this.View(viewModel);
@@ -65,6 +89,26 @@
             if (!this.ModelState.IsValid)
             {
                 return this.BadRequest();
+            }
+
+            if (inputModel.DeliveryType == DeliveryType.ToOffice)
+            {
+                if (inputModel.OfficeName == null)
+                {
+                    return this.RedirectToAction(nameof(this.Create));
+                }
+            }
+
+            if (inputModel.DeliveryType == DeliveryType.ToAddress)
+            {
+                if (inputModel.UserNeighborhood == null ||
+                    inputModel.UserStreet == null ||
+                    inputModel.UserStreetNumber == null ||
+                    inputModel.UserFloor == null ||
+                    inputModel.UserApartmentNumber == null)
+                {
+                    return this.RedirectToAction(nameof(this.Create));
+                }
             }
 
             var user = await this.userManager.GetUserAsync(this.User);

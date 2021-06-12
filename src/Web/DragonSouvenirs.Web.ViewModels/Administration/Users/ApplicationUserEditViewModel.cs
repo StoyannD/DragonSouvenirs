@@ -31,13 +31,58 @@
         [EmailAddress(ErrorMessage = GlobalConstants.User.EmailAddressError)]
         public string Email { get; set; }
 
-        [Display(Name = GlobalConstants.User.DefaultShippingAddressDisplay)]
+        public string DefaultShippingAddress { get; set; }
+
         [Required]
         [StringLength(
-            GlobalConstants.User.DefaultShippingAddressMaxLength,
-            MinimumLength = GlobalConstants.User.DefaultShippingAddressMinLength,
-            ErrorMessage = GlobalConstants.User.DefaultShippingAddressLengthError)]
-        public string DefaultShippingAddress { get; set; }
+            GlobalConstants.User.CityMaxLength,
+            MinimumLength = GlobalConstants.User.CityMinLength,
+            ErrorMessage = GlobalConstants.User.CityError)]
+        public string City { get; set; }
+
+        // [Required]
+        [StringLength(
+            GlobalConstants.User.NeighborhoodMaxLength,
+            MinimumLength = GlobalConstants.User.NeighborhoodMinLength,
+            ErrorMessage = GlobalConstants.User.NeighborhoodError)]
+        public string Neighborhood { get; set; }
+
+        [Required]
+        [StringLength(
+            GlobalConstants.User.StreetMaxLength,
+            MinimumLength = GlobalConstants.User.StreetMinLength,
+            ErrorMessage = GlobalConstants.User.StreetError)]
+        public string Street { get; set; }
+
+        [Required]
+        [Range(GlobalConstants.User.StreetNumberMin,
+            GlobalConstants.User.StreetNumberMax,
+            ErrorMessage = GlobalConstants.User.StreetNumberError)]
+        public int StreetNumber { get; set; }
+
+        [StringLength(
+            GlobalConstants.User.ApartmentBuildingMaxLength,
+            MinimumLength = GlobalConstants.User.ApartmentBuildingMinLength,
+            ErrorMessage = GlobalConstants.User.ApartmentBuildingError)]
+        public string ApartmentBuilding { get; set; }
+
+        [StringLength(
+            GlobalConstants.User.EntranceMaxLength,
+            MinimumLength = GlobalConstants.User.EntranceMinLength,
+            ErrorMessage = GlobalConstants.User.EntranceError)]
+        public string Entrance { get; set; }
+
+        [Required]
+        [Range(GlobalConstants.User.FloorMin,
+            GlobalConstants.User.FloorMax,
+            ErrorMessage = GlobalConstants.User.FloorError)]
+        public int Floor { get; set; }
+
+        [Required]
+        [Range(GlobalConstants.User.ApartmentNumberMin,
+            GlobalConstants.User.ApartmentNumberMax,
+            ErrorMessage = GlobalConstants.User.ApartmentNumberError)]
+        public int ApartmentNumber { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

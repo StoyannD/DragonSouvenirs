@@ -26,6 +26,22 @@ namespace DragonSouvenirs.Data.Models
 
         public string DefaultShippingAddress { get; set; }
 
+        public string City { get; set; }
+
+        public string Neighborhood { get; set; }
+
+        public string Street { get; set; }
+
+        public int StreetNumber { get; set; }
+
+        public string ApartmentBuilding { get; set; }
+
+        public string Entrance { get; set; }
+
+        public int Floor { get; set; }
+
+        public int ApartmentNumber { get; set; }
+
         public virtual ICollection<Order> Orders { get; set; }
 
         // Audit info

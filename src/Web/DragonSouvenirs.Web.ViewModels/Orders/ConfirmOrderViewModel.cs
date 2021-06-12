@@ -3,6 +3,7 @@
     using System;
 
     using DragonSouvenirs.Data.Models;
+    using DragonSouvenirs.Data.Models.Enums;
     using DragonSouvenirs.Services.Mapping;
 
     public class ConfirmOrderViewModel : IMapFrom<Order>
@@ -26,5 +27,7 @@
         public decimal DeliveryPrice { get; set; }
 
         public decimal CartTotalPrice { get; set; }
+
+        public DeliveryType DeliveryType { get; set; }
     }
 }
