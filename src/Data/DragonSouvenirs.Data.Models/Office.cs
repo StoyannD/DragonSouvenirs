@@ -8,6 +8,8 @@
 
     public class Office : BaseDeletableModel<int>
     {
+        public string OfficeBrand { get; set; }
+
         public string Name { get; set; }
 
         public string Country { get; set; }

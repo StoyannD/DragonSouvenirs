@@ -1,4 +1,7 @@
-﻿namespace DragonSouvenirs.Services.Data
+﻿using System.Text.RegularExpressions;
+using HtmlAgilityPack;
+
+namespace DragonSouvenirs.Services.Data
 {
     using System.Collections.Generic;
     using System.IO;
@@ -9,7 +12,6 @@
     using DragonSouvenirs.Common;
     using DragonSouvenirs.Data.Common.Repositories;
     using DragonSouvenirs.Data.Models;
-    using DragonSouvenirs.Services.Mapping;
     using DragonSouvenirs.Web.ViewModels.Administration.Admin.Offices;
     using Microsoft.EntityFrameworkCore;
     using Newtonsoft.Json;
@@ -29,22 +31,6 @@
 
         public async Task UpdateOfficesAsync()
         {
-            var request = WebRequest
-                .Create(GlobalConstants.Offices.RequestUrl);
-            request.Method = "GET";
-
-            var response = (HttpWebResponse)await request.GetResponseAsync();
-
-            string result = null;
-            await using (var stream = response.GetResponseStream())
-            {
-                StreamReader sr = new(stream);
-                result = await sr.ReadToEndAsync();
-                sr.Close();
-            }
-
-            var offices = JsonConvert.DeserializeObject<OfficesViewModel>(result);
-
             foreach (var office in this.officeRepository.AllWithDeleted())
             {
                 this.officeRepository.HardDelete(office);
@@ -55,42 +41,8 @@
                 this.citiesRepository.HardDelete(city);
             }
 
-            var input = offices
-                .Offices
-                .Where(o => o.Address.City.Country.Name == GlobalConstants.Offices.Country)
-                .Select(o => new Office()
-                {
-                    Name = o.Name,
-                    Country = o.Address.City.Country.Name,
-                    City = o.Address.City.Name,
-                    Address = o.Address.FullAddress,
-                    Neighborhood = o.Address.Quarter,
-                    Street = o.Address.Street,
-                    StreetNumber = o.Address.Num,
-                })
-                .ToList();
-
-            foreach (var office in input)
-            {
-                await this.officeRepository.AddAsync(office);
-            }
-
-            var cities = input
-                .Select(i => new City
-                {
-                    Name = i.City,
-                })
-                .GroupBy(c => c.Name)
-                .Select(g => g.First())
-                .ToList();
-
-            foreach (var city in cities)
-            {
-                await this.citiesRepository.AddAsync(city);
-            }
-
-            await this.citiesRepository.SaveChangesAsync();
-            await this.officeRepository.SaveChangesAsync();
+            await this.UpdateEcontOfficesAsync();
+            await this.UpdateSpeedyOfficesAsync();
         }
 
         public async Task<IEnumerable<Web.ViewModels.Offices.OfficeViewModel>> GetAllOfficesAsync()
@@ -138,6 +90,101 @@
                 .ToListAsync();
 
             return citiesList;
+        }
+
+        private async Task UpdateEcontOfficesAsync()
+        {
+            var request = WebRequest
+                .Create(GlobalConstants.Offices.RequestUrl);
+            request.Method = "GET";
+
+            var response = (HttpWebResponse)await request.GetResponseAsync();
+
+            string result = null;
+            await using (var stream = response.GetResponseStream())
+            {
+                StreamReader sr = new(stream);
+                result = await sr.ReadToEndAsync();
+                sr.Close();
+            }
+
+            var offices = JsonConvert.DeserializeObject<OfficesViewModel>(result);
+
+            var input = offices
+                .Offices
+                .Where(o => o.Address.City.Country.Name == GlobalConstants.Offices.Country)
+                .Select(o => new Office()
+                {
+                    OfficeBrand = "Econt",
+                    Name = o.Name,
+                    Country = o.Address.City.Country.Name,
+                    City = o.Address.City.Name,
+                    Address = o.Address.FullAddress,
+                    Neighborhood = o.Address.Quarter,
+                    Street = o.Address.Street,
+                    StreetNumber = o.Address.Num,
+                })
+                .ToList();
+
+            foreach (var office in input)
+            {
+                await this.officeRepository.AddAsync(office);
+            }
+
+            var cities = input
+                .Select(i => new City
+                {
+                    Name = i.City,
+                })
+                .GroupBy(c => c.Name)
+                .Select(g => g.First())
+                .ToList();
+
+            foreach (var city in cities)
+            {
+                await this.citiesRepository.AddAsync(city);
+            }
+
+            await this.citiesRepository.SaveChangesAsync();
+            await this.officeRepository.SaveChangesAsync();
+        }
+
+        private async Task UpdateSpeedyOfficesAsync()
+        {
+            var requestUrl = "https://www.speedy.bg/bg/speedy-offices-automats?city=all&formToken=-false";
+
+            HtmlWeb web = new();
+
+            var document = web.Load(requestUrl);
+
+            var nodes = document.DocumentNode
+                .SelectNodes("//*[@id=\"main\"]/div/div/div/article/div[2]/div[2]/div");
+
+            foreach (var node in nodes)
+            {
+                var name = node.Elements("p").First().InnerHtml;
+
+                var addressRaw = node.Elements("p").ElementAt(1).InnerHtml;
+                var addressRegex = Regex.Match(addressRaw, "<br>(?'address'.*)");
+
+                var address = addressRegex.Groups["address"].Value;
+
+                if (!string.IsNullOrEmpty(name) &&
+                    !string.IsNullOrEmpty(address))
+                {
+                    var office = new Office()
+                    {
+                        OfficeBrand = "Speedy",
+                        Name = name,
+                        Address = address,
+                    };
+
+                    await this.officeRepository.AddAsync(office);
+                }
+            }
+
+            await this.citiesRepository.SaveChangesAsync();
+            await this.officeRepository.SaveChangesAsync();
         }
     }
 }
