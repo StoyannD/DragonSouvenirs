@@ -1,18 +1,17 @@
-﻿using System.Text.RegularExpressions;
-using HtmlAgilityPack;
-
-namespace DragonSouvenirs.Services.Data
+﻿namespace DragonSouvenirs.Services.Data
 {
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Net;
+    using System.Text.RegularExpressions;
     using System.Threading.Tasks;
 
     using DragonSouvenirs.Common;
     using DragonSouvenirs.Data.Common.Repositories;
     using DragonSouvenirs.Data.Models;
     using DragonSouvenirs.Web.ViewModels.Administration.Admin.Offices;
+    using HtmlAgilityPack;
     using Microsoft.EntityFrameworkCore;
     using Newtonsoft.Json;
 
@@ -154,7 +153,6 @@ namespace DragonSouvenirs.Services.Data
             var requestUrl = "https://www.speedy.bg/bg/speedy-offices-automats?city=all&formToken=-false";
 
             HtmlWeb web = new();
-
             var document = web.Load(requestUrl);
 
             var nodes = document.DocumentNode
