@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace DragonSouvenirs.Data.Migrations
+﻿namespace DragonSouvenirs.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class AddOfficeBrandToOfficesEntity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
