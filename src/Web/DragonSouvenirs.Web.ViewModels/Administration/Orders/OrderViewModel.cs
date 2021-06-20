@@ -43,5 +43,7 @@
         public DateTime CreatedOn { get; set; }
 
         public DateTime? DateOfDelivery { get; set; }
+
+        public OfficeBrands OfficeBrand { get; set; }
     }
 }

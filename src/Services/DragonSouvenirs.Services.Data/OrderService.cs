@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -19,19 +20,22 @@
         private readonly IDeletableEntityRepository<CartProduct> cartProductRepository;
         private readonly IDeletableEntityRepository<Cart> cartRepository;
         private readonly IDeletableEntityRepository<Product> productRepository;
+        private readonly IDeletableEntityRepository<Office> officeRepository;
 
         public OrderService(
             IDeletableEntityRepository<Order> orderRepository,
             IDeletableEntityRepository<OrderProduct> orderProductRepository,
             IDeletableEntityRepository<CartProduct> cartProductRepository,
             IDeletableEntityRepository<Cart> cartRepository,
-            IDeletableEntityRepository<Product> productRepository)
+            IDeletableEntityRepository<Product> productRepository,
+            IDeletableEntityRepository<Office> officeRepository)
         {
             this.orderRepository = orderRepository;
             this.orderProductRepository = orderProductRepository;
             this.cartProductRepository = cartProductRepository;
             this.cartRepository = cartRepository;
             this.productRepository = productRepository;
+            this.officeRepository = officeRepository;
         }
 
         public async Task CreateOrderAsync(CreateOrderViewModel model)
@@ -42,7 +46,7 @@
             {
                 var userFullName = model.FirstName + " " + model.LastName;
                 string shippingAddress;
-
+                OfficeBrands officeBrand = model.OfficeBrand; ;
                 if (model.DeliveryType == DeliveryType.ToAddress)
                 {
                     shippingAddress = "гр. " + model.UserCity + ", кв. "
@@ -81,6 +85,7 @@
                     InvoiceNumber = model.InvoiceNumber,
                     ClientFullName = userFullName,
                     Notes = model.Notes,
+                    OfficeBrand = officeBrand,
                 };
 
                 await this.orderRepository.AddAsync(order);

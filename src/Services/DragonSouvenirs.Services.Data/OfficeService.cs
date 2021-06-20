@@ -44,10 +44,11 @@
             await this.UpdateSpeedyOfficesAsync();
         }
 
-        public async Task<IEnumerable<Web.ViewModels.Offices.OfficeViewModel>> GetAllOfficesAsync()
+        public async Task<IEnumerable<Web.ViewModels.Offices.OfficeViewModel>> GetAllEcontOfficesAsync()
         {
             var groupBySubQuery = this.officeRepository
                 .All()
+                .Where(o => o.OfficeBrand == GlobalConstants.Offices.Econt)
                 .GroupBy(x => x.City)
                 .Select(x => new
                 {
@@ -64,6 +65,7 @@
                 .OrderByDescending(x => x.subQ.count)
                 .Select(x => new Web.ViewModels.Offices.OfficeViewModel
                 {
+                    OfficeBrand = x.offices.OfficeBrand,
                     Name = x.offices.Name,
                     Address = x.offices.Address,
                     City = x.offices.City,
@@ -74,6 +76,26 @@
                 .ToListAsync();
 
             return officesList;
+        }
+
+        public async Task<IEnumerable<Web.ViewModels.Offices.OfficeViewModel>> GetAllSpeedyOfficesAsync()
+        {
+            var offices = await this.officeRepository
+                .All()
+                .Where(o => o.OfficeBrand == GlobalConstants.Offices.Speedy)
+                .Select(x => new Web.ViewModels.Offices.OfficeViewModel
+                {
+                    OfficeBrand = x.OfficeBrand,
+                    Name = x.Name,
+                    Address = x.Address,
+                    City = x.City,
+                    Neighborhood = x.Neighborhood,
+                    Street = x.Street,
+                    StreetNumber = x.StreetNumber,
+                })
+                .ToListAsync();
+
+            return offices;
         }
 
         public async Task<IEnumerable<Web.ViewModels.Offices.CityViewModel>> GetAllCitiesAsync()

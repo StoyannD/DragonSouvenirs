@@ -1465,6 +1465,10 @@ ol {
 	margin-bottom: 15px;
 }
 
+.filter__sort select {
+    border: none;
+}
+
 .filter__sort span {
 	font-size: 16px;
 	color: #6f6f6f;

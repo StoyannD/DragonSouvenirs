@@ -16,6 +16,8 @@
 
         public string ShippingAddress { get; set; }
 
+        public OfficeBrands OfficeBrand { get; set; }
+
         public string Notes { get; set; }
 
         public OrderStatus OrderStatus { get; set; }

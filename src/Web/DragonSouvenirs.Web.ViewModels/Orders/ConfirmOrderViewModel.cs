@@ -29,5 +29,7 @@
         public decimal CartTotalPrice { get; set; }
 
         public DeliveryType DeliveryType { get; set; }
+
+        public OfficeBrands OfficeBrand { get; set; }
     }
 }

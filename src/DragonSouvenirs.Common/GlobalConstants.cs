@@ -171,6 +171,10 @@
                 "https://demo.econt.com/ee/services/Nomenclatures/NomenclaturesService.getOffices.json";
 
             public const string Country = "България";
+
+            public const string Econt = "Econt";
+
+            public const string Speedy = "Speedy";
         }
     }
 }

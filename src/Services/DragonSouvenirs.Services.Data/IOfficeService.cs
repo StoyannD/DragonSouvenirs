@@ -9,7 +9,9 @@
     {
         Task UpdateOfficesAsync();
 
-        Task<IEnumerable<OfficeViewModel>> GetAllOfficesAsync();
+        Task<IEnumerable<OfficeViewModel>> GetAllEcontOfficesAsync();
+
+        Task<IEnumerable<OfficeViewModel>> GetAllSpeedyOfficesAsync();
 
         Task<IEnumerable<CityViewModel>> GetAllCitiesAsync();
     }

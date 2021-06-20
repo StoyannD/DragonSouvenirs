@@ -12,6 +12,7 @@
     using DragonSouvenirs.Web.ViewModels.Orders;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
 
     public class OrdersController : Controller
     {
@@ -47,8 +48,10 @@
 
             var offices = new OfficesViewModel
             {
-                Offices = await this.officeService.GetAllOfficesAsync(),
+                EcontOffices = await this.officeService.GetAllEcontOfficesAsync(),
+                SpeedyOffices = await this.officeService.GetAllSpeedyOfficesAsync(),
             };
+            offices.Offices = offices.EcontOffices.Concat(offices.SpeedyOffices);
 
             var cities = new CitiesViewModel
             {

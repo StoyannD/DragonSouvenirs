@@ -88,6 +88,8 @@
 
         public string OfficeName { get; set; }
 
+        public OfficeBrands OfficeBrand { get; set; }
+
         [Required]
         public DeliveryType DeliveryType { get; set; }
 
