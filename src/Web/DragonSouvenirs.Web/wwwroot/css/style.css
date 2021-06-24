@@ -3622,3 +3622,23 @@ a.discountItemPrice {
 	background-color: #85603f;
 	border-color: #85603f;
 }
+
+.btn-custom:hover {
+	color: #fff;
+	background-color: #6e5036;
+	border-color: #6e5036;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+	color: #fff;
+	background-color: #85603f;
+}
+
+.nav-item a {
+	color: #6e5036;
+}
+
+.nav-item a:hover {
+    color: #c28855;
+}

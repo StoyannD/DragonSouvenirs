@@ -37,6 +37,19 @@
             return this.View(viewModel);
         }
 
+        public async Task<ActionResult> Deleted()
+        {
+            var viewModel = new AllProductsViewModel
+            {
+                Products = await this.productsService
+                    .GetDeletedAsync<AdminProductViewModel>(),
+            };
+
+            this.TempData.Keep();
+
+            return this.View(viewModel);
+        }
+
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
@@ -66,15 +79,15 @@
             return RedirectToAction("Index", "Products", new { area = "Administration" });
         }
 
-        [HttpPost]
-        public async Task<ActionResult> HardDelete(int id)
-        {
-            var postTitle = await this.productsService.HardDeleteAsync(id);
+        //[HttpPost]
+        //public async Task<ActionResult> HardDelete(int id)
+        //{
+        //    var postTitle = await this.productsService.HardDeleteAsync(id);
 
-            this.TempData["success"] = string.Format(GlobalConstants.Product.ProductSuccessfullyDeleted, postTitle);
+        //    this.TempData["success"] = string.Format(GlobalConstants.Product.ProductSuccessfullyDeleted, postTitle);
 
-            return RedirectToAction("Index", "Products", new { area = "Administration" });
-        }
+        //    return RedirectToAction("Index", "Products", new { area = "Administration" });
+        //}
 
         public async Task<ActionResult> Edit(int? id)
         {

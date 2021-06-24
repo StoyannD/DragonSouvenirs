@@ -18,7 +18,7 @@
                 .ForMember(m => m.CartProductsCount, options =>
                 {
                     options.MapFrom(
-                        p => p.CartProducts.Sum(cp => cp.Quantity));
+                        p => p.CartProducts.Where(cp => cp.Product.IsDeleted == false).Sum(cp => cp.Quantity));
                 })
                 .ForMember(m => m.CartTotal, options =>
                 {

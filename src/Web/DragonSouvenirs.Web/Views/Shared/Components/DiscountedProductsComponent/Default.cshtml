@@ -64,16 +64,15 @@
                                     @product.Name
                                 </a>
                             </h6>
-                            <h5>
-
-                                <a asp-controller="Products"
-                                   asp-action="ByName"
-                                   asp-route-title="@product.TitleLink">
-                                    <span>@product.Price</span>
-                                    @product.DiscountPrice
-                                    лв.
-                                </a>
-                            </h5>
+                               <h5>
+                                   <a asp-controller="Products"
+                                      asp-action="ByName"
+                                      asp-route-title="@product.TitleLink">
+                                       <span>@product.Price</span>
+                                       @product.DiscountPrice
+                                       лв.
+                                   </a>
+                               </h5>
                         </div>
                     </div>
                 </div>

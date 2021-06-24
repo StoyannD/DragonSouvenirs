@@ -4,7 +4,51 @@
           asp-route="favouriteRoutePost"
           asp-route-title="@Model.TitleLink"
           method="post">
-        @if (this.Model.DiscountPrice != null)
+        @if (this.Model.Quantity < 1)
+        {
+            <div class="product__discount__item mb-5">
+                <div class="product__discount__item__pic set-bg"
+                     data-setbg="@Model.Images.FirstOrDefault()?.ImgUrl">
+                    <div class="product__discount__percent">
+                        -@($"{(100 - (this.Model.DiscountPrice / this.Model.Price) * 100):F0}")%
+                    </div>
+                    <ul class="product__item__pic__hover">
+                        <li>
+                            <button type="submit">
+                                <i class="fa fa-heart"></i>
+                            </button>
+                        </li>
+                        <li>
+                            <a asp-controller="Products"
+                               asp-action="ByName"
+                               asp-route-title="@Model.TitleLink">
+                                <i class="fa fa-arrow-up"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="Cart"
+                               asp-action="Add"
+                               asp-route-id="@Model.Id"
+                               asp-route-toCart="true"><i class="fa fa-shopping-cart"></i></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="product__item__text">
+                    <a asp-controller="Products"
+                       asp-action="ByName"
+                       asp-route-title="@Model.TitleLink">
+                        <span>@Model.CategoryName</span>
+                        <h6>
+                            @Model.Name
+                        </h6>
+                        <h5 style="color: red;">
+                            Sold out!
+                        </h5>
+                    </a>
+                </div>
+            </div>
+        }
+        else if (this.Model.DiscountPrice != null)
         {
             <div class="product__discount__item mb-5">
                 <div class="product__discount__item__pic set-bg"

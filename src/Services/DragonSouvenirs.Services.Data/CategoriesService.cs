@@ -16,16 +16,32 @@
     public class CategoriesService : ICategoriesService
     {
         private readonly IDeletableEntityRepository<Category> categoriesRepository;
+        private readonly IDeletableEntityRepository<Product> productsRepository;
 
-        public CategoriesService(IDeletableEntityRepository<Category> categoriesRepository)
+        public CategoriesService(
+            IDeletableEntityRepository<Category> categoriesRepository,
+            IDeletableEntityRepository<Product> productsRepository)
         {
             this.categoriesRepository = categoriesRepository;
+            this.productsRepository = productsRepository;
         }
 
         public async Task<IEnumerable<T>> GetAllAsync<T>()
         {
             var categories = await this.categoriesRepository
                 .All()
+                .OrderBy(c => c.Title)
+                .To<T>()
+                .ToListAsync();
+
+            return categories;
+        }
+
+        public async Task<IEnumerable<T>> GetDeletedAsync<T>()
+        {
+            var categories = await this.categoriesRepository
+                .AllWithDeleted()
+                .Where(c => c.IsDeleted)
                 .OrderBy(c => c.Title)
                 .To<T>()
                 .ToListAsync();
@@ -101,13 +117,24 @@
                 .AllWithDeleted()
                 .FirstOrDefaultAsync(c => c.Id == id);
 
+            var products = this.productsRepository
+                    .AllWithDeleted()
+                    .Where(p => p.ProductCategories.Any(pc => pc.CategoryId == id));
+
             if (category == null)
             {
                 // TODO add message
                 throw new NullReferenceException();
             }
 
+            foreach (var product in products)
+            {
+                product.IsDeleted = !product.IsDeleted;
+            }
+
             category.IsDeleted = !category.IsDeleted;
+
+            await this.productsRepository.SaveChangesAsync();
             await this.categoriesRepository.SaveChangesAsync();
 
             return category.Title;

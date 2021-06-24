@@ -25,7 +25,20 @@
             var viewModel = new AllCategoriesViewModel();
 
             var categories = await this.categoriesService
-                .GetAllAdminAsync<AdminCategoryViewModel>();
+                .GetAllAsync<AdminCategoryViewModel>();
+            viewModel.Categories = categories;
+
+            this.TempData.Keep();
+
+            return this.View(viewModel);
+        }
+
+        public async Task<ActionResult> Deleted()
+        {
+            var viewModel = new AllCategoriesViewModel();
+
+            var categories = await this.categoriesService
+                .GetDeletedAsync<AdminCategoryViewModel>();
             viewModel.Categories = categories;
 
             this.TempData.Keep();

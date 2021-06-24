@@ -33,16 +33,14 @@
             <span asp-validation-for="ImageUrl" class="text-danger"></span>
         </div>
         <div class="form-row">
-            <div class="form-group col-sm-1">
-                <div>
-                    <a asp-area="Administration"
-                       asp-controller="Categories"
-                       asp-action="Index"
-                       class="btn btn-secondary">Back</a>
-                </div>
+            <div class="col-sm-1">
+                <a asp-area="Administration"
+                   asp-controller="Categories"
+                   asp-action="Index"
+                   class="btn btn-secondary">Back</a>
             </div>
             <div class="form-group col-sm-1">
-                <button type="submit" class="btn btn-success">Create</button>
+                <button type="submit" class="btn btn-custom">Create</button>
             </div>
         </div>
     </form>

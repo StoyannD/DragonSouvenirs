@@ -33,7 +33,19 @@
         public async Task<IEnumerable<T>> GetAllAdminAsync<T>()
         {
             var products = await this.productsRepository
+                .All()
+                .OrderBy(p => p.Name)
+                .To<T>()
+                .ToListAsync();
+
+            return products;
+        }
+
+        public async Task<IEnumerable<T>> GetDeletedAsync<T>()
+        {
+            var products = await this.productsRepository
                 .AllWithDeleted()
+                .Where(p => p.IsDeleted)
                 .OrderBy(p => p.Name)
                 .To<T>()
                 .ToListAsync();
@@ -120,7 +132,7 @@
         {
             var products = this.productsRepository
                 .All()
-                .Where(p => p.DiscountPrice != null)
+                .Where(p => p.DiscountPrice != null && p.Quantity > 0)
                 .OrderByDescending(p => p.Price - p.DiscountPrice.Value)
                 .ThenByDescending(p => p.OrderProducts.Count)
                 .Take(take);
@@ -132,7 +144,7 @@
         {
             var products = this.favouriteProductRepository
                 .All()
-                .Where(fp => fp.UserId == userId)
+                .Where(fp => fp.UserId == userId && fp.Product.IsDeleted == false)
                 .OrderByDescending(fp => fp.CreatedOn);
 
             return await products.To<T>().ToListAsync();

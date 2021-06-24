@@ -9,6 +9,8 @@
     {
         Task<IEnumerable<T>> GetAllAsync<T>();
 
+        Task<IEnumerable<T>> GetDeletedAsync<T>();
+
         Task<IEnumerable<T>> GetAllAdminAsync<T>();
 
         Task<IEnumerable<T>> GetAllByProductIdAsync<T>(int? id);
