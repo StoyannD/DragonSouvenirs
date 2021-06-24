@@ -84,6 +84,18 @@
             services.AddTransient<ICartService, CartService>();
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IOfficeService, OfficeService>();
+
+            services.AddAuthentication()
+                .AddFacebook(options =>
+                {
+                    options.AppId = this.configuration["Authentication:Facebook:AppId"];
+                    options.AppSecret = this.configuration["Authentication:Facebook:AppSecret"];
+                })
+                .AddGoogle(options =>
+                {
+                    options.ClientId = this.configuration["Authentication:Google:ClientId"];
+                    options.ClientSecret = this.configuration["Authentication:Google:ClientSecret"];
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

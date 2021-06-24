@@ -3604,7 +3604,21 @@ li.currentCategory {
 .form-group button {
     width: 15rem;
 }
+
+.form-group a {
+	color: #6e5036;
+}
+.form-group a:hover {
+    color: #c28855;
+}
+
 a.discountItemPrice {
 	color: #252525;
     text-decoration: none;
+}
+
+.btn-custom {
+	color: #fff;
+	background-color: #85603f;
+	border-color: #85603f;
 }
