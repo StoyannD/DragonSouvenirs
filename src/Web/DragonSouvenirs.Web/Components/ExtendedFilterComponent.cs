@@ -33,6 +33,7 @@
         };
 
             viewModel.Categories.ForAll(c => c.IsSelected = false);
+
             return this.View(viewModel);
         }
     }

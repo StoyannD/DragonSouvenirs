@@ -92,13 +92,18 @@
         public async Task<ActionResult> Favourites()
         {
             var user = await this.userManager.GetUserAsync(this.User);
-
-            var viewModel = new FavouriteProductsViewModel
+            var viewModel = new FavouriteProductsViewModel();
+            if (user != null)
             {
-                Products = await this.productsService
-                .GetFavouriteProductsAsync<FavouriteProductViewModel>(user.Id),
-            };
+                viewModel.Products = await this.productsService
+                    .GetFavouriteProductsAsync<FavouriteProductViewModel>(user.Id);
+            }
 
+            // var viewModel = new FavouriteProductsViewModel
+            // {
+            //    Products = await this.productsService
+            //    .GetFavouriteProductsAsync<FavouriteProductViewModel>(user.Id),
+            // };
             this.TempData["Url"] = this.Request.Path.Value;
             return this.View(viewModel);
         }

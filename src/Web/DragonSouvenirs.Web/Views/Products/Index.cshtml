@@ -11,8 +11,11 @@
         <div class="row">
             <div class="col-lg-3 col-md-5">
                 <div class="sidebar">
-                    @await this.Component.InvokeAsync(typeof(ExtendedFilterComponent))
-                    @await this.Component.InvokeAsync(typeof(LatestProductsComponent))
+                    @if (this.Model.Products.Any())
+                    {
+                        @await this.Component.InvokeAsync(typeof(ExtendedFilterComponent))
+                        @await this.Component.InvokeAsync(typeof(LatestProductsComponent))
+                    }
                 </div>
             </div>
             <div class="col-lg-9 col-md-7">
