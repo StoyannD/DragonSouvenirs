@@ -6,9 +6,9 @@
                 <table>
                     <thead>
                         <tr>
-                            <th class="shoping__product">Products</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
+                            <th class="shoping__product">Продукти</th>
+                            <th>Цена</th>
+                            <th>Количество</th>
                             <th>Total</th>
                             <th></th>
                         </tr>
@@ -20,20 +20,19 @@
                                 <td class="shoping__cart__item">
                                     <img src="@(product.ProductImages
                                                   .FirstOrDefault()?.ImgUrl ?? string.Empty)"
-                                         width="90"
+                                         width="120"
                                          alt="">
                                     <h5>
                                         <strong>@product.ProductName</strong>
                                         <span class="text-muted font-weight-normal font-italic d-block">
-                                            @product.ProductProductCategories.FirstOrDefault()?.CategoryName
+                                            @product.ProductProductCategories.FirstOrDefault()?.CategoryTitle
                                         </span>
-                                    </h5>
-                                    <h5 class="ml-lg-3">
                                         <strong>@product.ProductHeight х @product.ProductWidth см.</strong>
-                                        <span class="text-muted font-weight-normal font-italic d-block">
-                                            @product.ProductDescriptionShort
-                                        </span>
+                                        
                                     </h5>
+                                    <span class="text-muted font-weight-normal font-italic d-block">
+                                        @product.ProductDescriptionShort
+                                    </span>
                                 </td>
                                 <td class="shoping__cart__price">
                                     @(product.ProductPrice + " лв.")

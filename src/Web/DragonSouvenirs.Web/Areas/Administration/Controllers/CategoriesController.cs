@@ -43,7 +43,7 @@
 
             this.TempData.Keep();
 
-            return this.View(viewModel);
+            return View("Index", viewModel);
         }
 
         [HttpGet]

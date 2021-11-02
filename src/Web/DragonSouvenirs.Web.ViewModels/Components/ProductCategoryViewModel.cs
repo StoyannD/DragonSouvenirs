@@ -6,5 +6,7 @@
     public class ProductCategoryViewModel : IMapFrom<ProductCategory>
     {
         public string CategoryName { get; set; }
+
+        public string CategoryTitle { get; set; }
     }
 }

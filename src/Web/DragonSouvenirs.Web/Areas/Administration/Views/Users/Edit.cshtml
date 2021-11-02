@@ -1,18 +1,19 @@
 ﻿@model DragonSouvenirs.Web.ViewModels.Administration.Users.ApplicationUserEditViewModel
 @{
-    ViewData["Title"] = "Edit user";
+    ViewData["Title"] = "Редактирай потребител";
 }
 
 <div class="container">
-    <h3>@ViewData["Title"]</h3>
-    <ul>
+    <h3 class="m-4" align="center">@ViewData["Title"]</h3>
+    <ul class="m-4">
         <li>
-            Created on: <strong>@this.Model.CreatedOn.ToString("yyyy MMMM dd")</strong>
+            Дата на създаване: <strong>@this.Model.CreatedOn.ToString("yyyy MMMM d", new System.Globalization.CultureInfo("bg-BG"))</strong>
         </li>
         <li>
-            Last Modified: <strong>@(Model.ModifiedOn?.ToString("yyyy MMMM dd") ?? "Never")</strong>
+            Последна промяна: <strong>@(Model.ModifiedOn?.ToString("yyyy MMMM d", new System.Globalization.CultureInfo("bg-BG")) ?? "Never")</strong>
         </li>
     </ul>
+
     <form enctype="multipart/form-data"
           asp-area="Administration"
           asp-controller="Users"
@@ -26,13 +27,13 @@
             </div>
 
             <div class="form-group col-md-6">
-                <label asp-for="FullName">Fullname</label>
+                <label asp-for="FullName">Име и Фамилия</label>
                 <input asp-for="FullName" class="form-control" value="@this.Model.FullName">
                 <span asp-validation-for="FullName" class="text-danger"></span>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Email">Email</label>
+            <label asp-for="Email">Имейл</label>
             <input asp-for="Email" class="form-control" value="@this.Model.Email" />
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
@@ -129,11 +130,11 @@
                     <a asp-area="Administration"
                        asp-controller="Users"
                        asp-action="Index"
-                       class="btn btn-secondary">Back</a>
+                       class="btn btn-secondary">Назад</a>
                 </div>
             </div>
             <div class="form-group col-sm-1">
-                <button type="submit" class="btn btn-custom">Edit</button>
+                <button type="submit" class="btn btn-custom">Редактирай</button>
             </div>
         </div>
     </form>

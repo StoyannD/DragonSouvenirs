@@ -33,6 +33,8 @@
 
         public string CategoryName { get; set; }
 
+        public string CategoryTitle { get; set; }
+
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Product, ProductInCategoryViewModel>()
@@ -42,6 +44,10 @@
                         p => string.Join(" ", p.ProductCategories
                             .Select(pc => pc.Category.Name ?? string.Empty)
                             .ToList()));
+                })
+                .ForMember(m => m.CategoryTitle, options =>
+                {
+                    options.MapFrom(p => p.ProductCategories.FirstOrDefault().Category.Title);
                 });
         }
     }

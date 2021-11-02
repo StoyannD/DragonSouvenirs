@@ -6,22 +6,22 @@
             <div>
                 <i class="fas fa-exclamation-triangle"></i>
             </div>
-            <h4 class="modal-title w-100">Are you sure?</h4>
+            <h4 class="modal-title w-100">Сигурен ли си?</h4>
         </div>
         <div class="modal-body">
-            <p>Do you really want to ban user: @Model.UserName?</p>
+            <p>Изкаш ли да Ban-неш потребител: @Model.UserName?</p>
         </div>
         <div class="modal-footer justify-content-center">
             <a asp-controller="Users"
                asp-action="Index"
                class="btn btn-secondary">
-                Cancel
+                Назад
             </a>
             <form asp-area="Administration"
                   asp-controller="Users"
                   asp-action="Ban"
                   asp-route-id="@Model.Id">
-                <button type="submit" class="btn btn-danger">Proceed</button>
+                <button type="submit" class="btn btn-danger">Продължи</button>
             </form>
         </div>
     </div>

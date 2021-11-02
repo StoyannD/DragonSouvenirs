@@ -9,9 +9,6 @@
             <div class="product__discount__item mb-5">
                 <div class="product__discount__item__pic set-bg"
                      data-setbg="@Model.Images.FirstOrDefault()?.ImgUrl">
-                    <div class="product__discount__percent">
-                        -@($"{(100 - (this.Model.DiscountPrice / this.Model.Price) * 100):F0}")%
-                    </div>
                     <ul class="product__item__pic__hover">
                         <li>
                             <button type="submit">
@@ -25,24 +22,18 @@
                                 <i class="fa fa-arrow-up"></i>
                             </a>
                         </li>
-                        <li>
-                            <a asp-controller="Cart"
-                               asp-action="Add"
-                               asp-route-id="@Model.Id"
-                               asp-route-toCart="true"><i class="fa fa-shopping-cart"></i></a>
-                        </li>
                     </ul>
                 </div>
                 <div class="product__item__text">
                     <a asp-controller="Products"
                        asp-action="ByName"
                        asp-route-title="@Model.TitleLink">
-                        <span>@Model.CategoryName</span>
+                        <span>@Model.CategoryTitle</span>
                         <h6>
                             @Model.Name
                         </h6>
                         <h5 style="color: red;">
-                            Sold out!
+                            Продадено
                         </h5>
                     </a>
                 </div>
@@ -69,12 +60,25 @@
                                 <i class="fa fa-arrow-up"></i>
                             </a>
                         </li>
-                        <li>
-                            <a asp-controller="Cart"
-                               asp-action="Add"
-                               asp-route-id="@Model.Id"
-                               asp-route-toCart="true"><i class="fa fa-shopping-cart"></i></a>
-                        </li>
+                        @if (this.User.Identity.IsAuthenticated)
+                        {
+                            <li>
+                                <a asp-controller="Cart"
+                                   asp-action="Add"
+                                   asp-route-id="@Model.Id"
+                                   asp-route-toCart="true">
+                                    <i class="fa fa-shopping-cart"></i>
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a asp-area="Identity" asp-page="/Account/Login">
+                                    <i class="fa fa-shopping-cart"></i>
+                                </a>
+                            </li>
+                        }
                     </ul>
                 </div>
                 <div class="product__discount__item__text">
@@ -82,7 +86,7 @@
                        asp-action="ByName"
                        asp-route-title="@Model.TitleLink"
                        class="discountItemPrice">
-                        <span>@Model.CategoryName</span>
+                        <span>@Model.CategoryTitle</span>
                         <h6>
                             @Model.Name
                         </h6>
@@ -113,19 +117,32 @@
                                 <i class="fa fa-arrow-up"></i>
                             </a>
                         </li>
-                        <li>
-                            <a asp-controller="Cart"
-                               asp-action="Add"
-                               asp-route-id="@Model.Id"
-                               asp-route-toCart="true"><i class="fa fa-shopping-cart"></i></a>
-                        </li>
+                        @if (this.User.Identity.IsAuthenticated)
+                        {
+                            <li>
+                                <a asp-controller="Cart"
+                                   asp-action="Add"
+                                   asp-route-id="@Model.Id"
+                                   asp-route-toCart="true">
+                                    <i class="fa fa-shopping-cart"></i>
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a asp-area="Identity" asp-page="/Account/Login">
+                                    <i class="fa fa-shopping-cart"></i>
+                                </a>
+                            </li>
+                        }
                     </ul>
                 </div>
                 <div class="product__item__text">
                     <a asp-controller="Products"
                        asp-action="ByName"
                        asp-route-title="@Model.TitleLink">
-                        <span>@Model.CategoryName</span>
+                        <span>@Model.CategoryTitle</span>
                         <h6>
                             @Model.Name
                         </h6>

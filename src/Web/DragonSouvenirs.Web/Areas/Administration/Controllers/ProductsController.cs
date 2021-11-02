@@ -47,7 +47,7 @@
 
             this.TempData.Keep();
 
-            return this.View(viewModel);
+            return View("Index", viewModel);
         }
 
         public async Task<ActionResult> Delete(int? id)

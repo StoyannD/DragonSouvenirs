@@ -9,7 +9,7 @@
                 </div>
                 <div class="featured__controls">
                     <ul>
-                        <li class="active" data-filter="*">All</li>
+                        <li class="active" data-filter="*">Всички</li>
                         @foreach (var product in this.Model.Select(c => new
                         {
                             c.CategoryName,
@@ -17,7 +17,7 @@
                         }).Distinct())
                         {
                             var filter = $".{product.CategoryTitle.ToLower()}";
-                            <li data-filter="@filter">@product.CategoryName</li>
+                            <li data-filter="@filter">@product.CategoryTitle</li>
                         }
                     </ul>
                 </div>

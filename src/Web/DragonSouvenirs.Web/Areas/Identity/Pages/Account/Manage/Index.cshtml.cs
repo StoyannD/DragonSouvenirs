@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using DragonSouvenirs.Data.Models;
 using Microsoft.AspNetCore.Identity;
@@ -25,6 +26,24 @@ namespace DragonSouvenirs.Web.Areas.Identity.Pages.Account.Manage
         }
 
         public string Username { get; set; }
+        
+        public string DefaultShippingAddress { get; set; }
+
+        public string City { get; set; }
+
+        public string Neighborhood { get; set; }
+
+        public string Street { get; set; }
+
+        public int? StreetNumber { get; set; }
+
+        public string ApartmentBuilding { get; set; }
+
+        public string Entrance { get; set; }
+
+        public int? Floor { get; set; }
+
+        public int? ApartmentNumber { get; set; }
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -44,7 +63,26 @@ namespace DragonSouvenirs.Web.Areas.Identity.Pages.Account.Manage
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
 
+            var defaultShippingAddress = user.DefaultShippingAddress;
+            var city = user.City;
+            var neighborhood = user.Neighborhood;
+            var street = user.Street;
+            var streetNumber = user?.StreetNumber;
+            var apartmentBuilding = user.ApartmentBuilding;
+            var entrance = user.Entrance;
+            var floor = user?.Floor;
+            var apartmentNumber = user?.ApartmentNumber;
+            
             Username = userName;
+            DefaultShippingAddress = defaultShippingAddress;
+            City = city;
+            Neighborhood = neighborhood;
+            Street = street;
+            StreetNumber = streetNumber;
+            ApartmentBuilding = apartmentBuilding;
+            Entrance = entrance;
+            Floor = floor;
+            ApartmentNumber = apartmentNumber;
 
             Input = new InputModel
             {
@@ -89,7 +127,6 @@ namespace DragonSouvenirs.Web.Areas.Identity.Pages.Account.Manage
                 }
             }
 
-            await _signInManager.RefreshSignInAsync(user);
             StatusMessage = "Your profile has been updated";
             return RedirectToPage();
         }

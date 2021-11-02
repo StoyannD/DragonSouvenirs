@@ -6,23 +6,23 @@
             <div>
                 <i class="fas fa-exclamation-triangle"></i>
             </div>
-            <h4 class="modal-title w-100">Are you sure?</h4>
+            <h4 class="modal-title w-100">Сигурен ли си?</h4>
         </div>
         <div class="modal-body">
-            <p>Do you really want to delete/recover category: @Model.Title?</p>
+            <p>Сигурен ли си, че искаш да изтриеш | възстановиш категория: @Model.Title?</p>
         </div>
         <div class="modal-footer justify-content-center">
             <a asp-area="Administration"
                asp-controller="Categories"
                asp-action="Index"
                class="btn btn-secondary">
-                Cancel
+                Отказ
             </a>
             <form asp-area="Administration"
                   asp-controller="Categories"
                   asp-action="Delete"
                   asp-route-id="@Model.Id">
-                <button type="submit" class="btn btn-danger">Delete/Recover</button>
+                <button type="submit" class="btn btn-danger">Изтрий | Възстанови</button>
             </form>
         </div>
     </div>

@@ -4,22 +4,22 @@
 @using DragonSouvenirs.Data.Models
 @model DragonSouvenirs.Web.ViewModels.Administration.Products.AdminProductEditViewModel
 @{
-    ViewData["Title"] = "Edit Product";
+    ViewData["Title"] = "Редактирай продукт";
     var categories = this.Model
         .AllCategoriesDropdown
         .Select(x => new SelectListItem(
-            x.Name,
+            x.Title,
             x.Id.ToString()
             ));
 }
 <div class="container">
-    <h3>@ViewData["Title"]</h3>
-    <ul>
+    <h3 class="m-4" align="center">@ViewData["Title"]</h3>
+    <ul class="m-4">
         <li>
-            Created on: <strong>@this.Model.CreatedOn.ToString("yyyy MMMM dd")</strong>
+            Дата на създаване: <strong>@this.Model.CreatedOn.ToString("yyyy MMMM d", new System.Globalization.CultureInfo("bg-BG"))</strong>
         </li>
         <li>
-            Last Modified: <strong>@(Model.ModifiedOn?.ToString("yyyy MMMM dd") ?? "Never")</strong>
+            Последна промяна: <strong>@(Model.ModifiedOn?.ToString("yyyy MMMM d", new System.Globalization.CultureInfo("bg-BG")) ?? "Never")</strong>
         </li>
     </ul>
     <form enctype="multipart/form-data"
@@ -41,33 +41,33 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Description">Description</label>
+            <label asp-for="Description">Описание</label>
             <input asp-for="Description" class="form-control" value="@this.Model.Description" />
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
         <div class="form-row">
             <div class="form-group col-2">
-                <label asp-for="Price">Price</label>
+                <label asp-for="Price">Цена</label>
                 <input asp-for="Price" class="form-control" value="@this.Model.Price" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group col-2">
-                <label asp-for="DiscountPrice">Discount Price</label>
+                <label asp-for="DiscountPrice">Намалена цена</label>
                 <input asp-for="DiscountPrice" class="form-control" />
                 <span asp-validation-for="DiscountPrice" class="text-danger"></span>
             </div>
             <div class="form-group col-1">
-                <label asp-for="Quantity">Quantity</label>
+                <label asp-for="Quantity">Количество</label>
                 <input asp-for="Quantity" class="form-control" value="@this.Model.Quantity" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
             <div class="form-group col-1">
-                <label asp-for="Height">Height</label>
+                <label asp-for="Height">Височина</label>
                 <input asp-for="Height" class="form-control" value="@this.Model.Height" />
                 <span asp-validation-for="Height" class="text-danger"></span>
             </div>
             <div class="form-group col-1">
-                <label asp-for="Width">Width</label>
+                <label asp-for="Width">Дължина</label>
                 <input asp-for="Width" class="form-control" value="@this.Model.Width" />
                 <span asp-validation-for="Width" class="text-danger"></span>
             </div>
@@ -79,7 +79,7 @@
                     <img src="@(this.Model.Images[i].ImgUrl ?? CommonImageUrls.AdminPanel.AddProductImgImgUrl)" style="width: 4rem; height: 4rem;" />
                 </div>
                 <div class="form-group col-md-11">
-                    <label asp-for="@this.Model.Images[i].ImgUrl">Image Url</label>
+                    <label asp-for="@this.Model.Images[i].ImgUrl">Url</label>
                     <input asp-for="@this.Model.Images[i].ImgUrl"
                            class="form-control"
                            value="@this.Model.Images[i].ImgUrl" />
@@ -89,11 +89,11 @@
             </div>
         }
         <div class="form-group" style="width: 10rem">
-            <label asp-for="@this.Model.Categories[0].Name"> Category</label>
+            <label asp-for="@this.Model.Categories[0].Name"> Категория</label>
             <select asp-for="@this.Model.Categories[0].Name"
                     asp-items="categories"
                     class="form-control">
-                <option selected="selected" style="background-color: greenyellow" value="@(this.Model.Categories[0].Id)">@this.Model.Categories[0].Name</option>
+                <option selected="selected" style="background-color: greenyellow" value="@(this.Model.Categories[0].Id)">@this.Model.Categories[0].Title</option>
             </select>
             <span asp-validation-for="@this.Model.Categories[0].Name" class="text-danger"></span>
         </div>
@@ -103,11 +103,11 @@
                     <a asp-area="Administration"
                        asp-controller="Products"
                        asp-action="Index"
-                       class="btn btn-secondary">Back</a>
+                       class="btn btn-secondary">Назад</a>
                 </div>
             </div>
             <div class="form-group col-sm-1">
-                <button type="submit" class="btn btn-custom">Edit</button>
+                <button type="submit" class="btn btn-custom">Редактирай</button>
             </div>
         </div>
     </form>

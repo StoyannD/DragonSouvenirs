@@ -36,12 +36,6 @@
                 .To<ApplicationUserViewModel>()
                 .ToListAsync();
 
-            foreach (var appUser in users)
-            {
-                var u = await this.userManager.FindByIdAsync(appUser.Id);
-                appUser.IsAdmin = await this.userManager.IsInRoleAsync(u, GlobalConstants.AdministratorRoleName);
-            }
-
             viewModel.Users = users;
             this.TempData.Keep();
 

@@ -2,13 +2,13 @@
 @using DragonSouvenirs.Common
 @model DragonSouvenirs.Web.ViewModels.Administration.Products.AdminProductInputModel
 @{
-    ViewData["Title"] = "Create Product";
+    ViewData["Title"] = "Създай продукт";
     var categories = this.Model
         .AllCategoriesDropdown
-        .Select(x => new SelectListItem(x.Name, x.Id.ToString()));
+        .Select(x => new SelectListItem(x.Title, x.Id.ToString()));
 }
 <div class="container">
-    <h1>@ViewData["Title"]</h1>
+    <h2 class="m-4" align="center">@ViewData["Title"]</h2>
     <form enctype="multipart/form-data"
           asp-area="Administration"
           asp-controller="Products"
@@ -28,33 +28,33 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Description">Description</label>
+            <label asp-for="Description">Описание</label>
             <input asp-for="Description" class="form-control" />
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
         <div class="form-row">
             <div class="form-group col-2">
-                <label asp-for="Price">Price</label>
+                <label asp-for="Price">Цена</label>
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group col-2">
-                <label asp-for="DiscountPrice">Discount Price</label>
+                <label asp-for="DiscountPrice">Намалена цена</label>
                 <input asp-for="DiscountPrice" class="form-control" />
                 <span asp-validation-for="DiscountPrice" class="text-danger"></span>
             </div>
             <div class="form-group col-1">
-                <label asp-for="Quantity">Quantity</label>
+                <label asp-for="Quantity">Количество</label>
                 <input asp-for="Quantity" class="form-control" />
                 <span asp-validation-for="Quantity" class="text-danger"></span>
             </div>
             <div class="form-group col-1">
-                <label asp-for="Height">Height</label>
+                <label asp-for="Height">Височина</label>
                 <input asp-for="Height" class="form-control" />
                 <span asp-validation-for="Height" class="text-danger"></span>
             </div>
             <div class="form-group col-1">
-                <label asp-for="Width">Width</label>
+                <label asp-for="Width">Дължина</label>
                 <input asp-for="Width" class="form-control" />
                 <span asp-validation-for="Width" class="text-danger"></span>
             </div>
@@ -66,7 +66,7 @@
                     <img src="@(CommonImageUrls.AdminPanel.AddProductImgImgUrl)" style="width: 4rem; height: 4rem;" />
                 </div>
                 <div class="form-group col-md-11">
-                    <label asp-for="@this.Model.Images[i].ImgUrl">Image Url</label>
+                    <label asp-for="@this.Model.Images[i].ImgUrl">Url</label>
                     <input asp-for="@this.Model.Images[i].ImgUrl"
                            class="form-control"/>
                     <span asp-validation-for="@this.Model.Images[i].ImgUrl"
@@ -75,7 +75,7 @@
             </div>
         }
         <div class="form-group" style="width: 10rem">
-            <label asp-for="@this.Model.Categories[0].Name"> Category</label>
+            <label asp-for="@this.Model.Categories[0].Name"> Категория</label>
             <select asp-for="@this.Model.Categories[0].Name"
                     asp-items="categories"
                     class="form-control"></select>
@@ -87,11 +87,11 @@
                     <a asp-area="Administration"
                        asp-controller="Products"
                        asp-action="Index"
-                       class="btn btn-secondary">Back</a>
+                       class="btn btn-secondary">Назад</a>
                 </div>
             </div>
             <div class="form-group col-sm-1">
-                <button type="submit" class="btn btn-custom">Create</button>
+                <button type="submit" class="btn btn-custom">Създай</button>
             </div>
         </div>
     </form>

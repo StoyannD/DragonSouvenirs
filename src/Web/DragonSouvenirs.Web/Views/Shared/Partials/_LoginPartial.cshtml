@@ -15,7 +15,7 @@
             <li>
 
                 <a asp-area="Identity"
-                   asp-page="/Account/Manage/Index">My Profile</a>
+                   asp-page="/Account/Manage/Index">Профил</a>
             </li>
             @if (this.User.IsInRole(@GlobalConstants.AdministratorRoleName))
             {
@@ -23,14 +23,14 @@
 
                     <a asp-area="Administration"
                        asp-controller="Orders"
-                       asp-action="Index">Admin Panel</a>
+                       asp-action="Index">Админ</a>
                 </li>
             }
         </ul>
     </div>
     <div class="header__top__right__auth">
         <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@this.Url.Action("Index", "Home", new {area = string.Empty})">
-            <button type="submit">Logout</button>
+            <button type="submit">Излез</button>
         </form>
         <i class="fa fa-user"></i>
     </div>
@@ -38,11 +38,11 @@
 {
     <div class="header__top__right__auth">
         <a asp-area="Identity" asp-page="/Account/Login">
-            Login
+            Влез
         </a>
-        /
+        |
         <a asp-area="Identity" asp-page="/Account/Register">
-            Register
+            Регистрирай се
         </a>
         <i class="fa fa-user"></i> 
     </div>

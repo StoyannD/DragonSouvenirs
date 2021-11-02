@@ -10,10 +10,10 @@
                     <h2>@Model.Name</h2>
                     <div class="breadcrumb__option">
                         <a asp-controller="Home"
-                           asp-action="Index">Home</a>
+                           asp-action="Index">Начало</a>
                         <a asp-controller="Categories"
                            asp-action="ByName"
-                           asp-route-name="@Model.CategoryName">@Model.CategoryName</a>
+                           asp-route-name="@Model.CategoryName">@Model.CategoryTitle</a>
                         <span>@Model.Name</span>
                     </div>
                 </div>
@@ -82,7 +82,7 @@
                                     </div>
                                     <button type="submit"
                                             class="primary-btn">
-                                        ADD TO CART
+                                        Купи
                                     </button>
                                 </form>
                                 <div>
@@ -99,31 +99,30 @@
                         }
                         else
                         {
-                            <h4 style="color:#d41515">Sold out!</h4>
+                            <h4 style="color:#d41515">Няма наличност!</h4>
                         }
                     </div>
                     <ul>
                         <li>
-                            <b>Availability</b>
-                            <span>@Model.Quantity left.</span>
+                            <b>Наличност</b>
+                            <span>@Model.Quantity бр.</span>
                         </li>
                         <li>
-                            <b>Shipping</b>
+                            <b>Доставка</b>
                             <span>
-                                @DateTime.UtcNow.AddDays(2).ToString("yyyy MMMM dd")
-                                <samp>Free pickup today</samp>
+                                @DateTime.UtcNow.AddDays(2).ToString("dddd, d MMMM yyyy", new System.Globalization.CultureInfo("bg-BG"))
                             </span>
                         </li>
                         <li>
-                            <b>Weight</b>
-                            <span>0.5 kg</span>
+                            <b>Тегло</b>
+                            <span>0.5 кг.</span>
                         </li>
                         <li>
-                            <b>Size</b>
-                            <span>@Model.Height x @Model.Width cm.</span>
+                            <b>Размери</b>
+                            <span>@Model.Height x @Model.Width см.</span>
                         </li>
                         <li>
-                            <b>Share on</b>
+                            <b>Сподели</b>
                             <div class="share">
                                 <a href="#"><i class="fa fa-facebook"></i></a>
                                 <a href="#"><i class="fa fa-twitter"></i></a>
@@ -139,13 +138,13 @@
                     <ul class="nav nav-tabs" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab"
-                               aria-selected="true">Description</a>
+                               aria-selected="true">Описание</a>
                         </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="tabs-1" role="tabpanel">
                             <div class="product__details__tab__desc">
-                                <h6>Products Infomation</h6>
+                                <h6>Информация за продукта</h6>
                                 <p>
                                     @Model.Description
                                 </p>

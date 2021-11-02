@@ -46,21 +46,21 @@
             <div class="col-lg-6">
                 <div class="shoping__continue">
                     <div class="shoping__discount">
-                        <h5>Discount Codes</h5>
+                        <h5>Код за намаление</h5>
                         <form action="#">
-                            <input type="text" placeholder="Enter your coupon code">
-                            <button type="submit" class="site-btn">APPLY COUPON</button>
+                            <input type="text" placeholder="Добави своят код за отстъпка">
+                            <button type="submit" class="site-btn">Приложи</button>
                         </form>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6">
                 <div class="shoping__checkout">
-                    <h5>Cart Total</h5>
+                    <h5>Обща сума</h5>
                     <ul>
                         <li>Цена <span>@Model.TotalPriceBeforeDiscount лв.</span></li>
                         <li>Намаления <span class="CartDiscount">@(Model.TotalPriceBeforeDiscount-Model.TotalPrice) лв.</span></li>
-                        <li>Total <span>@Model.TotalPrice лв.</span></li>
+                        <li>Финална сума <span>@Model.TotalPrice лв.</span></li>
                     </ul>
                     <a class="primary-btn"
                        asp-controller="Orders"

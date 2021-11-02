@@ -61,8 +61,8 @@
             var viewModel = new CreateOrderViewModel
             {
                 UserFullName = user.FullName,
-                FirstName = user.FullName.Split(' ').First(),
-                LastName = user.FullName[user.FullName.IndexOf(" ", StringComparison.Ordinal)..],
+                FirstName = user.FullName?.Split(' ').FirstOrDefault(),
+                LastName = user.FullName?[user.FullName.IndexOf(" ", StringComparison.Ordinal)..],
                 UserEmail = user.Email,
                 InvoiceNumber = user.PhoneNumber,
                 UserCity = user.City,

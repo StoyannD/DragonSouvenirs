@@ -1,15 +1,15 @@
 ﻿@model DragonSouvenirs.Web.ViewModels.Administration.Categories.AdminCategoryEditViewModel
 @{
-    ViewData["Title"] = "Edit Category";
+    ViewData["Title"] = "Редактирай категория";
 }
 <div class="container">
-    <h3>@ViewData["Title"]</h3>
-    <ul>
+    <h3 class="m-4" align="center">@ViewData["Title"]</h3>
+    <ul class="m-4">
         <li>
-            Created on: <strong>@this.Model.CreatedOn.ToString("yyyy MMMM dd")</strong>
+            Дата на създаване: <strong>@this.Model.CreatedOn.ToString("yyyy MMMM d", new System.Globalization.CultureInfo("bg-BG"))</strong>
         </li>
         <li>
-            Last Modified: <strong>@(Model.ModifiedOn?.ToString("yyyy MMMM dd") ?? "Never")</strong>
+            Последна промяна: <strong>@(Model.ModifiedOn?.ToString("yyyy MMMM d", new System.Globalization.CultureInfo("bg-BG")) ?? "Never")</strong>
         </li>
     </ul>
 
@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Content">Content</label>
+            <label asp-for="Content">Съдържание</label>
             <input asp-for="Content" class="form-control" value="@this.Model.Content" />
             <span asp-validation-for="Content" class="text-danger"></span>
         </div>
@@ -41,7 +41,7 @@
                 <img src="@this.Model.ImageUrl" style="width: 4rem; height: 4rem;" />
             </div>
             <div class="form-group col-md-11">
-                <label asp-for="ImageUrl">Image Url</label>
+                <label asp-for="ImageUrl">Url</label>
                 <input asp-for="ImageUrl" class="form-control" value="@this.Model.ImageUrl" />
                 <span asp-validation-for="ImageUrl" class="text-danger"></span>
             </div>
@@ -52,11 +52,11 @@
                     <a asp-area="Administration"
                        asp-controller="Categories"
                        asp-action="Index"
-                       class="btn btn-secondary">Back</a>
+                       class="btn btn-secondary">Назад</a>
                 </div>
             </div>
             <div class="form-group col-sm-1">
-                <button type="submit" class="btn btn-custom">Edit</button>
+                <button type="submit" class="btn btn-custom">Редактирай</button>
             </div>
         </div>
     </form>

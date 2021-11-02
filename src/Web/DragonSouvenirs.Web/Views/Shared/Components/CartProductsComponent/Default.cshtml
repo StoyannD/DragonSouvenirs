@@ -6,9 +6,9 @@
                 <table>
                     <thead>
                         <tr>
-                            <th class="shoping__product">Products</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
+                            <th class="shoping__product">Продукти</th>
+                            <th>Цена</th>
+                            <th>Количество</th>
                             <th>Total</th>
                             <th></th>
                         </tr>
@@ -25,7 +25,7 @@
                                     <h5>
                                         <strong>@product.ProductName</strong>
                                         <span class="text-muted font-weight-normal font-italic d-block">
-                                            @product.ProductProductCategories.FirstOrDefault()?.CategoryName
+                                            @product.ProductProductCategories.FirstOrDefault()?.CategoryTitle
                                         </span>
                                     </h5>
                                     <h5 class="ml-lg-3">
