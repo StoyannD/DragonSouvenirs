@@ -41,22 +41,25 @@
         [Required]
         public string UserCity { get; set; }
 
+        [Required]
         [StringLength(
             GlobalConstants.Order.NeighborhoodMaxLength,
             MinimumLength = GlobalConstants.Order.NeighborhoodMinLength,
             ErrorMessage = GlobalConstants.Order.NeighborhoodError)]
         public string UserNeighborhood { get; set; }
 
+        [Required]
         [StringLength(
             GlobalConstants.Order.StreetMaxLength,
             MinimumLength = GlobalConstants.Order.StreetMinLength,
             ErrorMessage = GlobalConstants.Order.StreetError)]
         public string UserStreet { get; set; }
 
+        [Required]
         [Range(GlobalConstants.Order.StreetNumberMin,
             GlobalConstants.Order.StreetNumberMax,
             ErrorMessage = GlobalConstants.Order.StreetNumberError)]
-        public int? UserStreetNumber { get; set; }
+        public int UserStreetNumber { get; set; }
 
         [StringLength(
             GlobalConstants.Order.ApartmentBuildingMaxLength,
@@ -70,15 +73,17 @@
             ErrorMessage = GlobalConstants.Order.EntranceError)]
         public string UserEntrance { get; set; }
 
+        [Required]
         [Range(GlobalConstants.Order.FloorMin,
             GlobalConstants.Order.FloorMax,
             ErrorMessage = GlobalConstants.Order.FloorError)]
-        public int? UserFloor { get; set; }
+        public int UserFloor { get; set; }
 
+        [Required]
         [Range(GlobalConstants.Order.ApartmentNumberMin,
             GlobalConstants.Order.ApartmentNumberMax,
             ErrorMessage = GlobalConstants.Order.ApartmentNumberError)]
-        public int? UserApartmentNumber { get; set; }
+        public int UserApartmentNumber { get; set; }
 
         [StringLength(
             GlobalConstants.Order.NotesMaxLength,
@@ -104,5 +109,7 @@
         public OfficesViewModel Offices { get; set; }
 
         public CitiesViewModel Cities { get; set; }
+
+        public bool ToUpdateAddress { get; set; }
     }
 }

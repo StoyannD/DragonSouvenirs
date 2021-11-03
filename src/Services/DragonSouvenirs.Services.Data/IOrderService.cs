@@ -8,6 +8,8 @@
 
     public interface IOrderService
     {
+        Task<IEnumerable<T>> GetAllByUserIdAsync<T>(string userId);
+
         Task CreateOrderAsync(CreateOrderViewModel model);
 
         Task<T> GetProcessingOrderAsync<T>(string userId);

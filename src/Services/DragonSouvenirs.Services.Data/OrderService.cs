@@ -38,6 +38,19 @@
             this.officeRepository = officeRepository;
         }
 
+        public async Task<IEnumerable<T>> GetAllByUserIdAsync<T>(string userId)
+        {
+            var orders = await this.orderRepository
+                .All()
+                .Where(o => o.UserId == userId)
+                .OrderByDescending(o => o.CreatedOn)
+                .ThenByDescending(o => o.TotalPrice)
+                .To<T>()
+                .ToListAsync();
+
+            return orders;
+        }
+
         public async Task CreateOrderAsync(CreateOrderViewModel model)
         {
             if (!await this.orderRepository

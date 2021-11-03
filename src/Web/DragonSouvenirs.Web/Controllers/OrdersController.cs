@@ -2,14 +2,17 @@
 {
     using System;
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
     using DragonSouvenirs.Common;
     using DragonSouvenirs.Data.Models;
     using DragonSouvenirs.Data.Models.Enums;
     using DragonSouvenirs.Services.Data;
+    using DragonSouvenirs.Web.ViewModels.Home;
     using DragonSouvenirs.Web.ViewModels.Offices;
     using DragonSouvenirs.Web.ViewModels.Orders;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
@@ -34,6 +37,20 @@
             this.cartService = cartService;
             this.productsService = productsService;
             this.officeService = officeService;
+        }
+
+        [Authorize]
+        [Route(
+            "/MyOrders",
+            Name = "myOrdersRoute")]
+        public async Task<ActionResult> MyOrders()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var viewModel = new MyOrdersViewModel();
+            viewModel.Orders = await this.orderService.GetAllByUserIdAsync<MyOrderViewModel>(userId);
+
+            return this.View(viewModel);
         }
 
         public async Task<ActionResult> Create()
@@ -81,8 +98,7 @@
         }
 
         [HttpPost]
-        [ActionName("Create")]
-        public async Task<ActionResult> CreatePost(CreateOrderViewModel inputModel)
+        public async Task<ActionResult> Create(CreateOrderViewModel inputModel)
         {
             if (inputModel == null)
             {
@@ -102,18 +118,17 @@
                 }
             }
 
-            if (inputModel.DeliveryType == DeliveryType.ToAddress)
-            {
-                if (inputModel.UserNeighborhood == null ||
-                    inputModel.UserStreet == null ||
-                    inputModel.UserStreetNumber == null ||
-                    inputModel.UserFloor == null ||
-                    inputModel.UserApartmentNumber == null)
-                {
-                    return this.RedirectToAction(nameof(this.Create));
-                }
-            }
-
+            // if (inputModel.DeliveryType == DeliveryType.ToAddress)
+            // {
+            //    if (inputModel.UserNeighborhood == null ||
+            //        inputModel.UserStreet == null ||
+            //        inputModel.UserStreetNumber == null ||
+            //        inputModel.UserFloor == null ||
+            //        inputModel.UserApartmentNumber == null)
+            //    {
+            //        return this.RedirectToAction(nameof(this.Create));
+            //    }
+            // }
             var user = await this.userManager.GetUserAsync(this.User);
 
             inputModel.UserId = user.Id;
@@ -121,6 +136,36 @@
             inputModel.DeliveryPrice = GlobalConstants.Order.DeliveryPrice;
 
             await this.orderService.CreateOrderAsync(inputModel);
+
+            if (inputModel.ToUpdateAddress)
+            {
+                user.FullName = $"{inputModel.FirstName} {inputModel.LastName}";
+                user.PhoneNumber = inputModel.InvoiceNumber;
+                user.City = inputModel.UserCity;
+                user.Neighborhood = inputModel.UserNeighborhood;
+                user.Street = inputModel.UserStreet;
+                user.StreetNumber = inputModel.UserStreetNumber;
+                user.Floor = inputModel.UserFloor;
+                user.ApartmentNumber = inputModel.UserApartmentNumber;
+
+                var userDefaultAddress
+                    = $"гр. {inputModel.UserCity}, кв. {inputModel.UserNeighborhood}, ул. {inputModel.UserStreet} {inputModel.UserStreetNumber}, ет. {inputModel.UserFloor}, ап. {inputModel.UserApartmentNumber}";
+
+                if (inputModel.UserApartmentBuilding != null)
+                {
+                    user.ApartmentBuilding = inputModel.UserApartmentBuilding;
+                    userDefaultAddress += $", Блок {inputModel.UserApartmentBuilding}";
+                }
+
+                if (inputModel.UserEntrance != null)
+                {
+                    user.Entrance = inputModel.UserEntrance;
+                    userDefaultAddress += $", Вход {inputModel.UserEntrance}";
+                }
+
+                user.DefaultShippingAddress = userDefaultAddress;
+                await userManager.UpdateAsync(user);
+            }
 
             return this.RedirectToAction(nameof(this.Summary));
         }

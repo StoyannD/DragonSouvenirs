@@ -80,58 +80,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="mb-4">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input"
-                               type="radio"
-                               id="toOffice"
-                               asp-for="@this.Model.DeliveryType"
-                               value="@DeliveryType.ToOffice">
-                        <label class="form-check-label" for="toOffice">До Офис</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input"
-                               type="radio"
-                               id="toAddress"
-                               asp-for="@this.Model.DeliveryType"
-                               value="@DeliveryType.ToAddress">
-                        <label class="form-check-label" for="toAddress">До Адрес</label>
-                    </div>
-
-                    <div class="mb-4">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input"
-                                   type="radio"
-                                   id="econt"
-                                   asp-for="@this.Model.OfficeBrand"
-                                   value="@OfficeBrands.Econt">
-                            <label class="form-check-label" for="econt">Econt</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input"
-                                   type="radio"
-                                   id="speedy"
-                                   asp-for="@this.Model.OfficeBrand"
-                                   value="@OfficeBrands.Speedy">
-                            <label class="form-check-label" for="speedy">Speedy</label>
-                        </div>
-                    </div>
-                </div>
-                <div id="formToOffice">
-                    <div class="col-lg-3 mb-4" id="cityDiv">
-                        <div class="checkout__input">
-                            <label asp-for="@this.Model.OfficeName"> Офис*</label>
-                            <select asp-for="@this.Model.OfficeName"
-                                    asp-items="offices"
-                                    id="officeList"
-                                    class="select2 form-control" style="width: 40rem;">
-                                <option selected="selected" value="">Изберете офис...</option>
-                            </select>
-                            <span asp-validation-for="@this.Model.OfficeName" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-                <div id="formToAddress" style="display: none;">
+                <div id="formToAddress">
                     <div class="row">
                         <div class="col-lg-3">
                             <div class="checkout__input">
@@ -204,6 +153,66 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="ml-3 mb-3">
+                            <input class="checkout__input__add"
+                                   type="checkbox"
+                                   asp-for="@Model.ToUpdateAddress">
+                            <label asp-for="@Model.ToUpdateAddress">Запази данните за следващи поръчки.</label>
+                            <span asp-validation-for="@Model.ToUpdateAddress" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input"
+                               type="radio"
+                               id="toOffice"
+                               asp-for="@this.Model.DeliveryType"
+                               value="@DeliveryType.ToOffice">
+                        <label class="form-check-label" for="toOffice">До Офис</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input"
+                               type="radio"
+                               id="toAddress"
+                               asp-for="@this.Model.DeliveryType"
+                               value="@DeliveryType.ToAddress">
+                        <label class="form-check-label" for="toAddress">До Адрес</label>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input"
+                                   type="radio"
+                                   id="econt"
+                                   asp-for="@this.Model.OfficeBrand"
+                                   value="@OfficeBrands.Econt">
+                            <label class="form-check-label" for="econt">Econt</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input"
+                                   type="radio"
+                                   id="speedy"
+                                   asp-for="@this.Model.OfficeBrand"
+                                   value="@OfficeBrands.Speedy">
+                            <label class="form-check-label" for="speedy">Speedy</label>
+                        </div>
+                    </div>
+                </div>
+                <div id="formToOffice">
+                    <div class="col-lg-3 mb-4" id="cityDiv">
+                        <div class="checkout__input">
+                            <label asp-for="@this.Model.OfficeName"> Офис*</label>
+                            <select asp-for="@this.Model.OfficeName"
+                                    asp-items="offices"
+                                    id="officeList"
+                                    class="select2 form-control" style="width: 40rem;">
+                                <option selected="selected" value="">Изберете офис...</option>
+                            </select>
+                            <span asp-validation-for="@this.Model.OfficeName" class="text-danger"></span>
+                        </div>
+                    </div>
                 </div>
                 <div class="checkout__input">
                     <label asp-for="@Model.Notes">Допълнителна информация</label>
@@ -229,29 +238,17 @@
 <!-- Checkout Section End -->
 
 <script>
-    const toAddressDiv = document.getElementById("formToAddress");
     const toAddressBtn = document.getElementById("toAddress");
     const toOfficeDiv = document.getElementById("formToOffice");
     const toOfficeBtn = document.getElementById("toOffice");
-
-    const econtBtn = document.getElementById("econtBtn");
-    const econtDiv = document.getElementById("EcontDiv");
-    const speedyBtn = document.getElementById("speedyBtn");
-    const speedyDiv = document.getElementById("SpeedyDiv");
 
     toAddressBtn.onclick = function () {
         if (toOfficeDiv.style.display !== "none") {
             toOfficeDiv.style.display = "none";
         }
-        if (toAddressDiv.style.display === "none") {
-            toAddressDiv.style.display = "block";
-        }
     };
 
     toOfficeBtn.onclick = function () {
-        if (toAddressDiv.style.display !== "none") {
-            toAddressDiv.style.display = "none";
-        }
         if (toOfficeDiv.style.display === "none") {
             toOfficeDiv.style.display = "block";
         }
