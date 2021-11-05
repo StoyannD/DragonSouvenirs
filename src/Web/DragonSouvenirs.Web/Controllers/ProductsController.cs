@@ -48,23 +48,14 @@
         [Route(
            "/Shop",
            Name = "shopRoute")]
-        public async Task<ActionResult> Index(int? minPrice, int? maxPrice, SortBy sortBy, int page = 1, int perPage = GlobalConstants.Product.PerPageDefault)
+        public async Task<ActionResult> Index(string searchString, int? minPrice, int? maxPrice, SortBy sortBy, int page = 1, int perPage = GlobalConstants.Product.PerPageDefault)
         {
             var viewModel = new ShopViewModel
             {
                 CategoryPaginationInfo = new CategoryPaginationInfo(),
+                Products = await this.productsService
+                    .GetAllAsync<ProductInCategoryViewModel>(perPage, (page - 1) * perPage, sortBy, minPrice, maxPrice, searchString),
             };
-
-            if (minPrice != null && maxPrice != null)
-            {
-                viewModel.Products = await this.productsService
-                        .GetAllAsync<ProductInCategoryViewModel>(perPage, (page - 1) * perPage, sortBy, minPrice, maxPrice);
-            }
-            else
-            {
-                viewModel.Products = await this.productsService
-                    .GetAllAsync<ProductInCategoryViewModel>(perPage, (page - 1) * perPage, sortBy);
-            }
 
             var count = await this.productsService.GetCountAsync(minPrice, maxPrice);
             viewModel.CategoryPaginationInfo.PagesCount =
@@ -74,6 +65,7 @@
                 viewModel.CategoryPaginationInfo.PagesCount = 1;
             }
 
+            viewModel.CategoryPaginationInfo.SearchString = searchString;
             viewModel.CategoryPaginationInfo.MinPrice = minPrice;
             viewModel.CategoryPaginationInfo.MaxPrice = maxPrice;
             viewModel.CategoryPaginationInfo.SortBy = sortBy;
@@ -99,11 +91,6 @@
                     .GetFavouriteProductsAsync<FavouriteProductViewModel>(user.Id);
             }
 
-            // var viewModel = new FavouriteProductsViewModel
-            // {
-            //    Products = await this.productsService
-            //    .GetFavouriteProductsAsync<FavouriteProductViewModel>(user.Id),
-            // };
             this.TempData["Url"] = this.Request.Path.Value;
             return this.View(viewModel);
         }

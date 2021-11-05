@@ -47,8 +47,10 @@
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var viewModel = new MyOrdersViewModel();
-            viewModel.Orders = await this.orderService.GetAllByUserIdAsync<MyOrderViewModel>(userId);
+            var viewModel = new MyOrdersViewModel
+            {
+                Orders = await this.orderService.GetAllByUserIdAsync<MyOrderViewModel>(userId),
+            };
 
             return this.View(viewModel);
         }
@@ -118,17 +120,6 @@
                 }
             }
 
-            // if (inputModel.DeliveryType == DeliveryType.ToAddress)
-            // {
-            //    if (inputModel.UserNeighborhood == null ||
-            //        inputModel.UserStreet == null ||
-            //        inputModel.UserStreetNumber == null ||
-            //        inputModel.UserFloor == null ||
-            //        inputModel.UserApartmentNumber == null)
-            //    {
-            //        return this.RedirectToAction(nameof(this.Create));
-            //    }
-            // }
             var user = await this.userManager.GetUserAsync(this.User);
 
             inputModel.UserId = user.Id;

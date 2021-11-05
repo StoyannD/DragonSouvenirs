@@ -21,5 +21,7 @@
         public int? ProductsPerPage { get; set; }
 
         public SortBy SortBy { get; set; }
+
+        public string SearchString { get; set; }
     }
 }

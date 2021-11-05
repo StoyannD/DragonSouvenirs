@@ -53,10 +53,16 @@
             return products;
         }
 
-        public async Task<IEnumerable<T>> GetAllAsync<T>(int take, int skip, SortBy sortBy = SortBy.MostPopular, int? minPrice = null, int? maxPrice = null)
+        public async Task<IEnumerable<T>> GetAllAsync<T>(int take, int skip, SortBy sortBy = SortBy.MostPopular, int? minPrice = null, int? maxPrice = null, string searchString = null)
         {
             var products = this.productsRepository
                 .All();
+
+            if (searchString != null)
+            {
+                products = products
+                    .Where(p => p.Name.ToLower().Contains(searchString.ToLower()));
+            }
 
             if (minPrice != null && maxPrice != null)
             {
@@ -388,14 +394,26 @@
 
         public async Task<decimal> MostExpensiveProductPrice()
         {
-            return await this.productsRepository.All()
-                .MaxAsync(p => p.Price);
+            decimal price = await this.productsRepository.All().AnyAsync()
+                ? await this.productsRepository.All().MaxAsync(p => p.Price)
+                : 0;
+
+            return price;
+
+            // return await this.productsRepository.All()
+            //    .MaxAsync(p => p.Price);
         }
 
         public async Task<decimal> LeastExpensiveProductPrice()
         {
-            return await this.productsRepository.All()
-                .MinAsync(p => p.Price);
+            decimal price = await this.productsRepository.All().AnyAsync()
+                ? await this.productsRepository.All().MinAsync(p => p.Price)
+                : 0;
+
+            return price;
+
+            // return await this.productsRepository.All()
+            //    .MinAsync(p => p.Price);
         }
     }
 }

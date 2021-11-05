@@ -20,22 +20,19 @@
         private readonly IDeletableEntityRepository<CartProduct> cartProductRepository;
         private readonly IDeletableEntityRepository<Cart> cartRepository;
         private readonly IDeletableEntityRepository<Product> productRepository;
-        private readonly IDeletableEntityRepository<Office> officeRepository;
 
         public OrderService(
             IDeletableEntityRepository<Order> orderRepository,
             IDeletableEntityRepository<OrderProduct> orderProductRepository,
             IDeletableEntityRepository<CartProduct> cartProductRepository,
             IDeletableEntityRepository<Cart> cartRepository,
-            IDeletableEntityRepository<Product> productRepository,
-            IDeletableEntityRepository<Office> officeRepository)
+            IDeletableEntityRepository<Product> productRepository)
         {
             this.orderRepository = orderRepository;
             this.orderProductRepository = orderProductRepository;
             this.cartProductRepository = cartProductRepository;
             this.cartRepository = cartRepository;
             this.productRepository = productRepository;
-            this.officeRepository = officeRepository;
         }
 
         public async Task<IEnumerable<T>> GetAllByUserIdAsync<T>(string userId)

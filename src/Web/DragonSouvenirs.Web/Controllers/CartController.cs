@@ -14,16 +14,13 @@
     public class CartController : Controller
     {
         private readonly ICartService cartService;
-        private readonly IProductsService productsService;
         private readonly UserManager<ApplicationUser> userManager;
 
         public CartController(
             ICartService cartService,
-            IProductsService productsService,
             UserManager<ApplicationUser> userManager)
         {
             this.cartService = cartService;
-            this.productsService = productsService;
             this.userManager = userManager;
         }
 
@@ -43,8 +40,6 @@
                 return this.View(viewModel);
             }
 
-            var cartSession = this.GetSessionCart();
-            viewModel.CartProducts = cartSession;
             return this.View(viewModel);
         }
 
@@ -59,10 +54,6 @@
             {
                 var user = await this.userManager.GetUserAsync(this.User);
                 await this.cartService.AddProductToCartAsync(user.Id, id.Value, quantity ?? 1);
-            }
-            else
-            {
-                // TODO: GuestCartAdd
             }
 
             if (toCart)
@@ -84,10 +75,6 @@
             {
                 var user = await this.userManager.GetUserAsync(this.User);
                 await this.cartService.DeleteProductFromCartAsync(user.Id, id.Value);
-            }
-            else
-            {
-                // TODO: GuestCartRemove
             }
 
             return this.RedirectToAction(nameof(this.Index));
@@ -112,20 +99,8 @@
                 await this.cartService
                     .EditProductInCartAsync(user.Id, id.Value, quantity.Value);
             }
-            else
-            {
-                // TODO: GuestCartEdit
-            }
 
             return this.RedirectToAction(nameof(this.Index));
-        }
-
-        private IEnumerable<CartProductViewModel> GetSessionCart()
-        {
-            return this.HttpContext
-                       .Session
-                       .GetObjectFromJson<CartProductViewModel[]>(GlobalConstants.Sessions.CartSessionKey)
-                   ?? new List<CartProductViewModel>().ToArray();
         }
     }
 }
