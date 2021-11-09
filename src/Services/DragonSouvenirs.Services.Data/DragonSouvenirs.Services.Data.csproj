@@ -26,6 +26,7 @@
     <ProjectReference Include="..\..\Data\DragonSouvenirs.Data.Models\DragonSouvenirs.Data.Models.csproj" />
     <ProjectReference Include="..\..\Web\DragonSouvenirs.Web.ViewModels\DragonSouvenirs.Web.ViewModels.csproj" />
     <ProjectReference Include="..\DragonSouvenirs.Services.Mapping\DragonSouvenirs.Services.Mapping.csproj" />
+    <ProjectReference Include="..\DragonSouvenirs.Services.Messaging\DragonSouvenirs.Services.Messaging.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
 ﻿@using DragonSouvenirs.Web.Components
+@using DragonSouvenirs.Common
 @model DragonSouvenirs.Web.ViewModels.Home.IndexViewModel
 
 <section class="hero">
@@ -47,7 +48,7 @@
                     </div>
                 </div>
                 <div class="hero__item set-bg"
-                     data-setbg="https://res.cloudinary.com/dvqk1ngdx/image/upload/v1636468764/wp8559501_lrkull.jpg">
+                     data-setbg="@CommonImageUrls.Home.MainBanner">
                     <div class="hero__text">
                         <span>SOUVENIRS</span>
                         <h2>Ръчно <br />изработени</h2>

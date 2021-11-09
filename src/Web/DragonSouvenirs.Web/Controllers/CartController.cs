@@ -1,12 +1,9 @@
 ﻿namespace DragonSouvenirs.Web.Controllers
 {
-    using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using DragonSouvenirs.Common;
     using DragonSouvenirs.Data.Models;
     using DragonSouvenirs.Services.Data;
-    using DragonSouvenirs.Web.Helpers;
     using DragonSouvenirs.Web.ViewModels.Cart;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;

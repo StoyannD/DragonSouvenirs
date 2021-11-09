@@ -42,7 +42,7 @@
         {
             var deleteParams = new DelResParams()
             {
-                PublicIds = new List<string>() {name},
+                PublicIds = new List<string>() { name },
                 Invalidate = true,
             };
 
