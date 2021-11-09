@@ -15,7 +15,7 @@
 
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     [Area("Administration")]
-    public class UsersController : Controller
+    public class UsersController : BaseAdminController
     {
         private readonly UserManager<ApplicationUser> userManager;
 

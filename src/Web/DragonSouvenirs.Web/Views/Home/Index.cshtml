@@ -28,7 +28,8 @@
                 <div class="hero__search">
                     <div class="hero__search__form">
                         <form enctype="multipart/form-data"
-                              asp-route="shopRoute">
+                              asp-route="shopRoute"
+                              method="post">
                             <input name="searchString" type="text" placeholder="What do yo u need?">
                             <button type="submit" class="site-btn">
                                 <i class="fa fa-search"></i>
@@ -45,12 +46,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="hero__item set-bg" data-setbg="img/hero/banner.jpg">
+                <div class="hero__item set-bg"
+                     data-setbg="https://res.cloudinary.com/dvqk1ngdx/image/upload/v1636468764/wp8559501_lrkull.jpg">
                     <div class="hero__text">
                         <span>SOUVENIRS</span>
-                        <h2>Handmade <br />100% Wood</h2>
-                        <p>Free Pickup and Delivery Available</p>
-                        <a asp-route="shopRoute" class="primary-btn">SHOP NOW</a>
+                        <h2>Ръчно <br />изработени</h2>
+                        <p>Сувенири от дървесина и кожа</p>
+                        <a asp-route="shopRoute" class="primary-btn">Магазин</a>
                     </div>
                 </div>
             </div>

@@ -11,7 +11,7 @@
 
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     [Area("Administration")]
-    public class CategoriesController : Controller
+    public class CategoriesController : BaseAdminController
     {
         private readonly ICategoriesService categoriesService;
 
@@ -103,6 +103,12 @@
                 return this.View(viewModel);
             }
 
+            var fileType = viewModel.Image.ContentType.Split('/')[1];
+            if (!this.IsImageFileValidType(fileType))
+            {
+                return this.View(viewModel);
+            }
+
             await this.categoriesService.EditAsync(viewModel);
 
             this.TempData["success"] = string
@@ -126,6 +132,12 @@
 
             try
             {
+                var fileType = inputModel.Image.ContentType.Split('/')[1];
+                if (!this.IsImageFileValidType(fileType))
+                {
+                    return this.View(inputModel);
+                }
+
                 await this.categoriesService
                     .CreateAsync(inputModel);
 

@@ -6,6 +6,7 @@
     using DragonSouvenirs.Common;
     using DragonSouvenirs.Data.Models;
     using DragonSouvenirs.Services.Mapping;
+    using Microsoft.AspNetCore.Http;
 
     public class AdminCategoryInputModel : IMapTo<Category>
     {
@@ -31,8 +32,8 @@
         public string Content { get; set; }
 
         [Required]
-        [Url]
-        public string ImageUrl { get; set; }
+        [DataType(DataType.Upload)]
+        public IFormFile Image { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

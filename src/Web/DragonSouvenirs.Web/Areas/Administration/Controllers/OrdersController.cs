@@ -11,7 +11,7 @@
 
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     [Area("Administration")]
-    public class OrdersController : Controller
+    public class OrdersController : BaseAdminController
     {
         private readonly IOrderService orderService;
 

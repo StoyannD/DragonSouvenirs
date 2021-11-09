@@ -74,19 +74,28 @@
         </div>
         @for (int i = 0; i < GlobalConstants.Image.ImagesPerProduct; i++)
         {
-            <div class="form-row">
-                <div class="form-group col-sm-1">
-                    <img src="@(this.Model.Images[i].ImgUrl ?? CommonImageUrls.AdminPanel.AddProductImgImgUrl)" style="width: 4rem; height: 4rem;" />
-                </div>
-                <div class="form-group col-md-11">
-                    <label asp-for="@this.Model.Images[i].ImgUrl">Url</label>
-                    <input asp-for="@this.Model.Images[i].ImgUrl"
-                           class="form-control"
-                           value="@this.Model.Images[i].ImgUrl" />
-                    <span asp-validation-for="@this.Model.Images[i].ImgUrl"
-                          class="text-danger"></span>
-                </div>
-            </div>
+    <div class="form-row">
+        <div class="form-group col-sm-1">
+            <img src="@(this.Model.Images[i].ImgUrl ?? CommonImageUrls.AdminPanel.AddProductImgImgUrl)" style="width: 4rem; height: 4rem;" />
+        </div>
+        <div class="form-group col-sm-1" align="center">
+            <label asp-for="@this.Model.Images[i].ToDelete">Премахни</label>
+            <input asp-for="@this.Model.Images[i].ToDelete" />
+            <span asp-validation-for="@this.Model.Images[i].ToDelete" class="text-danger"></span>
+        </div>
+        <div class="form-group col-md-10">
+            <input type="hidden" asp-for="@this.Model.Images[i].ImgUrl" value="@this.Model.Images[i].ImgUrl" />
+            <input type="file" asp-for="@this.Model.Images[i].Image" />
+            <span asp-validation-for="@this.Model.Images[i].Image" class="text-danger"></span>
+
+            @*<label asp-for="@this.Model.Images[i].ImgUrl">Url</label>
+            <input asp-for="@this.Model.Images[i].ImgUrl"
+                   class="form-control"
+                   value="@this.Model.Images[i].ImgUrl" />
+            <span asp-validation-for="@this.Model.Images[i].ImgUrl"
+                  class="text-danger"></span>*@
+        </div>
+    </div>
         }
         <div class="form-group" style="width: 10rem">
             <label asp-for="@this.Model.Categories[0].Name"> Категория</label>

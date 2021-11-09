@@ -28,9 +28,9 @@
             <span asp-validation-for="Content" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label asp-for="ImageUrl">Url</label>
-            <input asp-for="ImageUrl" class="form-control" />
-            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            <p>Снимка</p>
+            <input type="file" asp-for="Image" name="Image" />
+            <span asp-validation-for="Image" class="text-danger"></span>
         </div>
         <div class="form-row">
             <div class="col-sm-1">

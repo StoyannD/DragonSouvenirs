@@ -6,6 +6,7 @@
     using DragonSouvenirs.Common;
     using DragonSouvenirs.Data.Models;
     using DragonSouvenirs.Services.Mapping;
+    using Microsoft.AspNetCore.Http;
 
     public class AdminCategoryEditViewModel : IMapFrom<Category>
     {
@@ -32,9 +33,11 @@
             ErrorMessage = GlobalConstants.Category.ContentLengthError)]
         public string Content { get; set; }
 
-        [Required]
         [Url]
         public string ImageUrl { get; set; }
+
+        [DataType(DataType.Upload)]
+        public IFormFile Image { get; set; }
 
         public DateTime CreatedOn { get; set; }
 

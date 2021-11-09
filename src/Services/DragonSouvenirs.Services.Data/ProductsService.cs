@@ -6,10 +6,12 @@
     using System.Runtime;
     using System.Threading.Tasks;
 
+    using CloudinaryDotNet;
     using DragonSouvenirs.Common;
     using DragonSouvenirs.Common.Enums;
     using DragonSouvenirs.Data.Common.Repositories;
     using DragonSouvenirs.Data.Models;
+    using DragonSouvenirs.Services.Data.Common;
     using DragonSouvenirs.Services.Mapping;
     using DragonSouvenirs.Web.ViewModels.Administration.Products;
     using Microsoft.EntityFrameworkCore;
@@ -19,15 +21,18 @@
         private readonly IDeletableEntityRepository<Product> productsRepository;
         private readonly IDeletableEntityRepository<ProductCategory> productCategoryRepository;
         private readonly IDeletableEntityRepository<FavouriteProduct> favouriteProductRepository;
+        private readonly Cloudinary cloudinary;
 
         public ProductsService(
             IDeletableEntityRepository<Product> productsRepository,
             IDeletableEntityRepository<ProductCategory> productCategoryRepository,
-            IDeletableEntityRepository<FavouriteProduct> favouriteProductRepository)
+            IDeletableEntityRepository<FavouriteProduct> favouriteProductRepository,
+            Cloudinary cloudinary)
         {
             this.productsRepository = productsRepository;
             this.productCategoryRepository = productCategoryRepository;
             this.favouriteProductRepository = favouriteProductRepository;
+            this.cloudinary = cloudinary;
         }
 
         public async Task<IEnumerable<T>> GetAllAdminAsync<T>()
@@ -58,12 +63,14 @@
             var products = this.productsRepository
                 .All();
 
-            if (searchString != null)
-            {
-                products = products
-                    .Where(p => p.Name.ToLower().Contains(searchString.ToLower()));
-            }
+            // TODO: Cannot be compiled to SQL
+            // if (searchString != null)
+            // {
+            //    var searchStringArr = searchString.Split(new[] { ",", ".", " ", "\\", "/", "|", "!", "?" }, StringSplitOptions.RemoveEmptyEntries);
 
+            // products = products
+            //        .Where(p => searchStringArr.All(ss => p.Name.ToLower().Contains(ss.ToLower())));
+            // }
             if (minPrice != null && maxPrice != null)
             {
                 products = products
@@ -302,19 +309,43 @@
 
             if (product == null)
             {
-                // TODO add message
                 throw new NullReferenceException();
             }
 
-            var editedImages = viewModel
-                .Images
-                .Where(i => i.ImgUrl != null)
-                .Select(i => new Image()
+            var editedImages = new List<Image>();
+            for (var i = 0; i < viewModel.Images.Count; i++)
+            {
+                var name = $"{viewModel.Name}{i}";
+
+                if (viewModel.Images[i].ToDelete && viewModel.Images[i].ImgUrl != null)
                 {
-                    CreatedOn = DateTime.UtcNow,
-                    ImgUrl = i.ImgUrl,
-                    ProductId = product.Id,
-                }).ToList();
+                    AppCloudinary.DeleteImage(this.cloudinary, name);
+                }
+                else
+                {
+                    string imageUrl;
+                    if (viewModel.Images[i].Image != null)
+                    {
+                        var image = viewModel.Images[i];
+                        imageUrl =
+                            await AppCloudinary.UploadImage(this.cloudinary, image.Image, name);
+                    }
+                    else
+                    {
+                        imageUrl = viewModel.Images[i].ImgUrl;
+                    }
+
+                    if (imageUrl != null)
+                    {
+                        editedImages.Add(new Image()
+                        {
+                            CreatedOn = DateTime.UtcNow,
+                            ImgUrl = imageUrl,
+                            ProductId = product.Id,
+                        });
+                    }
+                }
+            }
 
             var editedProductCategory = new ProductCategory()
             {
@@ -365,16 +396,20 @@
                 Width = inputModel.Width,
             };
 
-            var images = inputModel
-                .Images
-                .Where(i => i.ImgUrl != null)
-                .Select(i => new Image()
+            var images = new List<Image>();
+            for (var i = 0; i < inputModel.Images.Count; i++)
+            {
+                var image = inputModel.Images[i];
+                var name = $"{inputModel.Name}{i}";
+                var imageUrl =
+                    await AppCloudinary.UploadImage(this.cloudinary, image.Image, name);
+                images.Add(new Image()
                 {
                     CreatedOn = DateTime.UtcNow,
-                    ImgUrl = i.ImgUrl,
+                    ImgUrl = imageUrl,
                     ProductId = product.Id,
-                })
-                .ToList();
+                });
+            }
 
             var productCategory = inputModel
                 .Categories
@@ -399,9 +434,6 @@
                 : 0;
 
             return price;
-
-            // return await this.productsRepository.All()
-            //    .MaxAsync(p => p.Price);
         }
 
         public async Task<decimal> LeastExpensiveProductPrice()
@@ -411,9 +443,6 @@
                 : 0;
 
             return price;
-
-            // return await this.productsRepository.All()
-            //    .MinAsync(p => p.Price);
         }
     }
 }

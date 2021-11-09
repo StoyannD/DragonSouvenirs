@@ -9,7 +9,7 @@
 
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     [Area("Administration")]
-    public class AdminController : Controller
+    public class AdminController : BaseAdminController
     {
         private readonly IOfficeService officeService;
 

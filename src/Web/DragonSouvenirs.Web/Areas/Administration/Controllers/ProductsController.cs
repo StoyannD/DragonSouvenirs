@@ -11,7 +11,7 @@
 
     [Authorize(Roles = GlobalConstants.AdministratorRoleName)]
     [Area("Administration")]
-    public class ProductsController : Controller
+    public class ProductsController : BaseAdminController
     {
         private readonly IProductsService productsService;
         private readonly ICategoriesService categoriesService;
@@ -128,6 +128,18 @@
                 return this.View(viewModel);
             }
 
+            foreach (var image in viewModel.Images)
+            {
+                if (image.Image != null)
+                {
+                    var fileType = image.Image.ContentType.Split('/')[1];
+                    if (!this.IsImageFileValidType(fileType))
+                    {
+                        return this.View(viewModel);
+                    }
+                }
+            }
+
             await this.productsService.EditAsync(viewModel);
 
             this.TempData["success"] = string
@@ -160,6 +172,18 @@
             if (!this.ModelState.IsValid)
             {
                 return this.View(inputModel);
+            }
+
+            foreach (var image in inputModel.Images)
+            {
+                if (image != null)
+                {
+                    var fileType = image.Image.ContentType.Split('/')[1];
+                    if (!this.IsImageFileValidType(fileType))
+                    {
+                        return this.View(inputModel);
+                    }
+                }
             }
 
             await this.productsService

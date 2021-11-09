@@ -6,9 +6,11 @@
     using System.Runtime;
     using System.Threading.Tasks;
 
+    using CloudinaryDotNet;
     using DragonSouvenirs.Common;
     using DragonSouvenirs.Data.Common.Repositories;
     using DragonSouvenirs.Data.Models;
+    using DragonSouvenirs.Services.Data.Common;
     using DragonSouvenirs.Services.Mapping;
     using DragonSouvenirs.Web.ViewModels.Administration.Categories;
     using Microsoft.EntityFrameworkCore;
@@ -17,13 +19,16 @@
     {
         private readonly IDeletableEntityRepository<Category> categoriesRepository;
         private readonly IDeletableEntityRepository<Product> productsRepository;
+        private readonly Cloudinary cloudinary;
 
         public CategoriesService(
             IDeletableEntityRepository<Category> categoriesRepository,
-            IDeletableEntityRepository<Product> productsRepository)
+            IDeletableEntityRepository<Product> productsRepository,
+            Cloudinary cloudinary)
         {
             this.categoriesRepository = categoriesRepository;
             this.productsRepository = productsRepository;
+            this.cloudinary = cloudinary;
         }
 
         public async Task<IEnumerable<T>> GetAllAsync<T>()
@@ -152,10 +157,16 @@
                 throw new NullReferenceException();
             }
 
+            if (viewModel.Image != null)
+            {
+                var imageUrl =
+                    await AppCloudinary.UploadImage(this.cloudinary, viewModel.Image, viewModel.Name);
+                category.ImageUrl = imageUrl;
+            }
+
             category.Name = viewModel.Name;
             category.Title = viewModel.Title;
             category.Content = viewModel.Content;
-            category.ImageUrl = viewModel.ImageUrl;
 
             await this.categoriesRepository.SaveChangesAsync();
         }
@@ -169,12 +180,15 @@
                     string.Format(GlobalConstants.Category.OnCreateCategoryNotUniqueError, inputModel.Name));
             }
 
+            var imageUrl =
+                await AppCloudinary.UploadImage(this.cloudinary, inputModel.Image, inputModel.Name);
+
             var category = new Category
             {
                 Name = inputModel.Name,
                 Title = inputModel.Title,
                 Content = inputModel.Content,
-                ImageUrl = inputModel.ImageUrl,
+                ImageUrl = imageUrl,
                 CreatedOn = DateTime.UtcNow,
             };
 

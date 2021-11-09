@@ -38,7 +38,7 @@
         public async Task<IEnumerable<T>> GetAllByUserIdAsync<T>(string userId)
         {
             var orders = await this.orderRepository
-                .All()
+                .AllWithDeleted()
                 .Where(o => o.UserId == userId)
                 .OrderByDescending(o => o.CreatedOn)
                 .ThenByDescending(o => o.TotalPrice)

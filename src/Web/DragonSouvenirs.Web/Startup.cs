@@ -3,6 +3,7 @@
     using System;
     using System.Reflection;
 
+    using CloudinaryDotNet;
     using DragonSouvenirs.Data;
     using DragonSouvenirs.Data.Common;
     using DragonSouvenirs.Data.Common.Repositories;
@@ -85,6 +86,7 @@
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IOfficeService, OfficeService>();
 
+            // Facebook and Google authentication
             services.AddAuthentication()
                 .AddFacebook(options =>
                 {
@@ -96,6 +98,14 @@
                     options.ClientId = this.configuration["Authentication:Google:ClientId"];
                     options.ClientSecret = this.configuration["Authentication:Google:ClientSecret"];
                 });
+
+            // Cloudinary
+            var cloudinary = new Cloudinary(
+                new Account(
+                    this.configuration["Cloudinary:CloudName"],
+                    this.configuration["Cloudinary:ApiKey"],
+                    this.configuration["Cloudinary:ApiSecret"]));
+            services.AddSingleton(cloudinary);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

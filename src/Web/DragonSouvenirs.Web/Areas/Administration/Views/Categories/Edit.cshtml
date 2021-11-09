@@ -41,9 +41,9 @@
                 <img src="@this.Model.ImageUrl" style="width: 4rem; height: 4rem;" />
             </div>
             <div class="form-group col-md-11">
-                <label asp-for="ImageUrl">Url</label>
-                <input asp-for="ImageUrl" class="form-control" value="@this.Model.ImageUrl" />
-                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                <p>Снимка</p>
+                <input type="file" asp-for="Image" name="Image" />
+                <span asp-validation-for="Image" class="text-danger"></span>
             </div>
         </div>
         <div class="form-row">

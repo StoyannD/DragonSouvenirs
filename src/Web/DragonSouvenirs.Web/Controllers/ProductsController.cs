@@ -1,6 +1,7 @@
 ﻿namespace DragonSouvenirs.Web.Controllers
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using DragonSouvenirs.Common;
@@ -54,8 +55,17 @@
             {
                 CategoryPaginationInfo = new CategoryPaginationInfo(),
                 Products = await this.productsService
-                    .GetAllAsync<ProductInCategoryViewModel>(perPage, (page - 1) * perPage, sortBy, minPrice, maxPrice, searchString),
+                    .GetAllAsync<ProductInCategoryViewModel>(perPage, (page - 1) * perPage, sortBy, minPrice, maxPrice),
             };
+
+            // Ef cannot translate query to sql
+            if (searchString != null)
+            {
+                var searchStringArr = searchString.Split(new[] { ",", ".", " ", "\\", "/", "|", "!", "?" }, StringSplitOptions.RemoveEmptyEntries);
+
+                viewModel.Products = viewModel.Products.Where(p =>
+                    searchStringArr.All(ss => p.Name.ToLower().Contains(ss.ToLower())));
+            }
 
             var count = await this.productsService.GetCountAsync(minPrice, maxPrice);
             viewModel.CategoryPaginationInfo.PagesCount =
