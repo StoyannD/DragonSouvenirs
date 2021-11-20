@@ -71,20 +71,8 @@
             // products = products
             //        .Where(p => searchStringArr.All(ss => p.Name.ToLower().Contains(ss.ToLower())));
             // }
-            if (minPrice != null && maxPrice != null)
-            {
-                products = products
-                    .Where(p => p.Price >= minPrice.Value
-                                && p.Price <= maxPrice.Value);
-            }
-
-            products = sortBy switch
-            {
-                SortBy.Newest => products.OrderByDescending(p => p.CreatedOn),
-                SortBy.PriceDescending => products.OrderByDescending(p => p.DiscountPrice ?? p.Price),
-                SortBy.PriceAscending => products.OrderBy(p => p.DiscountPrice ?? p.Price),
-                _ => products.OrderByDescending(p => p.OrderProducts.Count),
-            };
+            products = FilterByPrice(minPrice, maxPrice, products);
+            products = SortProducts(sortBy, products);
 
             return await products
                 .Skip(skip)
@@ -101,20 +89,8 @@
                     .Any(pc => pc.Category.Name == name
                                && pc.ProductId == p.Id));
 
-            if (minPrice != null && maxPrice != null)
-            {
-                products = products
-                    .Where(p => p.Price >= minPrice.Value
-                                && p.Price <= maxPrice.Value);
-            }
-
-            products = sortBy switch
-            {
-                SortBy.Newest => products.OrderByDescending(p => p.CreatedOn),
-                SortBy.PriceDescending => products.OrderByDescending(p => p.DiscountPrice ?? p.Price),
-                SortBy.PriceAscending => products.OrderBy(p => p.DiscountPrice ?? p.Price),
-                _ => products.OrderByDescending(p => p.OrderProducts.Count),
-            };
+            products = FilterByPrice(minPrice, maxPrice, products);
+            products = SortProducts(sortBy, products);
 
             return await products
                 .Skip(skip)
@@ -125,20 +101,15 @@
 
         public async Task<int> GetCountByCategoryIdAsync(int categoryId, int? minPrice = null, int? maxPrice = null)
         {
-            var query = this.productsRepository
+            var products = this.productsRepository
                 .All()
                 .Where(p => p.ProductCategories
                     .Any(pc => pc.Category.Id == categoryId
                                && pc.ProductId == p.Id));
 
-            if (minPrice != null && maxPrice != null)
-            {
-                query = query
-                    .Where(p => p.Price >= minPrice.Value
-                                         && p.Price <= maxPrice.Value);
-            }
+            products = FilterByPrice(minPrice, maxPrice, products);
 
-            return await query.CountAsync();
+            return await products.CountAsync();
         }
 
         public async Task<IEnumerable<T>> GetTopDiscountedItems<T>(int take = 8)
@@ -200,17 +171,12 @@
 
         public async Task<int> GetCountAsync(int? minPrice = null, int? maxPrice = null)
         {
-            var query = this.productsRepository
+            var products = this.productsRepository
                 .All();
 
-            if (minPrice != null && maxPrice != null)
-            {
-                query = query
-                    .Where(p => p.Price >= minPrice.Value
-                                && p.Price <= maxPrice.Value);
-            }
+            products = FilterByPrice(minPrice, maxPrice, products);
 
-            return await query.CountAsync();
+            return await products.CountAsync();
         }
 
         public async Task<T> GetByIdAsync<T>(int? id)
@@ -223,7 +189,6 @@
 
             if (product == null)
             {
-                // TODO add message
                 throw new NullReferenceException();
             }
 
@@ -240,7 +205,6 @@
 
             if (product == null)
             {
-                // TODO add message
                 throw new NullReferenceException();
             }
 
@@ -257,7 +221,6 @@
 
             if (product == null)
             {
-                // TODO add message
                 throw new NullReferenceException();
             }
 
@@ -272,7 +235,6 @@
 
             if (product == null)
             {
-                // TODO add message
                 throw new NullReferenceException();
             }
 
@@ -290,7 +252,6 @@
 
             if (product == null)
             {
-                // TODO add message
                 throw new NullReferenceException();
             }
 
@@ -443,6 +404,30 @@
                 : 0;
 
             return price;
+        }
+
+        private static IQueryable<Product> FilterByPrice(int? minPrice, int? maxPrice, IQueryable<Product> products)
+        {
+            if (minPrice != null && maxPrice != null)
+            {
+                products = products
+                    .Where(p => (p.DiscountPrice ?? p.Price) >= minPrice.Value
+                                && (p.DiscountPrice ?? p.Price) <= maxPrice.Value);
+            }
+
+            return products;
+        }
+
+        private static IQueryable<Product> SortProducts(SortBy sortBy, IQueryable<Product> products)
+        {
+            products = sortBy switch
+            {
+                SortBy.Newest => products.OrderByDescending(p => p.CreatedOn),
+                SortBy.PriceDescending => products.OrderByDescending(p => p.DiscountPrice ?? p.Price),
+                SortBy.PriceAscending => products.OrderBy(p => p.DiscountPrice ?? p.Price),
+                _ => products.OrderByDescending(p => p.OrderProducts.Count),
+            };
+            return products;
         }
     }
 }
