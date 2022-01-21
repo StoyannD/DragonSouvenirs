@@ -64,9 +64,8 @@
                                   method="post"
                                   asp-controller="Cart"
                                   asp-action="Add"
-                                  asp-route-id="@Model.Id"
-                                  asp-route-quantity="quantity">
-                                    <div class="pro-qty">
+                                  asp-route-id="@Model.Id">
+                                    @*<div class="pro-qty">
                                         <input type="number"
                                            min="1"
                                            max="@Model.Quantity"
@@ -75,7 +74,7 @@
                                            value="1" />
                                         <span asp-validation-for="@Model.Quantity"
                                           class="text-danger"></span>
-                                    </div>
+                                    </div>*@
                                     <button type="submit"
                                         class="primary-btn">
                                         Купи

@@ -99,18 +99,20 @@
                                 <div class="col-lg-4 col-md-3">
                                     @if (this.Model.CategoryPaginationInfo.CurrentPage == 1)
                                     {
-                                        <div class="filter__sort float-right">
+                                        <div  class="filter__option">
                                             <span>На страница </span>
-                                            <select name="perPage"
-                                                    onchange="this.form.submit();">
-                                                @for (int i = 3; i <= 12; i += 3)
-                                                {
-                                                    <option value="@i"
-                                                            selected="@(Model.CategoryPaginationInfo.ProductsPerPage == i ? true : false)">
-                                                        @i
-                                                    </option>
-                                                }
-                                            </select>
+                                            <div class="filter__sort">
+                                                <select name="perPage"
+                                                        onchange="this.form.submit();">
+                                                    @for (int i = 3; i <= 12; i += 3)
+                                                    {
+                                                        <option value="@i"
+                                                                selected="@(Model.CategoryPaginationInfo.ProductsPerPage == i ? true : false)">
+                                                            @i
+                                                        </option>
+                                                    }
+                                                </select>
+                                            </div>
                                         </div>
                                     }
                                 </div>

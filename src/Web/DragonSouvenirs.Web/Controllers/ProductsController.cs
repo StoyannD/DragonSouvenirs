@@ -67,7 +67,10 @@
                     searchStringArr.All(ss => p.Name.ToLower().Contains(ss.ToLower())));
             }
 
-            var count = await this.productsService.GetCountAsync(minPrice, maxPrice);
+            var count = searchString == null
+                ? await this.productsService.GetCountAsync(minPrice, maxPrice)
+                : viewModel.Products.Count();
+
             viewModel.CategoryPaginationInfo.PagesCount =
                 (int)Math.Ceiling((double)count / perPage);
             if (viewModel.CategoryPaginationInfo.PagesCount == 0)

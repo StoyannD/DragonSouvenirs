@@ -9,6 +9,7 @@
 
         public static class Home
         {
+            public const string Logo = "https://res.cloudinary.com/dvqk1ngdx/image/upload/v1640006604/logo_dragonsouvenirs.png";
             public const string MainBanner = "https://res.cloudinary.com/dvqk1ngdx/image/upload/v1636468764/wp8559501_lrkull.jpg";
         }
     }

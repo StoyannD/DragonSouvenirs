@@ -6,7 +6,7 @@
     <div class="humberger__menu__logo">
         <a asp-area=""
            asp-controller="Home"
-           asp-action="Index"><img src="~/img/logo.png" alt=""></a>
+           asp-action="Index"><img src="@DragonSouvenirs.Common.CommonImageUrls.Home.Logo" alt=""></a>
     </div>
     @await Component.InvokeAsync(typeof(CartBasketComponent))
     <div class="humberger__menu__widget">
