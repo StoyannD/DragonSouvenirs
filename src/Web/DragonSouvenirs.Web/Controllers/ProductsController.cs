@@ -91,6 +91,7 @@
             return this.View(viewModel);
         }
 
+        [Authorize]
         [Route(
             "/Favourites",
             Name = "favouritesRoute")]
@@ -108,11 +109,9 @@
             return this.View(viewModel);
         }
 
-        [HttpPost]
         [Authorize]
-        [Route(
-            "/Favourite",
-            Name = "favouriteRoutePost")]
+
+        // [HttpPost]
         public async Task<ActionResult> Favourite(string title)
         {
             if (title == null)

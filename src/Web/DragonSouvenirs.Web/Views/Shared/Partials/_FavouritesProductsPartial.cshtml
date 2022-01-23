@@ -1,96 +1,76 @@
 ﻿@model DragonSouvenirs.Web.ViewModels.Products.FavouriteProductViewModel
+
 <div class="col-lg-3 col-md-6 col-sm-6 ">
-    <form enctype="multipart/form-data"
-          asp-route="favouriteRoutePost"
-          asp-route-title="@Model.ProductTitleLink"
-          method="post">
-        @if (this.Model.ProductDiscountPrice != null)
-        {
-            <div class="product__discount__item">
-                <div class="product__discount__item__pic set-bg"
-                     data-setbg="@Model.ProductImages.FirstOrDefault()?.ImgUrl">
-                    <div class="product__discount__percent">
-                        -@($"{(100-(this.Model.ProductDiscountPrice / this.Model.ProductPrice) * 100):F0}")%
-                    </div>
-                    <ul class="product__item__pic__hover">
-                        <li>
-                            <button type="submit">
-                                <i class="fa fa-heart"></i>
-                            </button>
-                        </li>
-                        <li>
-                            <a asp-controller="Products"
-                               asp-action="ByName"
-                               asp-route-title="@Model.ProductTitleLink">
-                                <i class="fa fa-arrow-up"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a asp-controller="Cart"
-                               asp-action="Add"
-                               asp-route-id="@Model.ProductId"
-                               asp-route-toCart="true"><i class="fa fa-shopping-cart"></i></a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="product__discount__item__text">
+    <div class="product__item">
+        <div class="product__item__pic set-bg"
+             data-setbg="@Model.ProductImages.FirstOrDefault()?.ImgUrl">
+            <ul class="product__item__pic__hover">
+                <li>
+                    <form enctype="multipart/form-data"
+                          asp-controller="Products"
+                          asp-action="Favourite"
+                          asp-route-title="@Model.ProductTitleLink"
+                          method="post">
+                        <button type="submit">
+                            <i class="fa fa-heart"></i>
+                        </button>
+                    </form>
+                </li>
+                <li>
                     <a asp-controller="Products"
                        asp-action="ByName"
-                       asp-route-title="@Model.ProductTitleLink"
-                       class="discountItemPrice">
-                        <span>@Model.ProductCategoryName</span>
-                        <h6>
-                            @Model.ProductName
-                        </h6>
-                        <h5 class="product__item__price">
-                            <span>@Model.ProductPrice</span>
-                            @Model.ProductDiscountPrice
-                            лв.
-                        </h5>
+                       asp-route-title="@Model.ProductTitleLink">
+                        <i class="fa fa-arrow-up"></i>
                     </a>
-                </div>
+                </li>
+                <li>
+                    <form enctype="multipart/form-data"
+                          asp-controller="Cart"
+                          asp-action="Add"
+                          asp-route-id="@Model.ProductId"
+                          asp-route-toCart="true"
+                          method="post">
+                        <button type="submit">
+                            <i class="fa fa-shopping-cart"></i>
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+        @if (this.Model.ProductDiscountPrice != null)
+        {
+            <div class="product__discount__item__text">
+                <a asp-controller="Products"
+               asp-action="ByName"
+               asp-route-title="@Model.ProductTitleLink"
+               class="discountItemPrice">
+                    <span>@Model.ProductCategoryName</span>
+                    <h6>
+                        @Model.ProductName
+                    </h6>
+                    <h5 class="product__item__price">
+                        <span>@Model.ProductPrice</span>
+                        @Model.ProductDiscountPrice
+                        лв.
+                    </h5>
+                </a>
             </div>
         }
         else
         {
-            <div class="product__item">
-                <div class="product__item__pic set-bg"
-                     data-setbg="@Model.ProductImages.FirstOrDefault()?.ImgUrl">
-                    <ul class="product__item__pic__hover">
-                        <li>
-                            <button type="submit">
-                                <i class="fa fa-heart"></i>
-                            </button>
-                        </li>
-                        <li>
-                            <a asp-controller="Products"
-                               asp-action="ByName"
-                               asp-route-title="@Model.ProductTitleLink">
-                                <i class="fa fa-arrow-up"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a asp-controller="Cart"
-                               asp-action="Add"
-                               asp-route-id="@Model.ProductId"
-                               asp-route-toCart="true"><i class="fa fa-shopping-cart"></i></a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="product__item__text">
-                    <a asp-controller="Products"
-                       asp-action="ByName"
-                       asp-route-title="@Model.ProductTitleLink">
-                        <span>@Model.ProductCategoryName</span>
-                        <h6>
-                            @Model.ProductName
-                        </h6>
-                        <h5>
-                            @Model.ProductPrice лв.
-                        </h5>
-                    </a>
-                </div>
+            <div class="product__item__text">
+                <a asp-controller="Products"
+               asp-action="ByName"
+               asp-route-title="@Model.ProductTitleLink">
+                    <span>@Model.ProductCategoryName</span>
+                    <h6>
+                        @Model.ProductName
+                    </h6>
+                    <h5>
+                        @Model.ProductPrice лв.
+                    </h5>
+                </a>
             </div>
         }
-    </form>
+    </div>
 </div>

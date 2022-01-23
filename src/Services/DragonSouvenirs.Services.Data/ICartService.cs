@@ -9,11 +9,11 @@
 
         Task<decimal> GetCartTotalPriceAsync(string userId);
 
-        Task AddProductToCartAsync(string userId, int productId, int quantity);
+        Task<bool> AddProductToCartAsync(string userId, int productId, int quantity);
 
-        Task DeleteProductFromCartAsync(string userId, int productId);
+        Task<bool> DeleteProductFromCartAsync(string userId, int productId);
 
-        Task EditProductInCartAsync(string userId, int productId, int quantity);
+        Task<bool> EditProductInCartAsync(string userId, int productId, int quantity);
 
         Task<T> GetCartByIdAsync<T>(string id);
 

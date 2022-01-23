@@ -24,13 +24,13 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 <body>
-    <!-- Page Preloder -->
-    @*<div id="preloder">
-            <div class="loader"></div>
-        </div>*@
-    <partial name="Partials/_NavbarPartial" />
+@*<div id="preloder">
+        <div class="loader"></div>
+    </div>*@
+
+    <partial name="Partials/_NavbarPartial"/>
     <div>
-        <partial name="Partials/_CookieConsentPartial" />
+        <partial name="Partials/_CookieConsentPartial"/>
         <main role="main" class="pb-3">
             <div class="container">
                 @this.RenderBody()
@@ -38,8 +38,8 @@
         </main>
     </div>
 
-    <partial name="Partials/_FooterPartial" />
-
+    <partial name="Partials/_FooterPartial"/>
+    
     <script src="~/js/jquery-3.3.1.min.js" asp-append-version="true"></script>
     <script src="~/js/bootstrap.min.js" asp-append-version="true"></script>
     <script src="~/js/jquery.nice-select.min.js" asp-append-version="true"></script>
@@ -48,17 +48,19 @@
     <script src="~/js/mixitup.min.js" asp-append-version="true"></script>
     <script src="~/js/owl.carousel.min.js" asp-append-version="true"></script>
     <script src="~/js/main.js" asp-append-version="true"></script>
-
-
-
+    
+    
+    
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
-
+    
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script>$(document).ready(function () {
+    <script>
+        $(document).ready(function() {
             $('.select2').select2();
-        });</script>
-
+        });
+    </script>
+    
     @await this.RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

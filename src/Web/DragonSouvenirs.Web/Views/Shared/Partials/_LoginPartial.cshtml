@@ -14,16 +14,13 @@
         <ul>
             <li>
 
-                <a asp-area="Identity"
-                   asp-page="/Account/Manage/Index">Профил</a>
+                <a asp-area="Identity" asp-page="/Account/Manage/Index">Профил</a>
             </li>
             @if (this.User.IsInRole(@GlobalConstants.AdministratorRoleName))
             {
                 <li>
 
-                    <a asp-area="Administration"
-                       asp-controller="Orders"
-                       asp-action="Index">Админ</a>
+                    <a asp-area="Administration" asp-controller="Orders" asp-action="Index">Админ</a>
                 </li>
             }
         </ul>
@@ -34,7 +31,8 @@
         </form>
         <i class="fa fa-user"></i>
     </div>
-}else
+}
+else
 {
     <div class="header__top__right__auth">
         <a asp-area="Identity" asp-page="/Account/Login">
@@ -44,6 +42,6 @@
         <a asp-area="Identity" asp-page="/Account/Register">
             Регистрирай се
         </a>
-        <i class="fa fa-user"></i> 
+        <i class="fa fa-user"></i>
     </div>
 }

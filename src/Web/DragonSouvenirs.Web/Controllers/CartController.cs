@@ -5,6 +5,7 @@
     using DragonSouvenirs.Data.Models;
     using DragonSouvenirs.Services.Data;
     using DragonSouvenirs.Web.ViewModels.Cart;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
@@ -21,25 +22,25 @@
             this.userManager = userManager;
         }
 
+        [Authorize]
         [Route(
             "/Cart",
             Name = "cartRoute")]
         public async Task<ActionResult> Index()
         {
             var viewModel = new CartAllProductsViewModel();
-            if (this.User.Identity.IsAuthenticated)
-            {
-                var user = await this.userManager.GetUserAsync(this.User);
 
-                var cartProducts = await this.cartService
-                    .GetCartProductsAsync<CartProductViewModel>(user.Id);
-                viewModel.CartProducts = cartProducts;
-                return this.View(viewModel);
-            }
+            var user = await this.userManager.GetUserAsync(this.User);
 
+            var cartProducts = await this.cartService
+                .GetCartProductsAsync<CartProductViewModel>(user.Id);
+            viewModel.CartProducts = cartProducts;
             return this.View(viewModel);
         }
 
+        [Authorize]
+
+        // [HttpPost]
         public async Task<ActionResult> Add(int? id, bool toCart, int? quantity)
         {
             if (id == null)
@@ -47,20 +48,21 @@
                 return this.BadRequest();
             }
 
-            if (this.User.Identity.IsAuthenticated)
-            {
-                var user = await this.userManager.GetUserAsync(this.User);
+            var user = await this.userManager.GetUserAsync(this.User);
+            var success =
                 await this.cartService.AddProductToCartAsync(user.Id, id.Value, quantity ?? 1);
-            }
 
-            if (toCart)
+            if (!success)
             {
-                return this.RedirectToAction(nameof(this.Index));
+                return this.BadRequest();
             }
 
-            return this.RedirectToAction("Index", "Home");
+            return toCart
+                ? this.RedirectToAction(nameof(this.Index))
+                : this.RedirectToAction("Index", "Home");
         }
 
+        [Authorize]
         public async Task<ActionResult> Remove(int? id)
         {
             if (id == null)
@@ -68,15 +70,18 @@
                 return this.BadRequest();
             }
 
-            if (this.User.Identity.IsAuthenticated)
+            var user = await this.userManager.GetUserAsync(this.User);
+            var success = await this.cartService.DeleteProductFromCartAsync(user.Id, id.Value);
+
+            if (!success)
             {
-                var user = await this.userManager.GetUserAsync(this.User);
-                await this.cartService.DeleteProductFromCartAsync(user.Id, id.Value);
+                return this.BadRequest();
             }
 
             return this.RedirectToAction(nameof(this.Index));
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<ActionResult> Edit(int? id, int? quantity)
         {
@@ -90,11 +95,14 @@
                 return this.BadRequest();
             }
 
-            if (this.User.Identity.IsAuthenticated)
+            var user = await this.userManager.GetUserAsync(this.User);
+
+            var success = await this.cartService
+                .EditProductInCartAsync(user.Id, id.Value, quantity.Value);
+
+            if (!success)
             {
-                var user = await this.userManager.GetUserAsync(this.User);
-                await this.cartService
-                    .EditProductInCartAsync(user.Id, id.Value, quantity.Value);
+                return this.BadRequest();
             }
 
             return this.RedirectToAction(nameof(this.Index));

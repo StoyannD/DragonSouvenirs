@@ -1,157 +1,92 @@
 ﻿@model DragonSouvenirs.Web.ViewModels.Categories.ProductInCategoryViewModel
+
 <div class="col-lg-4 col-md-6 col-sm-6">
-    <form enctype="multipart/form-data"
-          asp-route="favouriteRoutePost"
-          asp-route-title="@Model.TitleLink"
-          method="post">
-        @if (this.Model.Quantity < 1)
-        {
-            <div class="product__discount__item mb-5">
-                <div class="product__discount__item__pic set-bg"
-                     data-setbg="@Model.Images.FirstOrDefault()?.ImgUrl">
-                    <ul class="product__item__pic__hover">
-                        <li>
-                            <button type="submit">
-                                <i class="fa fa-heart"></i>
-                            </button>
-                        </li>
-                        <li>
-                            <a asp-controller="Products"
-                               asp-action="ByName"
-                               asp-route-title="@Model.TitleLink">
-                                <i class="fa fa-arrow-up"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="product__item__text">
+    <div class="product__item">
+        <div class="product__item__pic set-bg"
+             data-setbg="@Model.Images.FirstOrDefault()?.ImgUrl">
+            <ul class="product__item__pic__hover">
+                <li>
+                    <form enctype="multipart/form-data"
+                          asp-controller="Products"
+                          asp-action="Favourite"
+                          asp-route-title="@Model.TitleLink"
+                          method="post">
+                        <button type="submit">
+                            <i class="fa fa-heart"></i>
+                        </button>
+                    </form>
+                </li>
+                <li>
                     <a asp-controller="Products"
                        asp-action="ByName"
                        asp-route-title="@Model.TitleLink">
-                        <span>@Model.CategoryTitle</span>
-                        <h6>
-                            @Model.Name
-                        </h6>
-                        <h5 style="color: red;">
-                            Продадено
-                        </h5>
+                        <i class="fa fa-arrow-up"></i>
                     </a>
-                </div>
+                </li>
+                <li>
+                    <form enctype="multipart/form-data"
+                          asp-controller="Cart"
+                          asp-action="Add"
+                          asp-route-id="@Model.Id"
+                          asp-route-toCart="true"
+                          method="post">
+                        <button type="submit">
+                            <i class="fa fa-shopping-cart"></i>
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+        @if (this.Model.Quantity < 1)
+        {
+            <div class="product__item__text">
+                <a asp-controller="Products"
+                   asp-action="ByName"
+                   asp-route-title="@Model.TitleLink">
+                    <span>@Model.CategoryTitle</span>
+                    <h6>
+                        @Model.Name
+                    </h6>
+                    <h5 style="color: red;">
+                        Продадено
+                    </h5>
+                </a>
             </div>
         }
         else if (this.Model.DiscountPrice != null)
         {
-            <div class="product__discount__item mb-5">
-                <div class="product__discount__item__pic set-bg"
-                     data-setbg="@Model.Images.FirstOrDefault()?.ImgUrl">
-                    <div class="product__discount__percent">
-                        -@($"{(100 - (this.Model.DiscountPrice / this.Model.Price) * 100):F0}")%
-                    </div>
-                    <ul class="product__item__pic__hover">
-                        <li>
-                            <button type="submit">
-                                <i class="fa fa-heart"></i>
-                            </button>
-                        </li>
-                        <li>
-                            <a asp-controller="Products"
-                               asp-action="ByName"
-                               asp-route-title="@Model.TitleLink">
-                                <i class="fa fa-arrow-up"></i>
-                            </a>
-                        </li>
-                        @if (this.User.Identity.IsAuthenticated)
-                        {
-                            <li>
-                                <a asp-controller="Cart"
-                                   asp-action="Add"
-                                   asp-route-id="@Model.Id"
-                                   asp-route-toCart="true">
-                                    <i class="fa fa-shopping-cart"></i>
-                                </a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li>
-                                <a asp-area="Identity" asp-page="/Account/Login">
-                                    <i class="fa fa-shopping-cart"></i>
-                                </a>
-                            </li>
-                        }
-                    </ul>
-                </div>
-                <div class="product__discount__item__text">
-                    <a asp-controller="Products"
-                       asp-action="ByName"
-                       asp-route-title="@Model.TitleLink"
-                       class="discountItemPrice">
-                        <span>@Model.CategoryTitle</span>
-                        <h6>
-                            @Model.Name
-                        </h6>
-                        <h5 class="product__item__price">
-                            <span>@Model.Price</span>
-                            @Model.DiscountPrice
-                            лв.
-                        </h5>
-                    </a>
-                </div>
+            <div class="product__discount__item__text">
+                <a asp-controller="Products"
+                   asp-action="ByName"
+                   asp-route-title="@Model.TitleLink"
+               class="discountItemPrice">
+                    <span>@Model.CategoryTitle</span>
+                    <h6>
+                        @Model.Name
+                    </h6>
+                    <h5 class="product__item__price">
+                        <span>@Model.Price</span>
+                        @Model.DiscountPrice
+                        лв.
+                    </h5>
+                </a>
             </div>
         }
         else
         {
-            <div class="product__item">
-                <div class="product__item__pic set-bg"
-                     data-setbg="@Model.Images.FirstOrDefault()?.ImgUrl">
-                    <ul class="product__item__pic__hover">
-                        <li>
-                            <button type="submit">
-                                <i class="fa fa-heart"></i>
-                            </button>
-                        </li>
-                        <li>
-                            <a asp-controller="Products"
-                               asp-action="ByName"
-                               asp-route-title="@Model.TitleLink">
-                                <i class="fa fa-arrow-up"></i>
-                            </a>
-                        </li>
-                        @if (this.User.Identity.IsAuthenticated)
-                        {
-                            <li>
-                                <a asp-controller="Cart"
-                                   asp-action="Add"
-                                   asp-route-id="@Model.Id"
-                                   asp-route-toCart="true">
-                                    <i class="fa fa-shopping-cart"></i>
-                                </a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li>
-                                <a asp-area="Identity" asp-page="/Account/Login">
-                                    <i class="fa fa-shopping-cart"></i>
-                                </a>
-                            </li>
-                        }
-                    </ul>
-                </div>
-                <div class="product__item__text">
-                    <a asp-controller="Products"
-                       asp-action="ByName"
-                       asp-route-title="@Model.TitleLink">
-                        <span>@Model.CategoryTitle</span>
-                        <h6>
-                            @Model.Name
-                        </h6>
-                        <h5>
-                            @Model.Price лв.
-                        </h5>
-                    </a>
-                </div>
+            <div class="product__item__text">
+                <a asp-controller="Products"
+                   asp-action="ByName"
+                   asp-route-title="@Model.TitleLink">
+                    <span>@Model.CategoryTitle</span>
+                    <h6>
+                        @Model.Name
+                    </h6>
+                    <h5>
+                        @Model.Price лв.
+                    </h5>
+                </a>
             </div>
         }
-    </form>
+    </div>
 </div>

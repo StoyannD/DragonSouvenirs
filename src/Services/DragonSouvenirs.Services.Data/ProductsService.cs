@@ -187,11 +187,6 @@
                 .To<T>()
                 .FirstOrDefaultAsync();
 
-            if (product == null)
-            {
-                throw new NullReferenceException();
-            }
-
             return product;
         }
 
@@ -203,11 +198,6 @@
                 .To<T>()
                 .FirstOrDefaultAsync();
 
-            if (product == null)
-            {
-                throw new NullReferenceException();
-            }
-
             return product;
         }
 
@@ -218,11 +208,6 @@
                 .Where(p => p.Id == id.Value)
                 .To<T>()
                 .FirstOrDefaultAsync();
-
-            if (product == null)
-            {
-                throw new NullReferenceException();
-            }
 
             return product;
         }

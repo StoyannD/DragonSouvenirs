@@ -21,20 +21,17 @@
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IOrderService orderService;
         private readonly ICartService cartService;
-        private readonly IProductsService productsService;
         private readonly IOfficeService officeService;
 
         public OrdersController(
             UserManager<ApplicationUser> userManager,
             IOrderService orderService,
             ICartService cartService,
-            IProductsService productsService,
             IOfficeService officeService)
         {
             this.userManager = userManager;
             this.orderService = orderService;
             this.cartService = cartService;
-            this.productsService = productsService;
             this.officeService = officeService;
         }
 

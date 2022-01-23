@@ -51,7 +51,7 @@
             return totalPrice;
         }
 
-        public async Task AddProductToCartAsync(string userId, int productId, int quantity)
+        public async Task<bool> AddProductToCartAsync(string userId, int productId, int quantity)
         {
             var user = await this.userRepository
                 .AllWithDeleted()
@@ -75,12 +75,12 @@
             var product = await this.productRepository.All().FirstOrDefaultAsync(p => p.Id == productId);
             if (product == null)
             {
-                throw new ArgumentException();
+                return false;
             }
 
             if (product.Quantity < quantity)
             {
-                return;
+                return false;
             }
 
             // Check if a deleted CardProduct with the same product exists.
@@ -113,10 +113,17 @@
                 await this.cartProductRepository.AddAsync(cartProduct);
             }
 
+            // Check if the quantity exceeds total product quantity
+            if (cartProduct.Quantity > product.Quantity)
+            {
+                cartProduct.Quantity = product.Quantity;
+            }
+
             await this.cartProductRepository.SaveChangesAsync();
+            return true;
         }
 
-        public async Task DeleteProductFromCartAsync(string userId, int productId)
+        public async Task<bool> DeleteProductFromCartAsync(string userId, int productId)
         {
             var cartProduct = await this.cartProductRepository
                 .AllWithDeleted()
@@ -126,17 +133,17 @@
 
             if (cartProduct == null)
             {
-                // TODO add message
-                throw new NullReferenceException();
+                return false;
             }
 
             this.cartProductRepository
                 .Delete(cartProduct);
 
             await this.cartProductRepository.SaveChangesAsync();
+            return true;
         }
 
-        public async Task EditProductInCartAsync(string userId, int productId, int quantity)
+        public async Task<bool> EditProductInCartAsync(string userId, int productId, int quantity)
         {
             var cartProduct = await this.cartProductRepository
                 .All()
@@ -146,8 +153,7 @@
 
             if (cartProduct == null)
             {
-                // TODO add message
-                throw new NullReferenceException();
+                return false;
             }
 
             var product = await this.productRepository
@@ -156,7 +162,7 @@
 
             if (product.Quantity < quantity)
             {
-                return;
+                return false;
             }
 
             cartProduct.Quantity = product.Quantity < quantity
@@ -164,6 +170,7 @@
                 : quantity;
 
             await this.cartProductRepository.SaveChangesAsync();
+            return true;
         }
 
         public async Task<T> GetCartByIdAsync<T>(string id)

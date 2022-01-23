@@ -28,7 +28,6 @@
         {
             var user = await this.userManager.GetUserAsync(this.UserClaimsPrincipal);
 
-            // TODO:add favorite products
             var viewModel = new ComponentViewModel();
             if (user != null)
             {

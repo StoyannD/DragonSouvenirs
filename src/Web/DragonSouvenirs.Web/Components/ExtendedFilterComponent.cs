@@ -30,7 +30,7 @@
                 MinPrice = (int)await
                     this.productsService.LeastExpensiveProductPrice(),
                 MaxPrice = (int)Math.Ceiling(await this.productsService.MostExpensiveProductPrice()),
-        };
+            };
 
             viewModel.Categories.ForAll(c => c.IsSelected = false);
 

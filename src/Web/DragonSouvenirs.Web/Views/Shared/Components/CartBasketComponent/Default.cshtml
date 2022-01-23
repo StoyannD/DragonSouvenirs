@@ -4,32 +4,14 @@
     <div class="header__cart">
         <ul>
             <li>
-                @if (this.User.Identity.IsAuthenticated)
-                {
-                    <a asp-route="favouritesRoute">
-                        <i class="fa fa-heart"></i> <span>@this.Model.FavouriteProductsCount</span>
-                    </a>
-                }
-                else
-                {
-                    <a asp-area="Identity" asp-page="/Account/Login">
-                        <i class="fa fa-heart"></i> <span>@this.Model.FavouriteProductsCount</span>
-                    </a>
-                }
+                <a asp-route="favouritesRoute">
+                    <i class="fa fa-heart"></i> <span>@this.Model.FavouriteProductsCount</span>
+                </a>
             </li>
             <li>
-                @if (this.User.Identity.IsAuthenticated)
-                {
-                    <a asp-route="cartRoute">
-                        <i class="fa fa-shopping-bag"></i> <span>@(this.Model?.Cart?.CartProductsCount ?? 0)</span>
-                    </a>
-                }
-                else
-                {
-                    <a asp-area="Identity" asp-page="/Account/Login">
-                        <i class="fa fa-shopping-bag"></i> <span>@(this.Model?.Cart?.CartProductsCount ?? 0)</span>
-                    </a>
-                }
+                <a asp-route="cartRoute">
+                    <i class="fa fa-shopping-bag"></i> <span>@(this.Model?.Cart?.CartProductsCount ?? 0)</span>
+                </a>
             </li>
         </ul>
         <div class="header__cart__price">

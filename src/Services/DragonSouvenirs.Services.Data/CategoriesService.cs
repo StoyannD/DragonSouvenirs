@@ -73,12 +73,6 @@
                 .To<T>()
                 .ToListAsync();
 
-            if (categories == null)
-            {
-                // TODO add message
-                throw new NullReferenceException();
-            }
-
             return categories;
         }
 
@@ -90,12 +84,6 @@
                 .To<T>()
                 .FirstOrDefaultAsync();
 
-            if (category == null)
-            {
-                // TODO add message
-                throw new NullReferenceException();
-            }
-
             return category;
         }
 
@@ -106,12 +94,6 @@
                 .Where(c => c.Id == id.Value)
                 .To<T>()
                 .FirstOrDefaultAsync();
-
-            if (category == null)
-            {
-                // TODO add message
-                throw new NullReferenceException();
-            }
 
             return category;
         }
@@ -128,7 +110,6 @@
 
             if (category == null)
             {
-                // TODO add message
                 throw new NullReferenceException();
             }
 
@@ -153,7 +134,6 @@
 
             if (category == null)
             {
-                // TODO add message
                 throw new NullReferenceException();
             }
 
