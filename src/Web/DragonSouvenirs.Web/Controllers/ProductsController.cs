@@ -1,4 +1,6 @@
-﻿namespace DragonSouvenirs.Web.Controllers
+﻿using Microsoft.AspNetCore.Http.Extensions;
+
+namespace DragonSouvenirs.Web.Controllers
 {
     using System;
     using System.Linq;
@@ -131,6 +133,11 @@
 
             var url = this.TempData["Url"].ToString();
             this.TempData.Remove("Url");
+
+            if (url!.StartsWith("/Products"))
+            {
+                url += Request.QueryString;
+            }
 
             return this.Redirect(url);
         }

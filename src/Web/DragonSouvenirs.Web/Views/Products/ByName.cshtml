@@ -82,9 +82,10 @@
                                 </form>
                                 <div>
                                     <form enctype="multipart/form-data"
-                                      asp-route="favouriteRoutePost"
-                                      asp-route-title="@Model.TitleLink"
-                                      method="post">
+                                          asp-controller="Products"
+                                          asp-action="Favourite"
+                                          asp-route-title="@Model.TitleLink"
+                                          method="post">
                                         <button class="border-0 text-decoration-none heart-icon" type="submit">
                                             <span class="icon_heart_alt"></span>
                                         </button>
