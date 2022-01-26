@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.Extensions;
-
-namespace DragonSouvenirs.Web.Controllers
+﻿namespace DragonSouvenirs.Web.Controllers
 {
     using System;
     using System.Linq;

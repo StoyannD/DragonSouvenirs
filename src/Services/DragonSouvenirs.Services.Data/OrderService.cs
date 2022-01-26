@@ -3,12 +3,14 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
     using System.Threading.Tasks;
 
     using DragonSouvenirs.Data.Common.Repositories;
     using DragonSouvenirs.Data.Models;
     using DragonSouvenirs.Data.Models.Enums;
     using DragonSouvenirs.Services.Mapping;
+    using DragonSouvenirs.Services.Messaging;
     using DragonSouvenirs.Web.ViewModels.Orders;
     using Microsoft.EntityFrameworkCore;
 
@@ -19,19 +21,25 @@
         private readonly IDeletableEntityRepository<CartProduct> cartProductRepository;
         private readonly IDeletableEntityRepository<Cart> cartRepository;
         private readonly IDeletableEntityRepository<Product> productRepository;
+        private readonly IEmailSender emailSender;
+        private readonly IEmailTemplatesSender emailTemplatesService;
 
         public OrderService(
             IDeletableEntityRepository<Order> orderRepository,
             IDeletableEntityRepository<OrderProduct> orderProductRepository,
             IDeletableEntityRepository<CartProduct> cartProductRepository,
             IDeletableEntityRepository<Cart> cartRepository,
-            IDeletableEntityRepository<Product> productRepository)
+            IDeletableEntityRepository<Product> productRepository,
+            IEmailSender emailSender,
+            IEmailTemplatesSender emailTemplatesService)
         {
             this.orderRepository = orderRepository;
             this.orderProductRepository = orderProductRepository;
             this.cartProductRepository = cartProductRepository;
             this.cartRepository = cartRepository;
             this.productRepository = productRepository;
+            this.emailSender = emailSender;
+            this.emailTemplatesService = emailTemplatesService;
         }
 
         public async Task<IEnumerable<T>> GetAllByUserIdAsync<T>(string userId)
@@ -171,6 +179,21 @@
             await this.productRepository.SaveChangesAsync();
             await this.cartProductRepository.SaveChangesAsync();
             await this.cartRepository.SaveChangesAsync();
+
+            var emailTemplate = this.emailTemplatesService.CreateOrder(
+                order.ShippingAddress,
+                order.ClientFullName,
+                order.InvoiceNumber,
+                order.TotalPrice,
+                order.OrderProducts,
+                order.DeliveryPrice);
+
+            await this.emailSender.SendEmailAsync(
+                "stoyantestmail1@gmail.com",
+                "DragonSouvenirs",
+                $"{order.UserEmail}",
+                $"Поръчката ви бе успешно заявена",
+                emailTemplate);
         }
 
         public async Task<IEnumerable<T>> GetAllAsync<T>()
