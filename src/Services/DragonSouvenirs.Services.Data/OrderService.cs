@@ -6,6 +6,7 @@
     using System.Text;
     using System.Threading.Tasks;
 
+    using DragonSouvenirs.Common;
     using DragonSouvenirs.Data.Common.Repositories;
     using DragonSouvenirs.Data.Models;
     using DragonSouvenirs.Data.Models.Enums;
@@ -180,7 +181,9 @@
             await this.cartProductRepository.SaveChangesAsync();
             await this.cartRepository.SaveChangesAsync();
 
-            var emailTemplate = this.emailTemplatesService.CreateOrder(
+            // Send email on Order submit
+            var emailTemplate = this.emailTemplatesService.Order(
+                GlobalConstants.EmailTemplates.SubmitOrder.Title,
                 order.ShippingAddress,
                 order.ClientFullName,
                 order.InvoiceNumber,
@@ -189,10 +192,10 @@
                 order.DeliveryPrice);
 
             await this.emailSender.SendEmailAsync(
-                "stoyantestmail1@gmail.com",
-                "DragonSouvenirs",
+                GlobalConstants.EmailTemplates.SenderEmail,
+                GlobalConstants.EmailTemplates.WebsiteName,
                 $"{order.UserEmail}",
-                $"Поръчката ви бе успешно заявена",
+                GlobalConstants.EmailTemplates.SubmitOrder.Subject,
                 emailTemplate);
         }
 
@@ -275,6 +278,26 @@
             order.OrderStatus = updatedOrderStatus;
 
             await this.orderRepository.SaveChangesAsync();
+
+            // Send email on order confirmation
+            if (updatedOrderStatus == OrderStatus.Accepted)
+            {
+                var emailTemplate = this.emailTemplatesService.Order(
+                    GlobalConstants.EmailTemplates.AcceptOrder.Title,
+                    order.ShippingAddress,
+                    order.ClientFullName,
+                    order.InvoiceNumber,
+                    order.TotalPrice,
+                    order.OrderProducts,
+                    order.DeliveryPrice);
+
+                await this.emailSender.SendEmailAsync(
+                    GlobalConstants.EmailTemplates.SenderEmail,
+                    GlobalConstants.EmailTemplates.WebsiteName,
+                    order.UserEmail,
+                    GlobalConstants.EmailTemplates.AcceptOrder.Subject,
+                    emailTemplate);
+            }
         }
     }
 }

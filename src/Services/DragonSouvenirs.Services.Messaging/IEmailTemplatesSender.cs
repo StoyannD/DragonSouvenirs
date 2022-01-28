@@ -6,7 +6,7 @@
 
     public interface IEmailTemplatesSender
     {
-        public string CreateOrder(string shippingAddress, string clientFullName, string invoiceNumber,
+        public string Order(string orderTitle, string shippingAddress, string clientFullName, string invoiceNumber,
             decimal totalPrice, ICollection<OrderProduct> orderProducts, decimal deliveryPrice);
     }
 }

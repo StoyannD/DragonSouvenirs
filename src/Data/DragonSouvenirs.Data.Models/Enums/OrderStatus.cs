@@ -10,16 +10,19 @@
         [Display(Name = "В процес на обработка")]
         Processing = 1,
 
+        [Display(Name = "Приета")]
+        Accepted = 2,
+
         [Display(Name = "Обработена")]
-        Processed = 2,
+        Processed = 3,
 
         [Display(Name = "Изпратена")]
-        Sent = 3,
+        Sent = 4,
 
         [Display(Name = "Доставена")]
-        Delivered = 4,
+        Delivered = 5,
 
         [Display(Name = "Завършена")]
-        Completed = 5,
+        Completed = 6,
     }
 }

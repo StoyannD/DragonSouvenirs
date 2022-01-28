@@ -176,5 +176,27 @@
 
             public const string Speedy = "Speedy";
         }
+
+        public class EmailTemplates
+        {
+            public const string SenderEmail = "stoyantestmail1@gmail.com";
+            public const string WebsiteName = "DragonSouvenirs";
+
+            public class SubmitOrder
+            {
+                public const string Subject = "Поръчката ви бе успешно заявена";
+
+                public const string Title =
+                    "Благодарим Ви за поръчката!<br>Ще получите имейл при потвърждение на поръчката.";
+            }
+
+            public class AcceptOrder
+            {
+                public const string Subject = "Поръчката ви бе приета";
+
+                public const string Title =
+                    "Благодарим Ви за поръчката!<br>Ще получите имейл при предаването и на куриер.";
+            }
+        }
     }
 }
