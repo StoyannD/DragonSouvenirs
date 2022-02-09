@@ -2,64 +2,8 @@
 @using DragonSouvenirs.Common
 @model DragonSouvenirs.Web.ViewModels.Home.IndexViewModel
 
-<section class="hero">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3">
-                <div class="hero__categories">
-                    <div class="hero__categories__all">
-                        <i class="fa fa-bars"></i>
-                        <span>Категории</span>
-                    </div>
-                    <ul>
-                        @foreach (var category in @Model.Categories)
-                        {
-                            <li>
-                                <a asp-controller="Categories"
-                                   asp-action="ByName"
-                                   asp-route-name="@category.Name">
-                                    @category.Title
-                                </a>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </div>
-            <div class="col-lg-9">
-                <div class="hero__search">
-                    <div class="hero__search__form">
-                        <form enctype="multipart/form-data"
-                              asp-route="shopRoute"
-                              method="post">
-                            <input name="searchString" type="text" placeholder="What do yo u need?">
-                            <button type="submit" class="site-btn">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </form>
-                    </div>
-                    <div class="hero__search__phone">
-                        <div class="hero__search__phone__icon">
-                            <i class="fa fa-phone"></i>
-                        </div>
-                        <div class="hero__search__phone__text" align="center">
-                            <h5>0895 35 31 35</h5>
-                            <span>от 9:00 до 17:00</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="hero__item set-bg"
-                     data-setbg="@CommonImageUrls.Home.MainBanner">
-                    <div class="hero__text">
-                        <span>SOUVENIRS</span>
-                        <h2>Ръчно <br />изработени</h2>
-                        <p>Сувенири от дървесина и кожа</p>
-                        <a asp-route="shopRoute" class="primary-btn">Магазин</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+
+@await Component.InvokeAsync("HeroComponent",new{isIndex = true})
 
 <section class="categories">
     <div class="container">
@@ -67,17 +11,18 @@
             <div class="categories__slider owl-carousel">
                 @foreach (var category in @Model.Categories)
                 {
-    <div class="col-lg-3">
-        <div class="categories__item set-bg" data-setbg="@category.ImageUrl">
-            <h5>
-                <a asp-controller="Categories"
-                   asp-action="ByName"
-                   asp-route-name="@category.Name">
-                    @category.Title
-                </a>
-            </h5>
-        </div>
-    </div>}
+                    <div class="col-lg-3">
+                        <div class="categories__item set-bg" data-setbg="@category.ImageUrl">
+                            <h5>
+                                <a asp-controller="Categories"
+                               asp-action="ByName"
+                               asp-route-name="@category.Name">
+                                    @category.Title
+                                </a>
+                            </h5>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     </div>

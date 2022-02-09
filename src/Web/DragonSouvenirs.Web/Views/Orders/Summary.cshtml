@@ -18,50 +18,50 @@
             </div>
             <div class="p-4">
                 <ul class="list-unstyled mb-4">
-                    <li class="d-flex justify-content-between py-3 border-bottom">
+                    <li style="overflow-x:auto" align="left" class="d-flex justify-content-between py-3 border-bottom">
                         <strong class="text-muted">Име и Фамилия</strong>
                         <h5>@Model.ClientFullName</h5>
                     </li>
-                    <li class="d-flex justify-content-between py-3 border-bottom">
+                    <li style="overflow-x:auto"  align="left" class=" d-flex justify-content-between py-3 border-bottom">
                         <strong class="text-muted">Имейл</strong>
                         <h5>@Model.UserEmail</h5>
                     </li>
-                    <li class="d-flex justify-content-between py-3 border-bottom">
+                    <li style="overflow-x:auto" align="left" class="d-flex justify-content-between py-3 border-bottom">
                         <strong class="text-muted">Тел. Номер</strong>
                         <h5>@Model.InvoiceNumber</h5>
                     </li>
-                    <li class="d-flex justify-content-between py-3 border-bottom">
+                    <li style="overflow-x:auto" align="left" class="d-flex justify-content-between py-3 border-bottom">
                         <strong class="text-muted">Адрес на доставка</strong>
                         <h5>@Model.ShippingAddress</h5>
                     </li>
-                    <li class="d-flex justify-content-between py-3 border-bottom">
+                    <li style="overflow-x:auto" align="left" class="d-flex justify-content-between py-3 border-bottom">
                         <strong class="text-muted">Вид доставка</strong>
                         <h5>@Model.DeliveryType</h5>
                     </li>
-                    <li class="d-flex justify-content-between py-3 border-bottom">
+                    <li style="overflow-x:auto" align="left" class="d-flex justify-content-between py-3 border-bottom">
                         <strong class="text-muted">Куриер</strong>
                         <h5>@Model.OfficeBrand</h5>
                     </li>
                     @if (@Model.Notes != null)
                     {
-                        <li class="d-flex justify-content-between py-3 border-bottom">
+                        <li style="overflow-x:auto" align="left" class="d-flex justify-content-between py-3 border-bottom">
                             <strong class="text-muted">Доп. информация</strong>
                             <h5>@Model.Notes</h5>
                         </li>
                     }
-                    <li class="d-flex justify-content-between py-3 border-bottom">
+                    <li style="overflow-x:auto" class="d-flex justify-content-between py-3 border-bottom">
                         <strong class="text-muted">Очаквана дата за доставка</strong>
                         <h5>@Model.ExpectedDeliveryDate.ToString("yyyy MMMM d", new System.Globalization.CultureInfo("bg-BG"))</h5>
                     </li>
-                    <li class="d-flex justify-content-between py-3 border-bottom">
+                    <li style="overflow-x:auto" align="left" class="d-flex justify-content-between py-3 border-bottom">
                         <strong class="text-muted">Цена </strong>
                         <h5>@($"{Model.CartTotalPrice:f2}") лв.</h5>
                     </li>
-                    <li class="d-flex justify-content-between py-3 border-bottom">
+                    <li style="overflow-x:auto" align="left" class="d-flex justify-content-between py-3 border-bottom">
                         <strong class="text-muted">Доставка</strong>
                         <h5>@Model.DeliveryPrice лв.</h5>
                     </li>
-                    <li class="d-flex justify-content-between py-3 border-bottom">
+                    <li style="overflow-x:auto" align="left" class="d-flex justify-content-between py-3 border-bottom">
                         <strong class="text-muted">Total</strong>
                         <h5 class="font-weight-bold">
                             @($"{(Model.CartTotalPrice + Model.DeliveryPrice):f2}") лв.

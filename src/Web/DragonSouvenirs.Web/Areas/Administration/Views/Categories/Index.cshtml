@@ -3,7 +3,7 @@
 @using DragonSouvenirs.Web.ViewModels.Administration.Categories
 @model DragonSouvenirs.Web.ViewModels.Administration.Categories.AllCategoriesViewModel
 
-<div class="container">
+<div style="overflow: auto;" class="container">
     @if (this.TempData["fail"] != null)
     {
         <div class="alert alert-danger alert-dismissible fade show" role="alert">

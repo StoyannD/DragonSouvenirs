@@ -1,8 +1,9 @@
-﻿@using DragonSouvenirs.Common.Enums
-@using DragonSouvenirs.Web.Components
+﻿@using DragonSouvenirs.Web.Components
 @model DragonSouvenirs.Web.ViewModels.Categories.CategoryViewModel
 
+@await Component.InvokeAsync("HeroComponent")
 <partial name="Partials/_BreadcrumbPartial" model="@Model.Title"/>
+
 
 <section class="product spad">
     <div class="container">

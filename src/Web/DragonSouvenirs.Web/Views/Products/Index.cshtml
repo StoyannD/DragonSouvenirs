@@ -4,6 +4,7 @@
 @{
     var breadCrumbItem = "Магазин";
 }
+@await Component.InvokeAsync("HeroComponent")
 <partial name="Partials/_BreadcrumbPartial" model="breadCrumbItem" />
 
 

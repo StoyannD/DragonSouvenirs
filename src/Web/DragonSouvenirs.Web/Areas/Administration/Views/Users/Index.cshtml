@@ -2,46 +2,48 @@
 @using System.Linq
 @model DragonSouvenirs.Web.ViewModels.Administration.Users.AllUsersViewModel
 
-@if (this.TempData["fail"] != null)
-{
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        @this.TempData["fail"]
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-}
-@if (this.TempData["success"] != null)
-{
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        @this.TempData["success"]
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-}
-<table class="table table-hover table-bordered text-center"
-       style="margin-left: auto; margin-right: auto;">
-    <thead class="thead-dark">
-        <tr class="text-center">
-            <th scope="col">@this.Model.Users.Count()</th>
-            <th scope="col">Никнейм</th>
-            <th scope="col">Име и фамилия</th>
-            <th scope="col">Имейл</th>
-            <th scope="col">Адрес на доставка</th>
-            <th scope="col">Дата на създаване</th>
-            <th scope="col">Последна промяна</th>
-            <th scope="col">Изтрит</th>
-            <th scope="col">Менажирай</th>
-        </tr>
-    </thead>
-    <tbody>
-        @for (int i = 0; i < this.Model.Users.Count(); i++)
-        {
+<div style="overflow: auto">
+    @if (this.TempData["fail"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @this.TempData["fail"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+    @if (this.TempData["success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @this.TempData["success"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+    <table class="table table-hover table-bordered text-center"
+           style="margin-left: auto; margin-right: auto;">
+        <thead class="thead-dark">
             <tr class="text-center">
-                <th scope="row">@(i+1)</th>
-                <partial name="_UserInTablePartial" model="this.Model.Users.ElementAt(i)" />
+                <th scope="col">@this.Model.Users.Count()</th>
+                <th scope="col">Никнейм</th>
+                <th scope="col">Име и фамилия</th>
+                <th scope="col">Имейл</th>
+                <th scope="col">Адрес на доставка</th>
+                <th scope="col">Дата на създаване</th>
+                <th scope="col">Последна промяна</th>
+                <th scope="col">Изтрит</th>
+                <th scope="col">Менажирай</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < this.Model.Users.Count(); i++)
+            {
+                <tr class="text-center">
+                    <th scope="row">@(i+1)</th>
+                    <partial name="_UserInTablePartial" model="this.Model.Users.ElementAt(i)" />
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
