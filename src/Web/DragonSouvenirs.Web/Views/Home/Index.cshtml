@@ -5,27 +5,29 @@
 
 @await Component.InvokeAsync("HeroComponent",new{isIndex = true})
 
-<section class="categories">
-    <div class="container">
-        <div class="row">
-            <div class="categories__slider owl-carousel">
-                @foreach (var category in @Model.Categories)
-                {
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="@category.ImageUrl">
-                            <h5>
-                                <a asp-controller="Categories"
-                               asp-action="ByName"
-                               asp-route-name="@category.Name">
-                                    @category.Title
-                                </a>
-                            </h5>
+<cache expires-after="TimeSpan.FromHours(1)">
+    <section class="categories">
+        <div class="container">
+            <div class="row">
+                <div class="categories__slider owl-carousel">
+                    @foreach (var category in @Model.Categories)
+                    {
+                        <div class="col-lg-3">
+                            <div class="categories__item set-bg" data-setbg="@category.ImageUrl">
+                                <h5>
+                                    <a asp-controller="Categories"
+                                   asp-action="ByName"
+                                   asp-route-name="@category.Name">
+                                        @category.Title
+                                    </a>
+                                </h5>
+                            </div>
                         </div>
-                    </div>
-                }
+                    }
+                </div>
             </div>
         </div>
-    </div>
-</section>
+    </section>
+</cache>
 
 @await this.Component.InvokeAsync(typeof(DiscountedProductsComponent))
