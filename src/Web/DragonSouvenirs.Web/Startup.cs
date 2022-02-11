@@ -133,6 +133,9 @@
                 app.UseHsts();
             }
 
+            // Redirect to custom error page on 404
+            app.UseStatusCodePagesWithReExecute("/Error/PageNotFound");
+
             app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();

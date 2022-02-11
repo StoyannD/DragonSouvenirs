@@ -753,13 +753,22 @@ ol {
 	color: #85603f;
 }
 
-.hero__text h2 {
+.hero__text h2{
 	font-size: 46px;
 	/*color: #252525;*/
     color: #f5f5f5;
 	line-height: 52px;
 	font-weight: 700;
 	margin: 10px 0;
+}
+
+.hero__text h4 {
+    font-size: 36px;
+    /*color: #252525;*/
+    color: #f5f5f5;
+    line-height: 52px;
+    font-weight: 700;
+    margin: 10px 0;
 }
 
 .hero__text p {

@@ -26,11 +26,11 @@
 <body>
     @*<div id="preloder">
         <div class="loader"></div>
-    </div>*@
+        </div>*@
 
+    <partial name="Partials/_CookieConsentPartial" />
     <partial name="Partials/_NavbarPartial" />
     <div>
-        <partial name="Partials/_CookieConsentPartial" />
         <main role="main" class="pb-3">
             @this.RenderBody()
         </main>

@@ -198,5 +198,10 @@
                     "Благодарим Ви за поръчката!<br>Ще получите имейл при предаването и на куриер.";
             }
         }
+
+        public class Caching
+        {
+            public const string HomeIndexCategories = "HomeIndexCategories";
+        }
     }
 }

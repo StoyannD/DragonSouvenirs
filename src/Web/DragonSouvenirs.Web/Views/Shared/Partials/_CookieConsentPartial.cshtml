@@ -8,10 +8,10 @@
 
 @if (showBanner)
 {
-    <div id="cookieConsent" class="alert alert-info alert-dismissible fade show" role="alert">
-        We use cookies to understand how you use our site and to improve your experience. <a asp-area="" asp-controller="Home" asp-action="Privacy">Learn More</a>.
+    <div id="cookieConsent" class="alert alert-dark alert-dismissible fade show mb-1" role="alert">
+        За да направим използването на този уебсайт по-лесно и удобно, използваме бисквитки. <a asp-area="" asp-controller="Home" asp-action="Privacy">Научи повече</a>.
         <button type="button" class="accept-policy close" data-dismiss="alert" aria-label="Close" data-cookie-string="@cookieString">
-            <span aria-hidden="true">Accept</span>
+            <span aria-hidden="true">Приеми</span>
         </button>
     </div>
     <script>
@@ -21,5 +21,4 @@
                 document.cookie = button.dataset.cookieString;
             }, false);
         })();
-    </script>
-}
+    </script>}
