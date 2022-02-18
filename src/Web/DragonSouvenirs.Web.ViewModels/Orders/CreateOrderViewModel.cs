@@ -111,5 +111,7 @@
         public CitiesViewModel Cities { get; set; }
 
         public bool ToUpdateAddress { get; set; }
+
+        public int UserPersonalDiscountPercentage { get; set; }
     }
 }

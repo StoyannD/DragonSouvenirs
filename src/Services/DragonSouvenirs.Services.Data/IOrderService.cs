@@ -14,7 +14,7 @@
 
         Task<T> GetProcessingOrderAsync<T>(string userId);
 
-        Task ConfirmOrderAsync(string userId);
+        Task ConfirmOrderAsync(string userId, decimal personalDiscountPercentage);
 
         Task<IEnumerable<T>> GetAllAsync<T>();
 

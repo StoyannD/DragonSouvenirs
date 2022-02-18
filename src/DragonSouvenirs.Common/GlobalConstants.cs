@@ -144,6 +144,7 @@
             public const int OfficeMinLength = 5;
 
             public const decimal DeliveryPrice = 10M;
+            public const int ExpectedDeliveryDate = 3;
 
             public const string OrderCreated = "Order Created Successfully!";
 

@@ -158,23 +158,21 @@
             user.Floor = viewModel.Floor;
             user.ApartmentNumber = viewModel.ApartmentNumber;
 
-            var shippingAddress = "гр. " + viewModel.City + ", кв. "
-                                  + viewModel.Neighborhood
-                                  + ", ул. "
-                                  + viewModel.Street
-                                  + " "
-                                  + viewModel.StreetNumber;
+            var shippingAddress = "гр. " + viewModel.City
+                                  + ", кв. " + viewModel.Neighborhood
+                                  + ", ул. " + viewModel.Street
+                                  + " " + viewModel.StreetNumber;
 
             shippingAddress += viewModel.ApartmentBuilding != null
                 ? ", бл. " + viewModel.ApartmentBuilding + " " : string.Empty;
             shippingAddress += viewModel.Entrance != null
                 ? ", вх. " + viewModel.Entrance + " " : string.Empty;
 
-            shippingAddress += ", ет. "
-                               + viewModel.Floor
-                               + ", ап. "
-                               + viewModel.ApartmentNumber;
+            shippingAddress += ", ет. " + viewModel.Floor
+                            + ", ап. " + viewModel.ApartmentNumber;
             user.DefaultShippingAddress = shippingAddress;
+
+            user.PersonalDiscountPercentage = viewModel.PersonalDiscountPercentage;
 
             await this.userManager.UpdateAsync(user);
 

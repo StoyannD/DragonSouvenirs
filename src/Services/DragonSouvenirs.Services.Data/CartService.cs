@@ -40,13 +40,17 @@
             return cart;
         }
 
-        public async Task<decimal> GetCartTotalPriceAsync(string userId)
+        public async Task<decimal> GetCartTotalPriceAsync(string userId, decimal personalDiscountPercentage)
         {
             var totalPrice = await this.cartProductRepository
                 .All()
                 .Include(cp => cp.Cart)
                 .Where(cp => cp.Cart.UserId == userId)
                 .SumAsync(cp => cp.Quantity * (cp.Product.DiscountPrice ?? cp.Product.Price));
+
+            totalPrice *= personalDiscountPercentage == 0
+                ? 1
+                : 1 - (personalDiscountPercentage / 100);
 
             return totalPrice;
         }

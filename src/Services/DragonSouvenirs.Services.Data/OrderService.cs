@@ -67,22 +67,18 @@
                 OfficeBrands officeBrand = model.OfficeBrand; ;
                 if (model.DeliveryType == DeliveryType.ToAddress)
                 {
-                    shippingAddress = "гр. " + model.UserCity + ", кв. "
-                                      + model.UserNeighborhood
-                                      + ", ул. "
-                                      + model.UserStreet
-                                      + " "
-                                      + model.UserStreetNumber;
+                    shippingAddress = "гр. " + model.UserCity
+                                      + ", кв. " + model.UserNeighborhood
+                                      + ", ул. " + model.UserStreet
+                                      + " " + model.UserStreetNumber;
 
                     shippingAddress += model.UserApartmentBuilding != null
                         ? ", бл. " + model.UserApartmentBuilding + " " : string.Empty;
                     shippingAddress += model.UserEntrance != null
                         ? ", вх. " + model.UserEntrance + " " : string.Empty;
 
-                    shippingAddress += ", ет. "
-                                       + model.UserFloor
-                                       + ", ап. "
-                                       + model.UserApartmentNumber;
+                    shippingAddress += ", ет. " + model.UserFloor
+                                    + ", ап. " + model.UserApartmentNumber;
                 }
                 else
                 {
@@ -124,7 +120,7 @@
             return order;
         }
 
-        public async Task ConfirmOrderAsync(string userId)
+        public async Task ConfirmOrderAsync(string userId, decimal personalDiscountPercentage)
         {
             var order = await this.orderRepository
                 .All()
@@ -155,6 +151,10 @@
             await this.orderProductRepository.SaveChangesAsync();
 
             order.TotalPrice = orderProducts.Sum(op => op.Quantity * op.Price);
+            order.TotalPrice *= personalDiscountPercentage == 0
+                ? 1
+                : 1 - (personalDiscountPercentage / 100);
+
             order.OrderStatus = OrderStatus.Processing;
             await this.orderRepository.SaveChangesAsync();
 

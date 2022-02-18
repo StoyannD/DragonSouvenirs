@@ -20,13 +20,13 @@
     }
 </ul>
 <div class="checkout__order__subtotal">
-    Общо <span>@Model.TotalPriceBeforeDiscounts лв.</span>
+    Общо <span>@($"{Model.TotalPriceBeforeDiscounts:F2}") лв.</span>
     <br />
     Доставка <span>@GlobalConstants.Order.DeliveryPrice лв.</span>
     <br/>
-    Намаления <span>@(Model.TotalPriceBeforeDiscounts-Model.TotalPrice) лв.</span>
+    Намаления <span>@($"{(Model.TotalPriceBeforeDiscounts-Model.TotalPrice):f2}") лв.</span>
 </div>
-<div class="checkout__order__total">Total <span>@(Model.TotalPrice+GlobalConstants.Order.DeliveryPrice) лв.</span></div>
+<div class="checkout__order__total">Total <span>@($"{(Model.TotalPrice+GlobalConstants.Order.DeliveryPrice):F2}") лв.</span></div>
 @*<div class="checkout__input__checkbox">
     <label for="payment">
         Наложен платеж

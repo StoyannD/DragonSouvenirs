@@ -84,6 +84,8 @@
             ErrorMessage = GlobalConstants.User.ApartmentNumberError)]
         public int ApartmentNumber { get; set; }
 
+        public int PersonalDiscountPercentage { get; set; }
+
         public DateTime CreatedOn { get; set; }
 
         public DateTime? ModifiedOn { get; set; }

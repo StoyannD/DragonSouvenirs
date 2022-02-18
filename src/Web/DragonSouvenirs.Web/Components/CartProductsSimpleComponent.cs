@@ -27,6 +27,7 @@
 
             var viewModel = new CartViewModel
             {
+                PersonalDiscountPercentage = user.PersonalDiscountPercentage,
                 Products = await this.cartService.GetCartProductsAsync<CartProductsSimpleViewModel>(user.Id),
             };
 

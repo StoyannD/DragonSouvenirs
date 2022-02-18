@@ -7,7 +7,7 @@
     {
         Task<IEnumerable<T>> GetCartProductsAsync<T>(string userId);
 
-        Task<decimal> GetCartTotalPriceAsync(string userId);
+        Task<decimal> GetCartTotalPriceAsync(string userId, decimal personalDiscountPercentage);
 
         Task<bool> AddProductToCartAsync(string userId, int productId, int quantity);
 

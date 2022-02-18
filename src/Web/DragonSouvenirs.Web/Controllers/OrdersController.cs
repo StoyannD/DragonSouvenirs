@@ -53,7 +53,8 @@
 
         public async Task<ActionResult> Create()
         {
-            var user = await this.userManager.GetUserAsync(this.User);
+            var user = await this.userManager
+                .GetUserAsync(this.User);
 
             if (!await this.cartService.UserHasProductsInCart(user.Id))
             {
@@ -88,6 +89,7 @@
                 UserEntrance = user.Entrance,
                 UserFloor = user.Floor,
                 UserApartmentNumber = user.ApartmentNumber,
+                UserPersonalDiscountPercentage = user.PersonalDiscountPercentage,
                 Offices = offices,
                 Cities = cities,
             };
@@ -119,7 +121,8 @@
             var user = await this.userManager.GetUserAsync(this.User);
 
             inputModel.UserId = user.Id;
-            inputModel.ExpectedDeliveryDate = DateTime.UtcNow.AddDays(3);
+            inputModel.ExpectedDeliveryDate = DateTime.UtcNow
+                .AddDays(GlobalConstants.Order.ExpectedDeliveryDate);
             inputModel.DeliveryPrice = GlobalConstants.Order.DeliveryPrice;
 
             await this.orderService.CreateOrderAsync(inputModel);
@@ -135,20 +138,18 @@
                 user.Floor = inputModel.UserFloor;
                 user.ApartmentNumber = inputModel.UserApartmentNumber;
 
-                var userDefaultAddress
-                    = $"гр. {inputModel.UserCity}, кв. {inputModel.UserNeighborhood}, ул. {inputModel.UserStreet} {inputModel.UserStreetNumber}, ет. {inputModel.UserFloor}, ап. {inputModel.UserApartmentNumber}";
+                var userDefaultAddress = "гр. " + inputModel.UserCity
+                                     + ", кв. " + inputModel.UserNeighborhood
+                                     + ", ул. " + inputModel.UserStreet
+                                     + " " + inputModel.UserStreetNumber;
 
-                if (inputModel.UserApartmentBuilding != null)
-                {
-                    user.ApartmentBuilding = inputModel.UserApartmentBuilding;
-                    userDefaultAddress += $", Блок {inputModel.UserApartmentBuilding}";
-                }
+                userDefaultAddress += inputModel.UserApartmentBuilding != null
+                    ? ", бл. " + inputModel.UserApartmentBuilding + " " : string.Empty;
+                userDefaultAddress += inputModel.UserEntrance != null
+                    ? ", вх. " + inputModel.UserEntrance + " " : string.Empty;
 
-                if (inputModel.UserEntrance != null)
-                {
-                    user.Entrance = inputModel.UserEntrance;
-                    userDefaultAddress += $", Вход {inputModel.UserEntrance}";
-                }
+                userDefaultAddress += ", ет. " + inputModel.UserFloor
+                                               + ", ап. " + inputModel.UserApartmentNumber;
 
                 user.DefaultShippingAddress = userDefaultAddress;
                 await userManager.UpdateAsync(user);
@@ -162,7 +163,7 @@
             var user = await this.userManager.GetUserAsync(this.User);
             var viewModel = await this.orderService.GetProcessingOrderAsync<ConfirmOrderViewModel>(user.Id);
 
-            var cartTotalPrice = await this.cartService.GetCartTotalPriceAsync(user.Id);
+            var cartTotalPrice = await this.cartService.GetCartTotalPriceAsync(user.Id, user.PersonalDiscountPercentage);
             viewModel.CartTotalPrice = cartTotalPrice;
 
             return this.View(viewModel);
@@ -174,7 +175,7 @@
         {
             var user = await this.userManager.GetUserAsync(this.User);
 
-            await this.orderService.ConfirmOrderAsync(user.Id);
+            await this.orderService.ConfirmOrderAsync(user.Id, user.PersonalDiscountPercentage);
 
             this.TempData["success"] = GlobalConstants.Order.OrderCreated;
 
