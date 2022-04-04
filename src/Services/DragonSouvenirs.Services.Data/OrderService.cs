@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
 
     using DragonSouvenirs.Common;
@@ -43,6 +42,7 @@
             this.emailTemplatesService = emailTemplatesService;
         }
 
+        // Get all Orders of a user by userId
         public async Task<IEnumerable<T>> GetAllByUserIdAsync<T>(string userId)
         {
             var orders = await this.orderRepository
@@ -56,34 +56,19 @@
             return orders;
         }
 
+        // Create initial order (Step 1)
         public async Task CreateOrderAsync(CreateOrderViewModel model)
         {
             if (!await this.orderRepository
                 .All()
                 .AnyAsync(o => o.OrderStatus == OrderStatus.Created))
             {
-                var userFullName = model.FirstName + " " + model.LastName;
-                string shippingAddress;
-                OfficeBrands officeBrand = model.OfficeBrand; ;
-                if (model.DeliveryType == DeliveryType.ToAddress)
-                {
-                    shippingAddress = "гр. " + model.UserCity
-                                      + ", кв. " + model.UserNeighborhood
-                                      + ", ул. " + model.UserStreet
-                                      + " " + model.UserStreetNumber;
+                var userFullName = $"{model.FirstName} {model.LastName}";
+                var officeBrand = model.OfficeBrand;
 
-                    shippingAddress += model.UserApartmentBuilding != null
-                        ? ", бл. " + model.UserApartmentBuilding + " " : string.Empty;
-                    shippingAddress += model.UserEntrance != null
-                        ? ", вх. " + model.UserEntrance + " " : string.Empty;
-
-                    shippingAddress += ", ет. " + model.UserFloor
-                                    + ", ап. " + model.UserApartmentNumber;
-                }
-                else
-                {
-                    shippingAddress = model.OfficeName;
-                }
+                var shippingAddress = model.DeliveryType == DeliveryType.ToAddress
+                    ? this.RenderAddress(model)
+                    : model.OfficeName;
 
                 var order = new Order()
                 {
@@ -107,6 +92,7 @@
             }
         }
 
+        // Get processing order of the user (Step 2)
         public async Task<T> GetProcessingOrderAsync<T>(string userId)
         {
             var order = await this.orderRepository
@@ -120,19 +106,23 @@
             return order;
         }
 
+        // Confirm the order (Step 3)
         public async Task ConfirmOrderAsync(string userId, decimal personalDiscountPercentage)
         {
+            // [1] Get the user's order
             var order = await this.orderRepository
                 .All()
                 .FirstOrDefaultAsync(x => x.UserId == userId
                                           && x.OrderStatus == OrderStatus.Created);
 
+            // [2] Get the CartProducts of user's shopping cart
             var cartProducts = await this.cartProductRepository
                 .All()
                 .Include(cp => cp.Product)
                 .Where(cp => cp.Cart.UserId == userId)
                 .ToListAsync();
 
+            // [3] Create OrderProducts from CartProducts
             var orderProducts = cartProducts
                 .Select(x => new OrderProduct
                 {
@@ -143,6 +133,7 @@
                 })
                 .ToList();
 
+            // [4] Persist the OrderProducts to the user's order
             foreach (var orderProduct in orderProducts)
             {
                 await this.orderProductRepository.AddAsync(orderProduct);
@@ -150,16 +141,13 @@
 
             await this.orderProductRepository.SaveChangesAsync();
 
+            // [5] Calculate the total price of the order, including the personal discount
             order.TotalPrice = orderProducts.Sum(op => op.Quantity * op.Price);
             order.TotalPrice *= personalDiscountPercentage == 0
                 ? 1
                 : 1 - (personalDiscountPercentage / 100);
 
-            order.OrderStatus = OrderStatus.Processing;
-            await this.orderRepository.SaveChangesAsync();
-
-            // Reduce quantity of products
-            // Empty user cart
+            // [6] Reduce the quantity of products in stock
             foreach (var cartProduct in cartProducts)
             {
                 var product = await this.productRepository.All().FirstOrDefaultAsync(p => p.Id == cartProduct.ProductId);
@@ -169,36 +157,34 @@
                 }
 
                 product.Quantity -= cartProduct.Quantity;
+
+                // [7] Delete the CartProducts in user's shopping cart
                 this.cartProductRepository.HardDelete(cartProduct);
             }
 
+            // [8] Delete the user's shopping cart
             var cart = await this.cartRepository
                 .All()
                 .FirstOrDefaultAsync(c => c.UserId == userId);
             this.cartRepository.HardDelete(cart);
 
+            // [9] Change the order status and persist the changes in the database
+            order.OrderStatus = OrderStatus.Processing;
+
+            // [10] Persist the changes to the database
             await this.productRepository.SaveChangesAsync();
             await this.cartProductRepository.SaveChangesAsync();
             await this.cartRepository.SaveChangesAsync();
+            await this.orderRepository.SaveChangesAsync();
 
-            // Send email on Order submit
-            var emailTemplate = this.emailTemplatesService.Order(
+            // [11] Send Email via SendGrid API
+            await this.SendEmailAsync(
                 GlobalConstants.EmailTemplates.SubmitOrder.Title,
-                order.ShippingAddress,
-                order.ClientFullName,
-                order.InvoiceNumber,
-                order.TotalPrice,
-                order.OrderProducts,
-                order.DeliveryPrice);
-
-            await this.emailSender.SendEmailAsync(
-                GlobalConstants.EmailTemplates.SenderEmail,
-                GlobalConstants.EmailTemplates.WebsiteName,
-                $"{order.UserEmail}",
                 GlobalConstants.EmailTemplates.SubmitOrder.Subject,
-                emailTemplate);
+                order);
         }
 
+        // Get all orders, ordered by date and total price
         public async Task<IEnumerable<T>> GetAllAsync<T>()
         {
             var orders = await this.orderRepository
@@ -211,6 +197,8 @@
             return orders;
         }
 
+        // Get COMPLETED orders(marked as deleted),
+        // ordered by date of delivery and total price
         public async Task<IEnumerable<T>> GetCompletedAsync<T>()
         {
             var orders = await this.orderRepository
@@ -224,6 +212,7 @@
             return orders;
         }
 
+        // Get the status of an order by orderId
         public async Task<OrderStatus> GetOrderStatusAsync(int orderId)
         {
             var order = await this.orderRepository
@@ -233,6 +222,7 @@
             return order.OrderStatus;
         }
 
+        // Get order from All WITH DELETED, by Id
         public async Task<T> GetAdminOrderDetailsAsync<T>(int? id)
         {
             var order = await this.orderRepository
@@ -244,6 +234,7 @@
             return order;
         }
 
+        // Get the products in a user's order by orderId
         public async Task<IEnumerable<T>> GetOrderProductsAsync<T>(string userId, int orderId)
         {
             var orderProducts = await this.orderProductRepository
@@ -256,6 +247,7 @@
             return orderProducts;
         }
 
+        // Process the order status
         public async Task ProcessOrderAsync(int orderId, int orderStatus)
         {
             var order = await this.orderRepository
@@ -269,35 +261,68 @@
                 order.IsDeleted = false;
             }
 
+            // Send Email on order completion
             if (updatedOrderStatus == OrderStatus.Completed)
             {
                 order.IsDeleted = true;
                 order.DateOfDelivery = DateTime.UtcNow;
+
+                await this.SendEmailAsync(
+                    GlobalConstants.EmailTemplates.CompleteOrder.Title,
+                    GlobalConstants.EmailTemplates.CompleteOrder.Subject,
+                    order);
+            }
+
+            // Send Email on order acceptance
+            if (updatedOrderStatus == OrderStatus.Accepted)
+            {
+                await this.SendEmailAsync(
+                    GlobalConstants.EmailTemplates.AcceptOrder.Title,
+                    GlobalConstants.EmailTemplates.AcceptOrder.Subject,
+                    order);
             }
 
             order.OrderStatus = updatedOrderStatus;
-
             await this.orderRepository.SaveChangesAsync();
+        }
 
-            // Send email on order confirmation
-            if (updatedOrderStatus == OrderStatus.Accepted)
-            {
-                var emailTemplate = this.emailTemplatesService.Order(
-                    GlobalConstants.EmailTemplates.AcceptOrder.Title,
-                    order.ShippingAddress,
-                    order.ClientFullName,
-                    order.InvoiceNumber,
-                    order.TotalPrice,
-                    order.OrderProducts,
-                    order.DeliveryPrice);
+        // Create a full address string
+        public string RenderAddress(CreateOrderViewModel model)
+        {
+            var address = "гр. " + model.UserCity
+                                + ", кв. " + model.UserNeighborhood
+                                + ", ул. " + model.UserStreet
+                                + " " + model.UserStreetNumber;
 
-                await this.emailSender.SendEmailAsync(
-                    GlobalConstants.EmailTemplates.SenderEmail,
-                    GlobalConstants.EmailTemplates.WebsiteName,
-                    order.UserEmail,
-                    GlobalConstants.EmailTemplates.AcceptOrder.Subject,
-                    emailTemplate);
-            }
+            address += model.UserApartmentBuilding != null
+                ? ", бл. " + model.UserApartmentBuilding + " " : string.Empty;
+            address += model.UserEntrance != null
+                ? ", вх. " + model.UserEntrance + " " : string.Empty;
+
+            address += ", ет. " + model.UserFloor
+                     + ", ап. " + model.UserApartmentNumber;
+
+            return address;
+        }
+
+        private async Task SendEmailAsync(string orderTitle, string emailSubject, Order order)
+        {
+            // Render Email template
+            var emailTemplate = this.emailTemplatesService.Order(orderTitle,
+                order.ShippingAddress,
+                order.ClientFullName,
+                order.InvoiceNumber,
+                order.TotalPrice,
+                order.OrderProducts,
+                order.DeliveryPrice);
+
+            // Send Email via SendGrid API
+            await this.emailSender.SendEmailAsync(
+                GlobalConstants.EmailTemplates.SenderEmail,
+                GlobalConstants.EmailTemplates.WebsiteName,
+                order.UserEmail,
+                emailSubject,
+                emailTemplate);
         }
     }
 }

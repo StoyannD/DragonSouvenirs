@@ -32,9 +32,9 @@
 
         Task<T> AdminGetByIdAsync<T>(int? id);
 
-        Task<int> DeleteRecoverAsync(int id);
+        Task<string> DeleteRecoverAsync(int id);
 
-        Task<int> HardDeleteAsync(int id);
+        Task<string> HardDeleteAsync(int id);
 
         Task EditAsync(AdminProductEditViewModel viewModel);
 

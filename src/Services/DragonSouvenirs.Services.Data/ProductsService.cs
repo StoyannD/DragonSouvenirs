@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Runtime;
     using System.Threading.Tasks;
 
     using CloudinaryDotNet;
@@ -35,6 +34,7 @@
             this.cloudinary = cloudinary;
         }
 
+        // Get all WITH DELETED products, ordered by Name
         public async Task<IEnumerable<T>> GetAllAdminAsync<T>()
         {
             var products = await this.productsRepository
@@ -46,6 +46,7 @@
             return products;
         }
 
+        // Get DELETED products, ordered by Name
         public async Task<IEnumerable<T>> GetDeletedAsync<T>()
         {
             var products = await this.productsRepository
@@ -58,6 +59,10 @@
             return products;
         }
 
+        // Get All products
+        // -> take, skip (pagination)
+        // -> [OPTIONAL] sortBy, minPrice, maxPrice (custom sorting)
+        // -> [OPTIONAL] searchString (searching)
         public async Task<IEnumerable<T>> GetAllAsync<T>(int take, int skip, SortBy sortBy = SortBy.MostPopular, int? minPrice = null, int? maxPrice = null, string searchString = null)
         {
             var products = this.productsRepository
@@ -81,6 +86,11 @@
                 .ToListAsync();
         }
 
+        // Get All products by category name
+        // -> name (category name)
+        // -> take, skip (pagination)
+        // -> [OPTIONAL] sortBy, minPrice, maxPrice (custom sorting)
+        // -> [OPTIONAL] searchString (searching)
         public async Task<IEnumerable<T>> GetAllByCategoryNameAsync<T>(string name, int take, int skip, SortBy sortBy = SortBy.MostPopular, int? minPrice = null, int? maxPrice = null)
         {
             var products = this.productsRepository
@@ -99,6 +109,8 @@
                 .ToListAsync();
         }
 
+        // Get the count of products in a category
+        // -> [OPTIONAL] minPrice, maxPrice (custom sorting)
         public async Task<int> GetCountByCategoryIdAsync(int categoryId, int? minPrice = null, int? maxPrice = null)
         {
             var products = this.productsRepository
@@ -112,6 +124,7 @@
             return await products.CountAsync();
         }
 
+        // Get the top discounted products.
         public async Task<IEnumerable<T>> GetTopDiscountedItems<T>(int take = 8)
         {
             var products = this.productsRepository
@@ -124,6 +137,7 @@
             return await products.To<T>().ToListAsync();
         }
 
+        // Get the user's favourite products
         public async Task<IEnumerable<T>> GetFavouriteProductsAsync<T>(string userId)
         {
             var products = this.favouriteProductRepository
@@ -134,8 +148,10 @@
             return await products.To<T>().ToListAsync();
         }
 
+        // Add or Remove a product to the user's favourite products
         public async Task<bool> FavouriteProductAsync(string userId, string title)
         {
+            // Get the product
             var product = await this.productsRepository
                 .All()
                 .FirstOrDefaultAsync(p => p.Title == title.Replace('-', ' '));
@@ -150,6 +166,7 @@
                 .FirstOrDefaultAsync(fp => fp.UserId == userId
                                            && fp.ProductId == product.Id);
 
+            // Check if product is already in user's favourite products
             if (favouriteProduct == null)
             {
                 favouriteProduct = new FavouriteProduct()
@@ -160,6 +177,8 @@
                 };
                 await this.favouriteProductRepository.AddAsync(favouriteProduct);
             }
+
+            // Remove the product if it's already added
             else
             {
                 favouriteProduct.IsDeleted = favouriteProduct.IsDeleted != true;
@@ -169,16 +188,18 @@
             return true;
         }
 
+        // Get the count of products
+        // -> [OPTIONAL] minPrice, maxPrice (custom sorting)
         public async Task<int> GetCountAsync(int? minPrice = null, int? maxPrice = null)
         {
             var products = this.productsRepository
                 .All();
-
             products = FilterByPrice(minPrice, maxPrice, products);
 
             return await products.CountAsync();
         }
 
+        // Get product by Id
         public async Task<T> GetByIdAsync<T>(int? id)
         {
             var product = await this.productsRepository
@@ -190,6 +211,7 @@
             return product;
         }
 
+        // Get product by Title
         public async Task<T> GetByNameAsync<T>(string title)
         {
             var product = await this.productsRepository
@@ -201,6 +223,7 @@
             return product;
         }
 
+        // Get WITH DELETED product by Id
         public async Task<T> AdminGetByIdAsync<T>(int? id)
         {
             var product = await this.productsRepository
@@ -212,7 +235,8 @@
             return product;
         }
 
-        public async Task<int> DeleteRecoverAsync(int id)
+        // [Soft Delete] Delete or Recover a product by Id
+        public async Task<string> DeleteRecoverAsync(int id)
         {
             var product = await this.productsRepository
                 .AllWithDeleted()
@@ -220,16 +244,17 @@
 
             if (product == null)
             {
-                throw new NullReferenceException();
+                return null;
             }
 
             product.IsDeleted = !product.IsDeleted;
             await this.productsRepository.SaveChangesAsync();
 
-            return id;
+            return product.Title;
         }
 
-        public async Task<int> HardDeleteAsync(int id)
+        // [Hard Delete] Delete a product by Id
+        public async Task<string> HardDeleteAsync(int id)
         {
             var product = await this.productsRepository
                 .AllWithDeleted()
@@ -237,15 +262,16 @@
 
             if (product == null)
             {
-                throw new NullReferenceException();
+                return null;
             }
 
             this.productsRepository.HardDelete(product);
             await this.productsRepository.SaveChangesAsync();
 
-            return id;
+            return product.Title;
         }
 
+        // Edit a product
         public async Task EditAsync(AdminProductEditViewModel viewModel)
         {
             var product = await this.productsRepository
@@ -253,45 +279,8 @@
                 .Include(p => p.Images)
                 .FirstOrDefaultAsync(c => c.Id == viewModel.Id);
 
-            if (product == null)
-            {
-                throw new NullReferenceException();
-            }
-
             var editedImages = new List<Image>();
-            for (var i = 0; i < viewModel.Images.Count; i++)
-            {
-                var name = $"{viewModel.Name}{i}";
-
-                if (viewModel.Images[i].ToDelete && viewModel.Images[i].ImgUrl != null)
-                {
-                    AppCloudinary.DeleteImage(this.cloudinary, name);
-                }
-                else
-                {
-                    string imageUrl;
-                    if (viewModel.Images[i].Image != null)
-                    {
-                        var image = viewModel.Images[i];
-                        imageUrl =
-                            await AppCloudinary.UploadImage(this.cloudinary, image.Image, name);
-                    }
-                    else
-                    {
-                        imageUrl = viewModel.Images[i].ImgUrl;
-                    }
-
-                    if (imageUrl != null)
-                    {
-                        editedImages.Add(new Image()
-                        {
-                            CreatedOn = DateTime.UtcNow,
-                            ImgUrl = imageUrl,
-                            ProductId = product.Id,
-                        });
-                    }
-                }
-            }
+            await this.EditImagesAsync(viewModel, editedImages, product.Id);
 
             var editedProductCategory = new ProductCategory()
             {
@@ -325,7 +314,7 @@
             if (await this.productsRepository
                 .AllWithDeleted().AnyAsync(p => p.Name == inputModel.Name))
             {
-                throw new AmbiguousImplementationException(
+                throw new Exception(
                     string.Format(GlobalConstants.Product.OnCreateProductNotUniqueError, inputModel.Name));
             }
 
@@ -342,37 +331,17 @@
                 Width = inputModel.Width,
             };
 
-            var images = new List<Image>();
-            for (var i = 0; i < inputModel.Images.Count; i++)
-            {
-                var image = inputModel.Images[i];
-                var name = $"{inputModel.Name}{i}";
-                var imageUrl =
-                    await AppCloudinary.UploadImage(this.cloudinary, image.Image, name);
-                images.Add(new Image()
-                {
-                    CreatedOn = DateTime.UtcNow,
-                    ImgUrl = imageUrl,
-                    ProductId = product.Id,
-                });
-            }
+            // Include product images
+            product.Images = await this.FillImagesAsync(inputModel, product.Id);
 
-            var productCategory = inputModel
-                .Categories
-                .Select(pc => new ProductCategory()
-                {
-                    ProductId = product.Id,
-                    CategoryId = int.Parse(inputModel.Categories[0].Name),
-                })
-                .ToList();
-
-            product.Images = images;
-            product.ProductCategories = productCategory;
+            // Include productCategories
+            product.ProductCategories = this.FillProductCategories(inputModel, product.Id);
 
             await this.productsRepository.AddAsync(product);
             await this.productsRepository.SaveChangesAsync();
         }
 
+        // Get the price of the most expensive product
         public async Task<decimal> MostExpensiveProductPrice()
         {
             decimal price = await this.productsRepository.All().AnyAsync()
@@ -382,6 +351,7 @@
             return price;
         }
 
+        // Get the price of the cheapest product
         public async Task<decimal> LeastExpensiveProductPrice()
         {
             decimal price = await this.productsRepository.All().AnyAsync()
@@ -413,6 +383,76 @@
                 _ => products.OrderByDescending(p => p.OrderProducts.Count),
             };
             return products;
+        }
+
+        private async Task EditImagesAsync(AdminProductEditViewModel viewModel, List<Image> editedImages, int productId)
+        {
+            for (var i = 0; i < viewModel.Images.Count; i++)
+            {
+                var name = $"{viewModel.Name}{i}";
+
+                // Remove image from Cloudinary if it's marked for deletion
+                if (viewModel.Images[i].ToDelete && viewModel.Images[i].ImgUrl != null)
+                {
+                    AppCloudinary.DeleteImage(this.cloudinary, name);
+                }
+                else
+                {
+                    string imageUrl;
+                    if (viewModel.Images[i].Image != null)
+                    {
+                        var image = viewModel.Images[i];
+                        imageUrl =
+                            await AppCloudinary.UploadImage(this.cloudinary, image.Image, name);
+                    }
+                    else
+                    {
+                        imageUrl = viewModel.Images[i].ImgUrl;
+                    }
+
+                    if (imageUrl != null)
+                    {
+                        editedImages.Add(new Image()
+                        {
+                            CreatedOn = DateTime.UtcNow,
+                            ImgUrl = imageUrl,
+                            ProductId = productId,
+                        });
+                    }
+                }
+            }
+        }
+
+        private ICollection<ProductCategory> FillProductCategories(AdminProductInputModel inputModel, int productId)
+        {
+            return inputModel
+                .Categories
+                .Select(pc => new ProductCategory()
+                {
+                    ProductId = productId,
+                    CategoryId = int.Parse(inputModel.Categories[0].Name),
+                })
+                .ToList();
+        }
+
+        private async Task<ICollection<Image>> FillImagesAsync(AdminProductInputModel inputModel, int productId)
+        {
+            var images = new List<Image>();
+            for (var i = 0; i < inputModel.Images.Count; i++)
+            {
+                var image = inputModel.Images[i];
+                var name = $"{inputModel.Name}{i}";
+                var imageUrl =
+                    await AppCloudinary.UploadImage(this.cloudinary, image.Image, name);
+                images.Add(new Image()
+                {
+                    CreatedOn = DateTime.UtcNow,
+                    ImgUrl = imageUrl,
+                    ProductId = productId,
+                });
+            }
+
+            return images;
         }
     }
 }

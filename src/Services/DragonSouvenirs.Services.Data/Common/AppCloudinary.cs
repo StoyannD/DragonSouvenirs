@@ -1,11 +1,7 @@
 ﻿namespace DragonSouvenirs.Services.Data.Common
 {
-    using System;
-    using System.Buffers;
     using System.Collections.Generic;
     using System.IO;
-    using System.Runtime.CompilerServices;
-    using System.Text;
     using System.Threading.Tasks;
 
     using CloudinaryDotNet;
@@ -17,13 +13,13 @@
         public static async Task<string> UploadImage(Cloudinary cloudinary, IFormFile image, string name)
         {
             byte[] destinationImage;
-            using (var memoryStream = new MemoryStream())
+            await using (var memoryStream = new MemoryStream())
             {
                 await image.CopyToAsync(memoryStream);
                 destinationImage = memoryStream.ToArray();
             }
 
-            using (var memoryStream = new MemoryStream(destinationImage))
+            await using (var memoryStream = new MemoryStream(destinationImage))
             {
                 var uploadParams = new ImageUploadParams()
                 {

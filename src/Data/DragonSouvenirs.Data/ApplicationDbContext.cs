@@ -70,6 +70,7 @@
             // Needed for Identity models configuration
             base.OnModelCreating(builder);
 
+            // Apply configurations
             this.ConfigureUserIdentityRelations(builder);
 
             EntityIndexesConfiguration.Configure(builder);
@@ -97,6 +98,7 @@
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)
             where T : class, IDeletableEntity
         {
+            // Get only the data which is not marked as deleted in the database
             builder.Entity<T>().HasQueryFilter(e => !e.IsDeleted);
         }
 
@@ -106,6 +108,7 @@
 
         private void ApplyAuditInfoRules()
         {
+            // Select all entries which that inherit IAuditInfo interface and are added or modified
             var changedEntries = this.ChangeTracker
                 .Entries()
                 .Where(e =>
@@ -115,10 +118,14 @@
             foreach (var entry in changedEntries)
             {
                 var entity = (IAuditInfo)entry.Entity;
+
+                // Set CreatedOn if state is added for the first time
                 if (entry.State == EntityState.Added && entity.CreatedOn == default)
                 {
                     entity.CreatedOn = DateTime.UtcNow;
                 }
+
+                // Otherwise, set ModifiedOn
                 else
                 {
                     entity.ModifiedOn = DateTime.UtcNow;

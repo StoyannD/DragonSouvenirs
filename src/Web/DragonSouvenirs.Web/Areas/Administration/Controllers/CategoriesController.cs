@@ -103,16 +103,26 @@
                 return this.View(viewModel);
             }
 
-            var fileType = viewModel.Image.ContentType.Split('/')[1];
-            if (!this.IsImageFileValidType(fileType))
+            if (viewModel.Image != null)
             {
-                return this.View(viewModel);
+                var fileType = viewModel.Image.ContentType.Split('/')[1];
+                if (!this.IsImageFileValidType(fileType))
+                {
+                    return this.View(viewModel);
+                }
             }
 
-            await this.categoriesService.EditAsync(viewModel);
+            try
+            {
+                await this.categoriesService.EditAsync(viewModel);
 
-            this.TempData["success"] = string
-                .Format(GlobalConstants.Category.CategorySuccessfullyEdited, viewModel.Title);
+                this.TempData["success"] = string
+                    .Format(GlobalConstants.Category.CategorySuccessfullyEdited, viewModel.Title);
+            }
+            catch (Exception e)
+            {
+                this.TempData["fail"] = e.Message;
+            }
 
             return this.RedirectToAction(nameof(this.Index));
         }

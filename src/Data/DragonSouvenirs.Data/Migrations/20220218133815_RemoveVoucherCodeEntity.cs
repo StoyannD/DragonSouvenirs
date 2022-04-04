@@ -1,8 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace DragonSouvenirs.Data.Migrations
+﻿namespace DragonSouvenirs.Data.Migrations
 {
+    using System;
+
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class RemoveVoucherCodeEntity : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -36,7 +37,7 @@ namespace DragonSouvenirs.Data.Migrations
                     DiscountPercentage = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     ModifiedOn = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                 },
                 constraints: table =>
                 {

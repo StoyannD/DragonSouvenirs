@@ -137,21 +137,8 @@
                 user.StreetNumber = inputModel.UserStreetNumber;
                 user.Floor = inputModel.UserFloor;
                 user.ApartmentNumber = inputModel.UserApartmentNumber;
+                user.DefaultShippingAddress = this.orderService.RenderAddress(inputModel);
 
-                var userDefaultAddress = "гр. " + inputModel.UserCity
-                                     + ", кв. " + inputModel.UserNeighborhood
-                                     + ", ул. " + inputModel.UserStreet
-                                     + " " + inputModel.UserStreetNumber;
-
-                userDefaultAddress += inputModel.UserApartmentBuilding != null
-                    ? ", бл. " + inputModel.UserApartmentBuilding + " " : string.Empty;
-                userDefaultAddress += inputModel.UserEntrance != null
-                    ? ", вх. " + inputModel.UserEntrance + " " : string.Empty;
-
-                userDefaultAddress += ", ет. " + inputModel.UserFloor
-                                               + ", ап. " + inputModel.UserApartmentNumber;
-
-                user.DefaultShippingAddress = userDefaultAddress;
                 await userManager.UpdateAsync(user);
             }
 

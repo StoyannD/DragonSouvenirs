@@ -1,5 +1,6 @@
 ﻿namespace DragonSouvenirs.Web.Areas.Administration.Controllers
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -186,11 +187,18 @@
                 }
             }
 
-            await this.productsService
+            try
+            {
+                await this.productsService
                     .CreateAsync(inputModel);
 
-            this.TempData["success"] =
-                string.Format(GlobalConstants.Product.ProductSuccessfullyCreated, inputModel.Title);
+                this.TempData["success"] =
+                    string.Format(GlobalConstants.Product.ProductSuccessfullyCreated, inputModel.Title);
+            }
+            catch (Exception e)
+            {
+                this.TempData["fail"] = e.Message;
+            }
 
             return RedirectToAction("Index", "Products", new { area = "Administration" });
         }

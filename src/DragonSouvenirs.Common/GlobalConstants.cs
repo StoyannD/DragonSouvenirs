@@ -168,8 +168,11 @@
 
         public class Offices
         {
-            public const string RequestUrl =
+            public const string EcontRequestUrl =
                 "https://demo.econt.com/ee/services/Nomenclatures/NomenclaturesService.getOffices.json";
+
+            public const string SpeedyRequestUrl =
+                "https://www.speedy.bg/bg/speedy-offices-automats?city=all&formToken=-false";
 
             public const string Country = "България";
 
@@ -197,6 +200,14 @@
 
                 public const string Title =
                     "Благодарим Ви за поръчката!<br>Ще получите имейл при предаването и на куриер.";
+            }
+
+            public class CompleteOrder
+            {
+                public const string Subject = "Вашата поръчка е завършена!";
+
+                public const string Title =
+                    "Благодарим Ви за поръчката! Моля, заповядайте отново!";
             }
         }
 

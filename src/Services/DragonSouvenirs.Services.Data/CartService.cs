@@ -29,6 +29,7 @@
             this.productRepository = productRepository;
         }
 
+        // Get the products in the user's shopping cart
         public async Task<IEnumerable<T>> GetCartProductsAsync<T>(string userId)
         {
             var cart = await this.cartProductRepository
@@ -40,6 +41,7 @@
             return cart;
         }
 
+        // Get the products cart price with the discount
         public async Task<decimal> GetCartTotalPriceAsync(string userId, decimal personalDiscountPercentage)
         {
             var totalPrice = await this.cartProductRepository
@@ -55,6 +57,7 @@
             return totalPrice;
         }
 
+        // Add a product to the user's shopping cart
         public async Task<bool> AddProductToCartAsync(string userId, int productId, int quantity)
         {
             var user = await this.userRepository
@@ -127,13 +130,10 @@
             return true;
         }
 
+        // Delete a product from the user's shopping cart
         public async Task<bool> DeleteProductFromCartAsync(string userId, int productId)
         {
-            var cartProduct = await this.cartProductRepository
-                .AllWithDeleted()
-                .FirstOrDefaultAsync(
-                    cp => cp.Cart.UserId == userId
-                          && cp.ProductId == productId);
+            var cartProduct = await this.GetProductFromCart(userId, productId);
 
             if (cartProduct == null)
             {
@@ -147,13 +147,10 @@
             return true;
         }
 
+        // Edit a product in the user's shopping cart
         public async Task<bool> EditProductInCartAsync(string userId, int productId, int quantity)
         {
-            var cartProduct = await this.cartProductRepository
-                .All()
-                .FirstOrDefaultAsync(
-                    pc => pc.Cart.UserId == userId
-                          && pc.ProductId == productId);
+            var cartProduct = await this.GetProductFromCart(userId, productId);
 
             if (cartProduct == null)
             {
@@ -169,6 +166,7 @@
                 return false;
             }
 
+            // Set the quantity to the max available product quantity in stock
             cartProduct.Quantity = product.Quantity < quantity
                 ? product.Quantity
                 : quantity;
@@ -177,6 +175,7 @@
             return true;
         }
 
+        // Get the shopping cart by Id
         public async Task<T> GetCartByIdAsync<T>(string id)
         {
             var cart = await this.cartRepository
@@ -188,6 +187,7 @@
             return cart;
         }
 
+        // Check if user's shopping cart has any products(NOT DELETED)
         public async Task<bool> UserHasProductsInCart(string userId)
         {
             var hasValidCart = await this.cartRepository
@@ -198,11 +198,21 @@
             {
                 hasValidCart = await this.cartProductRepository
                     .All()
-                    .Where(cp => cp.Cart.UserId == userId)
+                    .Where(cp => cp.Cart.UserId == userId && !cp.Product.IsDeleted)
                     .AnyAsync();
             }
 
             return hasValidCart;
+        }
+
+        // Get the product from the user's shopping cart
+        private async Task<CartProduct> GetProductFromCart(string userId, int productId)
+        {
+            return await this.cartProductRepository
+                .AllWithDeleted()
+                .FirstOrDefaultAsync(
+                    cp => cp.Cart.UserId == userId
+                          && cp.ProductId == productId);
         }
     }
 }

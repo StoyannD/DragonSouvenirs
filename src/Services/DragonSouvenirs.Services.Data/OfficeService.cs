@@ -100,6 +100,7 @@
 
         public async Task<IEnumerable<Web.ViewModels.Offices.CityViewModel>> GetAllCitiesAsync()
         {
+            // Get all cities and order them by count of offices.
             var citiesList = await this.officeRepository
                 .All()
                 .GroupBy(x => x.City)
@@ -116,7 +117,7 @@
         private async Task UpdateEcontOfficesAsync()
         {
             var request = WebRequest
-                .Create(GlobalConstants.Offices.RequestUrl);
+                .Create(GlobalConstants.Offices.EcontRequestUrl);
             request.Method = "GET";
 
             var response = (HttpWebResponse)await request.GetResponseAsync();
@@ -131,7 +132,7 @@
 
             var offices = JsonConvert.DeserializeObject<OfficesViewModel>(result);
 
-            var input = offices
+            var input = offices?
                 .Offices
                 .Where(o => o.Address.City.Country.Name == GlobalConstants.Offices.Country)
                 .Select(o => new Office()
@@ -170,9 +171,10 @@
             await this.officeRepository.SaveChangesAsync();
         }
 
+        // Find a way to do it cleaner
         private async Task UpdateSpeedyOfficesAsync()
         {
-            var requestUrl = "https://www.speedy.bg/bg/speedy-offices-automats?city=all&formToken=-false";
+            var requestUrl = GlobalConstants.Offices.SpeedyRequestUrl;
 
             HtmlWeb web = new();
             var document = web.Load(requestUrl);
