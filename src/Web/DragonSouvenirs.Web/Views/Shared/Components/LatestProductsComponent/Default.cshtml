@@ -1,6 +1,6 @@
 ﻿@using DragonSouvenirs.Common
 @model IEnumerable<DragonSouvenirs.Web.ViewModels.Components.LatestProductsComponent.LatestProductsViewModel>
-<cache expires-after="TimeSpan.FromHours(1)">
+
     <div class="sidebar__item">
         <div class="latest-product__text">
             <h4>Най-нови</h4>
@@ -10,10 +10,14 @@
                     <div class="latest-prdouct__slider__item">
                         @for (int j = 0; j < GlobalConstants.Product.LatestProductsComponentsItemsPerSlide; j++)
                         {
+                            @if (i + j >= this.Model.Count())
+                            {
+                                break;
+                            }
                             <a asp-controller="Products"
-                       asp-action="ByName"
-                       asp-route-title="@this.Model.ElementAt(i).TitleLink"
-                       class="latest-product__item">
+                               asp-action="ByName"
+                               asp-route-title="@this.Model.ElementAt(i).TitleLink"
+                               class="latest-product__item">
                                 <div class="latest-product__item__pic">
                                     <img src="@this.Model.ElementAt(i + j).ImgUrl" alt="">
                                 </div>
@@ -28,4 +32,3 @@
             </div>
         </div>
     </div>
-</cache>
