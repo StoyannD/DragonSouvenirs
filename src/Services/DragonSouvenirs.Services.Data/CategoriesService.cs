@@ -105,7 +105,7 @@
             return category;
         }
 
-        // Delete or Recover a category by Id
+        // Delete/Recover a category by Id
         public async Task<string> DeleteRecoverAsync(int id)
         {
             var category = await this.GetByIdWithDeletedAsync(id);
@@ -115,24 +115,29 @@
                 return null;
             }
 
+            var dateOfDeletion = DateTime.UtcNow;
+
+            // Mark products as deleted/recovered
+            ProcessProductsStatusOnCategoryDeletion(category, dateOfDeletion);
+
+            // Mark category as deleted/recovered
             category.IsDeleted = !category.IsDeleted;
             category.DeletedOn = category.IsDeleted
-                ? DateTime.UtcNow
+                ? dateOfDeletion
                 : category.DeletedOn;
 
-            var products = this.productsRepository
-                    .AllWithDeleted()
-                    .Where(p => p.ProductCategories.Any(pc => pc.CategoryId == id));
-
-            foreach (var product in products)
-            {
-                product.IsDeleted = !product.IsDeleted;
-                product.DeletedOn = product.IsDeleted
-                    ? DateTime.UtcNow
-                    : product.DeletedOn;
-            }
-
             await this.productsRepository.SaveChangesAsync();
+            await this.categoriesRepository.SaveChangesAsync();
+
+            return category.Title;
+        }
+
+        // Recover category without recovering the products
+        public async Task<string> RecoverSimpleAsync(int id)
+        {
+            var category = await this.GetByIdAsync(id);
+            category.IsDeleted = false;
+
             await this.categoriesRepository.SaveChangesAsync();
 
             return category.Title;
@@ -194,6 +199,59 @@
             return await this.categoriesRepository
                 .AllWithDeleted()
                 .FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        // Mark products as deleted/recovered on category delete/recover action
+        // !THIS METHOD DOES NOT PERSIST CHANGES TO THE DATABASE!
+        private void ProcessProductsStatusOnCategoryDeletion(Category category, DateTime dateOfDeletion)
+        {
+            var products = this.productsRepository
+                .AllWithDeleted()
+                .Where(p => p.ProductCategories
+                    .Any(pc => pc.CategoryId == category.Id));
+
+            // Mark products from category as deleted/recovered
+            foreach (var product in products)
+            {
+                // Recover product
+                // Both product and category are deleted and are deleted on the same date
+                // [Prevents recovering products, which were deleted before the category]
+                if (product.IsDeleted &&
+                    category.IsDeleted &&
+                    product.DeletedOn == category.DeletedOn)
+                {
+                    product.IsDeleted = false;
+                }
+
+                // Delete product
+                else if (!product.IsDeleted &&
+                         !category.IsDeleted)
+                {
+                    product.IsDeleted = true;
+                    product.DeletedOn = dateOfDeletion;
+                }
+
+                // Set DeletedOn on already deleted product
+                // In case of recovering a product of the deleted category
+                // which triggers recovering of the category
+                else if (!category.IsDeleted &&
+                         product.IsDeleted &&
+                         product.DeletedOn == category.DeletedOn)
+                {
+                    product.DeletedOn = dateOfDeletion;
+                }
+            }
+        }
+
+        // Get category by id without mapping it to a model
+        private async Task<Category> GetByIdAsync(int? id)
+        {
+            var category = await this.categoriesRepository
+                .AllWithDeleted()
+                .Where(c => c.Id == id.Value)
+                .FirstOrDefaultAsync();
+
+            return category;
         }
     }
 }

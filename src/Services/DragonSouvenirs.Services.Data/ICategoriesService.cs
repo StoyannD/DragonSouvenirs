@@ -21,6 +21,8 @@
 
         Task<string> DeleteRecoverAsync(int id);
 
+        Task<string> RecoverSimpleAsync(int id);
+
         Task EditAsync(AdminCategoryEditViewModel viewModel);
 
         Task CreateAsync(AdminCategoryInputModel inputModel);

@@ -20,17 +20,20 @@
         private readonly IDeletableEntityRepository<Product> productsRepository;
         private readonly IDeletableEntityRepository<ProductCategory> productCategoryRepository;
         private readonly IDeletableEntityRepository<FavouriteProduct> favouriteProductRepository;
+        private readonly ICategoriesService categoriesService;
         private readonly Cloudinary cloudinary;
 
         public ProductsService(
             IDeletableEntityRepository<Product> productsRepository,
             IDeletableEntityRepository<ProductCategory> productCategoryRepository,
             IDeletableEntityRepository<FavouriteProduct> favouriteProductRepository,
+            ICategoriesService categoriesService,
             Cloudinary cloudinary)
         {
             this.productsRepository = productsRepository;
             this.productCategoryRepository = productCategoryRepository;
             this.favouriteProductRepository = favouriteProductRepository;
+            this.categoriesService = categoriesService;
             this.cloudinary = cloudinary;
         }
 
@@ -240,6 +243,8 @@
         {
             var product = await this.productsRepository
                 .AllWithDeleted()
+                .Include(p => p.ProductCategories)
+                .ThenInclude(pc => pc.Category)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
             if (product == null)
@@ -248,6 +253,17 @@
             }
 
             product.IsDeleted = !product.IsDeleted;
+
+            // Recover one of the categories if all of the product's categories are deleted
+            if (product.ProductCategories.All(pc => pc.Category.IsDeleted))
+            {
+                var productCategory = product.ProductCategories.FirstOrDefault();
+                if (productCategory != null)
+                {
+                    await this.categoriesService.RecoverSimpleAsync(productCategory.CategoryId);
+                }
+            }
+
             await this.productsRepository.SaveChangesAsync();
 
             return product.Title;
