@@ -6,6 +6,7 @@
 
     using DragonSouvenirs.Common;
     using DragonSouvenirs.Data.Models;
+    using DragonSouvenirs.Services.Data;
     using DragonSouvenirs.Services.Mapping;
     using DragonSouvenirs.Web.ViewModels.Administration.Users;
     using Microsoft.AspNetCore.Authorization;
@@ -18,11 +19,14 @@
     public class UsersController : BaseAdminController
     {
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly ICommonFeaturesService commonFeaturesService;
 
         public UsersController(
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            ICommonFeaturesService commonFeaturesService)
         {
             this.userManager = userManager;
+            this.commonFeaturesService = commonFeaturesService;
         }
 
         public async Task<ActionResult> Index()
@@ -104,7 +108,6 @@
             }
 
             user.IsDeleted = false;
-            user.DeletedOn = null;
 
             await this.userManager.UpdateAsync(user);
 
@@ -157,22 +160,18 @@
             user.Entrance = viewModel.Entrance;
             user.Floor = viewModel.Floor;
             user.ApartmentNumber = viewModel.ApartmentNumber;
-
-            var shippingAddress = "гр. " + viewModel.City
-                                  + ", кв. " + viewModel.Neighborhood
-                                  + ", ул. " + viewModel.Street
-                                  + " " + viewModel.StreetNumber;
-
-            shippingAddress += viewModel.ApartmentBuilding != null
-                ? ", бл. " + viewModel.ApartmentBuilding + " " : string.Empty;
-            shippingAddress += viewModel.Entrance != null
-                ? ", вх. " + viewModel.Entrance + " " : string.Empty;
-
-            shippingAddress += ", ет. " + viewModel.Floor
-                            + ", ап. " + viewModel.ApartmentNumber;
-            user.DefaultShippingAddress = shippingAddress;
-
             user.PersonalDiscountPercentage = viewModel.PersonalDiscountPercentage;
+
+            user.DefaultShippingAddress = this.commonFeaturesService
+                .RenderAddress(
+                    viewModel.City,
+                    viewModel.Neighborhood,
+                    viewModel.Street,
+                    viewModel.StreetNumber,
+                    viewModel.ApartmentBuilding,
+                    viewModel.Entrance,
+                    viewModel.Floor,
+                    viewModel.ApartmentNumber);
 
             await this.userManager.UpdateAsync(user);
 

@@ -27,7 +27,5 @@
         Task<IEnumerable<T>> GetOrderProductsAsync<T>(string userId, int orderId);
 
         Task ProcessOrderAsync(int orderId, int orderStatus);
-
-        string RenderAddress(CreateOrderViewModel model);
     }
 }

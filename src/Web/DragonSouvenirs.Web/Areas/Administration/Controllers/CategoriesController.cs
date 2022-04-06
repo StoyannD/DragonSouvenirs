@@ -14,10 +14,14 @@
     public class CategoriesController : BaseAdminController
     {
         private readonly ICategoriesService categoriesService;
+        private readonly ICommonFeaturesService commonFeaturesService;
 
-        public CategoriesController(ICategoriesService categoriesService)
+        public CategoriesController(
+            ICategoriesService categoriesService,
+            ICommonFeaturesService commonFeaturesService)
         {
             this.categoriesService = categoriesService;
+            this.commonFeaturesService = commonFeaturesService;
         }
 
         public async Task<ActionResult> Index()
@@ -103,26 +107,18 @@
                 return this.View(viewModel);
             }
 
-            if (viewModel.Image != null)
+            if (!this.commonFeaturesService.IsImageFileTypeValid(viewModel.Image))
             {
-                var fileType = viewModel.Image.ContentType.Split('/')[1];
-                if (!this.IsImageFileValidType(fileType))
-                {
-                    return this.View(viewModel);
-                }
+                this.TempData["fail"] = string
+                    .Format(GlobalConstants.InvalidImageFileTypeError);
+
+                return this.View(viewModel);
             }
 
-            try
-            {
-                await this.categoriesService.EditAsync(viewModel);
+            await this.categoriesService.EditAsync(viewModel);
 
-                this.TempData["success"] = string
-                    .Format(GlobalConstants.Category.CategorySuccessfullyEdited, viewModel.Title);
-            }
-            catch (Exception e)
-            {
-                this.TempData["fail"] = e.Message;
-            }
+            this.TempData["success"] = string
+                .Format(GlobalConstants.Category.CategorySuccessfullyEdited, viewModel.Title);
 
             return this.RedirectToAction(nameof(this.Index));
         }
@@ -140,16 +136,17 @@
                 return this.View(inputModel);
             }
 
+            if (!this.commonFeaturesService.IsImageFileTypeValid(inputModel.Image))
+            {
+                this.TempData["fail"] = string
+                    .Format(GlobalConstants.InvalidImageFileTypeError);
+
+                return this.View();
+            }
+
             try
             {
-                var fileType = inputModel.Image.ContentType.Split('/')[1];
-                if (!this.IsImageFileValidType(fileType))
-                {
-                    return this.View(inputModel);
-                }
-
-                await this.categoriesService
-                    .CreateAsync(inputModel);
+                await this.categoriesService.CreateAsync(inputModel);
 
                 this.TempData["success"] =
                     string.Format(GlobalConstants.Category.CategorySuccessfullyCreated, inputModel.Title);

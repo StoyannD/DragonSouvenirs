@@ -52,6 +52,7 @@
             }
 
             var count = await this.productsService.GetCountByCategoryIdAsync(viewModel.Id, minPrice, maxPrice);
+
             viewModel.CategoryPaginationInfo.PagesCount = (int)Math.Ceiling((double)count / perPage);
             if (viewModel.CategoryPaginationInfo.PagesCount == 0)
             {
@@ -65,7 +66,7 @@
             viewModel.CategoryPaginationInfo.ProductsPerPage = perPage;
             viewModel.CategoryPaginationInfo.AllProductsCount = count;
             viewModel.CategoryPaginationInfo.CategoryName = name;
-            viewModel.CategoryPaginationInfo.Route = "categoriesByName";
+            viewModel.CategoryPaginationInfo.Route = GlobalConstants.Routes.CategoriesRoute;
 
             this.TempData["Url"] = this.Request.Path.Value;
             return this.View(viewModel);

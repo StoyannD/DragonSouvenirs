@@ -9,7 +9,7 @@
                     <form enctype="multipart/form-data"
                           asp-controller="Products"
                           asp-action="Favourite"
-                          asp-route-title="@Model.ProductTitleLink"
+                          asp-route-name="@Model.ProductNameLink"
                           method="post">
                         <button type="submit">
                             <i class="fa fa-heart"></i>
@@ -19,7 +19,7 @@
                 <li>
                     <a asp-controller="Products"
                        asp-action="ByName"
-                       asp-route-title="@Model.ProductTitleLink">
+                       asp-route-name="@Model.ProductNameLink">
                         <i class="fa fa-arrow-up"></i>
                     </a>
                 </li>
@@ -42,7 +42,7 @@
             <div class="product__discount__item__text">
                 <a asp-controller="Products"
                asp-action="ByName"
-               asp-route-title="@Model.ProductTitleLink"
+               asp-route-name="@Model.ProductNameLink"
                class="discountItemPrice">
                     <span>@Model.ProductCategoryName</span>
                     <h6>
@@ -61,7 +61,7 @@
             <div class="product__item__text">
                 <a asp-controller="Products"
                asp-action="ByName"
-               asp-route-title="@Model.ProductTitleLink">
+               asp-route-name="@Model.ProductNameLink">
                     <span>@Model.ProductCategoryName</span>
                     <h6>
                         @Model.ProductName

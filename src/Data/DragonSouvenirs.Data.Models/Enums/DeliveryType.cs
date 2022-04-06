@@ -5,7 +5,9 @@
 
     public enum DeliveryType
     {
+        [Display(Name = "До Офис")]
         ToOffice = 0,
+        [Display(Name = "До Адрес")]
         ToAddress = 1,
     }
 }

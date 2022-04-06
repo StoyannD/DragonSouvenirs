@@ -7,7 +7,7 @@
     @foreach (var carProduct in this.Model.Products)
     {
         <li>
-            @carProduct.ProductName
+            @carProduct.ProductTitle
             <span>лв.</span>
             <span>@(carProduct.TotalPrice) </span>
             @if (carProduct.ProductDiscountPrice != null)

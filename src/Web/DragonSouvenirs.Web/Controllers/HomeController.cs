@@ -22,15 +22,15 @@
         {
             var viewModel = new IndexViewModel();
 
-            var categories = await this.categoriesService.GetAllAsync<IndexCategoryViewModel>();
+            var categories =
+                await this.categoriesService.GetAllAsync<IndexCategoryViewModel>();
+
             if (categories == null)
             {
                 viewModel.Categories = new List<IndexCategoryViewModel>();
             }
 
             viewModel.Categories = categories;
-
-            this.TempData.Keep();
 
             return this.View(viewModel);
         }

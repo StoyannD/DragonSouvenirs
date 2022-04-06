@@ -3,14 +3,14 @@
 @{
     this.ViewData["Title"] = "Administration";
 }
-<div class="container overflow-auto">
+<div class="container-fluid overflow-auto">
     <table class="table table-hover table-bordered text-center">
         <thead class="thead-dark">
             <tr class="text-center">
                 <th scope="col">@this.Model.Orders.Count()</th>
                 <th scope="col">Вид доставка</th>
-                <th scope="col" class="w-100">Куриер</th>
-                <th scope="col" class="w-100">Адрес на доставка</th>
+                <th scope="col">Куриер</th>
+                <th scope="col">Адрес на доставка</th>
                 <th scope="col">Имейл</th>
                 <th scope="col">Име и фамилия</th>
                 <th scope="col">Цена</th>

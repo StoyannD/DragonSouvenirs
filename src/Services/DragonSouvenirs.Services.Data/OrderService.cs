@@ -23,6 +23,7 @@
         private readonly IDeletableEntityRepository<Product> productRepository;
         private readonly IEmailSender emailSender;
         private readonly IEmailTemplatesSender emailTemplatesService;
+        private readonly ICommonFeaturesService commonFeaturesService;
 
         public OrderService(
             IDeletableEntityRepository<Order> orderRepository,
@@ -31,7 +32,8 @@
             IDeletableEntityRepository<Cart> cartRepository,
             IDeletableEntityRepository<Product> productRepository,
             IEmailSender emailSender,
-            IEmailTemplatesSender emailTemplatesService)
+            IEmailTemplatesSender emailTemplatesService,
+            ICommonFeaturesService commonFeaturesService)
         {
             this.orderRepository = orderRepository;
             this.orderProductRepository = orderProductRepository;
@@ -40,6 +42,7 @@
             this.productRepository = productRepository;
             this.emailSender = emailSender;
             this.emailTemplatesService = emailTemplatesService;
+            this.commonFeaturesService = commonFeaturesService;
         }
 
         // Get all Orders of a user by userId
@@ -67,7 +70,16 @@
                 var officeBrand = model.OfficeBrand;
 
                 var shippingAddress = model.DeliveryType == DeliveryType.ToAddress
-                    ? this.RenderAddress(model)
+                    ? this.commonFeaturesService
+                        .RenderAddress(
+                            model.UserCity,
+                            model.UserNeighborhood,
+                            model.UserStreet,
+                            model.UserStreetNumber,
+                            model.UserApartmentBuilding,
+                            model.UserEntrance,
+                            model.UserFloor,
+                            model.UserApartmentNumber)
                     : model.OfficeName;
 
                 var order = new Order()
@@ -284,25 +296,6 @@
 
             order.OrderStatus = updatedOrderStatus;
             await this.orderRepository.SaveChangesAsync();
-        }
-
-        // Create a full address string
-        public string RenderAddress(CreateOrderViewModel model)
-        {
-            var address = "гр. " + model.UserCity
-                                + ", кв. " + model.UserNeighborhood
-                                + ", ул. " + model.UserStreet
-                                + " " + model.UserStreetNumber;
-
-            address += model.UserApartmentBuilding != null
-                ? ", бл. " + model.UserApartmentBuilding + " " : string.Empty;
-            address += model.UserEntrance != null
-                ? ", вх. " + model.UserEntrance + " " : string.Empty;
-
-            address += ", ет. " + model.UserFloor
-                     + ", ап. " + model.UserApartmentNumber;
-
-            return address;
         }
 
         private async Task SendEmailAsync(string orderTitle, string emailSubject, Order order)

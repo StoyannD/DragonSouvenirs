@@ -9,7 +9,7 @@
                     <form enctype="multipart/form-data"
                           asp-controller="Products"
                           asp-action="Favourite"
-                          asp-route-title="@Model.TitleLink"
+                          asp-route-name="@Model.NameLink"
                           method="post">
                         <button type="submit">
                             <i class="fa fa-heart"></i>
@@ -19,7 +19,7 @@
                 <li>
                     <a asp-controller="Products"
                        asp-action="ByName"
-                       asp-route-title="@Model.TitleLink">
+                       asp-route-name="@Model.NameLink">
                         <i class="fa fa-arrow-up"></i>
                     </a>
                 </li>
@@ -42,10 +42,10 @@
             <div class="product__item__text">
                 <a asp-controller="Products"
                    asp-action="ByName"
-                   asp-route-title="@Model.TitleLink">
+                   asp-route-name="@Model.NameLink">
                     <span>@Model.CategoryTitle</span>
                     <h6>
-                        @Model.Name
+                        @Model.Title
                     </h6>
                     <h5 style="color: red;">
                         Продадено
@@ -58,11 +58,11 @@
             <div class="product__discount__item__text">
                 <a asp-controller="Products"
                    asp-action="ByName"
-                   asp-route-title="@Model.TitleLink"
+                   asp-route-name="@Model.NameLink"
                class="discountItemPrice">
                     <span>@Model.CategoryTitle</span>
                     <h6>
-                        @Model.Name
+                        @Model.Title
                     </h6>
                     <h5 class="product__item__price">
                         <span>@Model.Price</span>
@@ -77,10 +77,10 @@
             <div class="product__item__text">
                 <a asp-controller="Products"
                    asp-action="ByName"
-                   asp-route-title="@Model.TitleLink">
+                   asp-route-name="@Model.NameLink">
                     <span>@Model.CategoryTitle</span>
                     <h6>
-                        @Model.Name
+                        @Model.Title
                     </h6>
                     <h5>
                         @Model.Price лв.

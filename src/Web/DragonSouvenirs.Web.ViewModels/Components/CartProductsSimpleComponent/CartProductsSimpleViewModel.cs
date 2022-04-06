@@ -5,7 +5,7 @@
 
     public class CartProductsSimpleViewModel : IMapFrom<CartProduct>
     {
-        public string ProductName { get; set; }
+        public string ProductTitle { get; set; }
 
         public decimal ProductPrice { get; set; }
 

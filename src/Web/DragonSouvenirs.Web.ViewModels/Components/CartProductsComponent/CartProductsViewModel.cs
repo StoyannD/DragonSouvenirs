@@ -7,7 +7,7 @@
 
     public class CartProductsViewModel : IMapFrom<CartProduct>
     {
-        public string ProductName { get; set; }
+        public string ProductTitle { get; set; }
 
         public string ProductDescription { get; set; }
 

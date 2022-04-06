@@ -41,7 +41,7 @@
                                 <li>
                                     <a asp-controller="Products"
                                    asp-action="ByName"
-                                   asp-route-title="@product.TitleLink">
+                                   asp-route-title="@product.NameLink">
                                         <i class="fa fa-arrow-up"></i>
                                     </a>
                                 </li>
@@ -59,14 +59,14 @@
                             <h6>
                                 <a asp-controller="Products"
                                asp-action="ByName"
-                               asp-route-title="@product.TitleLink">
-                                    @product.Name
+                               asp-route-title="@product.NameLink">
+                                    @product.Title
                                 </a>
                             </h6>
                             <h5>
                                 <a asp-controller="Products"
                                asp-action="ByName"
-                               asp-route-title="@product.TitleLink">
+                               asp-route-title="@product.NameLink">
                                     <span>@product.Price</span>
                                     @product.DiscountPrice
                                     лв.

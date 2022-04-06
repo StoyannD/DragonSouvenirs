@@ -7,14 +7,14 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <div class="breadcrumb__text">
-                    <h2>@Model.Name</h2>
+                    <h2>@Model.Title</h2>
                     <div class="breadcrumb__option">
                         <a asp-controller="Home"
                            asp-action="Index">Начало</a>
                         <a asp-controller="Categories"
                            asp-action="ByName"
                            asp-route-name="@Model.CategoryName">@Model.CategoryTitle</a>
-                        <span>@Model.Name</span>
+                        <span>@Model.Title</span>
                     </div>
                 </div>
             </div>
@@ -42,7 +42,7 @@
             </div>
             <div class="col-lg-6 col-md-6">
                 <div class="product__details__text">
-                    <h3>@Model.Name</h3>
+                    <h3>@Model.Title</h3>
                     <div class="product__details__price">
                         @if (this.Model.DiscountPrice == null)
                         {
@@ -85,7 +85,7 @@
                                     <form enctype="multipart/form-data"
                                       asp-controller="Products"
                                       asp-action="Favourite"
-                                      asp-route-title="@Model.TitleLink"
+                                      asp-route-name="@Model.Name"
                                       method="post">
                                         <button class="border-0 text-decoration-none heart-icon" type="submit">
                                             <span class="icon_heart_alt"></span>

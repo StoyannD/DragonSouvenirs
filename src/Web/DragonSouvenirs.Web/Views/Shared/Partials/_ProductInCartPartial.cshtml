@@ -3,16 +3,16 @@
     <td class="shoping__cart__item">
         <a asp-controller="Products"
            asp-action="ByName"
-           asp-route-title="@this.Model.ProductTitleLink">
+           asp-route-name="@this.Model.ProductNameLink">
             <img src="@(this.Model.ProductImages
                       .FirstOrDefault()?.ImgUrl ?? string.Empty)"
                  width="90"
                  alt="">
         </a>
         <h5>
-            <strong>@this.Model.ProductName</strong>
+            <strong>@this.Model.ProductTitle</strong>
             <span class="text-muted font-weight-normal font-italic d-block">
-                @this.Model.ProductProductCategories.FirstOrDefault()?.CategoryName
+                @this.Model.ProductProductCategories.FirstOrDefault()?.CategoryTitle
             </span>
         </h5>
     </td>

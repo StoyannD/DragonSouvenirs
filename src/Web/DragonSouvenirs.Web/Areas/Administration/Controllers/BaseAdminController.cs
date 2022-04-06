@@ -8,9 +8,5 @@
     [Area("Administration")]
     public class BaseAdminController : Controller
     {
-        protected bool IsImageFileValidType(string fileType)
-        {
-            return fileType is "jpeg" or "jpg" or "png";
-        }
     }
 }

@@ -4,6 +4,8 @@
     using System.Reflection;
 
     using CloudinaryDotNet;
+
+    using DragonSouvenirs.Common;
     using DragonSouvenirs.Data;
     using DragonSouvenirs.Data.Common;
     using DragonSouvenirs.Data.Common.Repositories;
@@ -14,6 +16,7 @@
     using DragonSouvenirs.Services.Mapping;
     using DragonSouvenirs.Services.Messaging;
     using DragonSouvenirs.Web.ViewModels;
+
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -85,6 +88,7 @@
             services.AddTransient<ICartService, CartService>();
             services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IOfficeService, OfficeService>();
+            services.AddTransient<ICommonFeaturesService, CommonFeaturesService>();
 
             // Facebook and Google authentication
             services.AddAuthentication()
@@ -150,7 +154,7 @@
                 endpoints =>
                     {
                         endpoints.MapControllerRoute(
-                            "categoriesByName",
+                            GlobalConstants.Routes.CategoriesRoute,
                             "/{name:minlength(2)}",
                             new { controller = "Categories", action = "ByName" });
                         endpoints.MapControllerRoute(

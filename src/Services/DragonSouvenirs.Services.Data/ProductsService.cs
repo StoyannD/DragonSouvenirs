@@ -152,12 +152,12 @@
         }
 
         // Add or Remove a product to the user's favourite products
-        public async Task<bool> FavouriteProductAsync(string userId, string title)
+        public async Task<bool> FavouriteProductAsync(string userId, string name)
         {
             // Get the product
             var product = await this.productsRepository
                 .All()
-                .FirstOrDefaultAsync(p => p.Title == title.Replace('-', ' '));
+                .FirstOrDefaultAsync(p => p.Name == name.Replace('-', ' '));
 
             if (product == null)
             {
@@ -215,11 +215,11 @@
         }
 
         // Get product by Title
-        public async Task<T> GetByNameAsync<T>(string title)
+        public async Task<T> GetByNameAsync<T>(string name)
         {
             var product = await this.productsRepository
                 .All()
-                .Where(p => p.Title == title.Replace('-', ' '))
+                .Where(p => p.Name == name.Replace('-', ' '))
                 .To<T>()
                 .FirstOrDefaultAsync();
 

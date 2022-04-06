@@ -14,7 +14,7 @@
 
         public string Title { get; set; }
 
-        public string TitleLink => this.Title.Replace(' ', '-');
+        public string NameLink => this.Name.Replace(' ', '-');
 
         public decimal Price { get; set; }
 

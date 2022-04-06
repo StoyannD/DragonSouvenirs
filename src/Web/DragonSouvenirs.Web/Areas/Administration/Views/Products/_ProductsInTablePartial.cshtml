@@ -5,8 +5,8 @@
         <img src="@Model.ImageUrl" style="height: 4rem; width: 4rem;" />
     </a>
 </td>
-<td>@this.Model.Title</td>
 <td>@this.Model.Name</td>
+<td>@this.Model.Title</td>
 <td>@(this.Model.DiscountPrice == null
         ? this.Model.Price 
         : $"{this.Model.DiscountPrice} ({this.Model.Price})")</td>

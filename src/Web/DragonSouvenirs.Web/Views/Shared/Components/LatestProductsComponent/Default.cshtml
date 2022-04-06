@@ -1,34 +1,34 @@
 ﻿@using DragonSouvenirs.Common
 @model IEnumerable<DragonSouvenirs.Web.ViewModels.Components.LatestProductsComponent.LatestProductsViewModel>
 
-    <div class="sidebar__item">
-        <div class="latest-product__text">
-            <h4>Най-нови</h4>
-            <div class="latest-product__slider owl-carousel">
-                @for (int i = 0; i < this.Model.Count(); i += 3)
-                {
-                    <div class="latest-prdouct__slider__item">
-                        @for (int j = 0; j < GlobalConstants.Product.LatestProductsComponentsItemsPerSlide; j++)
+<div class="sidebar__item">
+    <div class="latest-product__text">
+        <h4>Най-нови</h4>
+        <div class="latest-product__slider owl-carousel">
+            @for (int i = 0; i < this.Model.Count(); i += 3)
+            {
+                <div class="latest-prdouct__slider__item">
+                    @for (int j = 0; j < GlobalConstants.Product.LatestProductsComponentsItemsPerSlide; j++)
+                    {
+                        @if (i + j >= this.Model.Count())
                         {
-                            @if (i + j >= this.Model.Count())
-                            {
-                                break;
-                            }
-                            <a asp-controller="Products"
-                               asp-action="ByName"
-                               asp-route-title="@this.Model.ElementAt(i).TitleLink"
-                               class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img src="@this.Model.ElementAt(i + j).ImgUrl" alt="">
-                                </div>
-                                <div class="latest-product__item__text">
-                                    <h6>@this.Model.ElementAt(i + j).Name</h6>
-                                    <span>@this.Model.ElementAt(i + j).Price лв.</span>
-                                </div>
-                            </a>
+                            break;
                         }
-                    </div>
-                }
-            </div>
+                        <a asp-controller="Products"
+                           asp-action="ByName"
+                           asp-route-title="@this.Model.ElementAt(i).NameLink"
+                           class="latest-product__item">
+                            <div class="latest-product__item__pic">
+                                <img src="@this.Model.ElementAt(i + j).ImgUrl" alt="">
+                            </div>
+                            <div class="latest-product__item__text">
+                                <h6>@this.Model.ElementAt(i + j).Title</h6>
+                                <span>@this.Model.ElementAt(i + j).Price лв.</span>
+                            </div>
+                        </a>
+                    }
+                </div>
+            }
         </div>
     </div>
+</div>

@@ -27,15 +27,15 @@
             this.userManager = userManager;
         }
 
-        public async Task<ActionResult> ByName(string title)
+        public async Task<ActionResult> ByName(string name)
         {
-            if (title == null)
+            if (name == null)
             {
                 return this.BadRequest();
             }
 
             var viewmodel = await this.productsService
-                .GetByNameAsync<ProductViewModel>(title);
+                .GetByNameAsync<ProductViewModel>(name);
 
             if (viewmodel == null)
             {
@@ -48,8 +48,9 @@
 
         [Route(
            "/Shop",
-           Name = "shopRoute")]
-        public async Task<ActionResult> Index(string searchString, int? minPrice, int? maxPrice, SortBy sortBy, int page = 1, int perPage = GlobalConstants.Product.PerPageDefault)
+           Name = GlobalConstants.Routes.ShopRoute)]
+        public async Task<ActionResult> Index(string searchString, int? minPrice, int? maxPrice, SortBy sortBy,
+            int page = 1, int perPage = GlobalConstants.Product.PerPageDefault)
         {
             var viewModel = new ShopViewModel
             {
@@ -58,15 +59,18 @@
                     .GetAllAsync<ProductInCategoryViewModel>(perPage, (page - 1) * perPage, sortBy, minPrice, maxPrice),
             };
 
+            // Search products that contain all the words in the search string in their name
             // Ef cannot translate query to sql
             if (searchString != null)
             {
-                var searchStringArr = searchString.Split(new[] { ",", ".", " ", "\\", "/", "|", "!", "?" }, StringSplitOptions.RemoveEmptyEntries);
+                var searchStringArr = searchString
+                    .Split(new[] { ",", ".", " ", "\\", "/", "|", "!", "?" }, StringSplitOptions.RemoveEmptyEntries);
 
                 viewModel.Products = viewModel.Products.Where(p =>
                     searchStringArr.All(ss => p.Name.ToLower().Contains(ss.ToLower())));
             }
 
+            // Calculate the count of the filtered product
             var count = searchString == null
                 ? await this.productsService.GetCountAsync(minPrice, maxPrice)
                 : viewModel.Products.Count();
@@ -85,7 +89,7 @@
             viewModel.CategoryPaginationInfo.ProductsPerPage = perPage;
             viewModel.CategoryPaginationInfo.CurrentPage = page;
             viewModel.CategoryPaginationInfo.AllProductsCount = count;
-            viewModel.CategoryPaginationInfo.Route = "shopRoute";
+            viewModel.CategoryPaginationInfo.Route = GlobalConstants.Routes.ShopRoute;
 
             this.TempData["Url"] = this.Request.Path.Value;
             return this.View(viewModel);
@@ -94,11 +98,12 @@
         [Authorize]
         [Route(
             "/Favourites",
-            Name = "favouritesRoute")]
+            Name = GlobalConstants.Routes.FavouritesRoute)]
         public async Task<ActionResult> Favourites()
         {
             var user = await this.userManager.GetUserAsync(this.User);
             var viewModel = new FavouriteProductsViewModel();
+
             if (user != null)
             {
                 viewModel.Products = await this.productsService
@@ -110,11 +115,9 @@
         }
 
         [Authorize]
-
-        // [HttpPost]
-        public async Task<ActionResult> Favourite(string title)
+        public async Task<ActionResult> Favourite(string name)
         {
-            if (title == null)
+            if (name == null)
             {
                 return this.NotFound();
             }
@@ -122,7 +125,7 @@
             var user = await this.userManager.GetUserAsync(this.User);
 
             var success = await this.productsService
-                .FavouriteProductAsync(user.Id, title);
+                .FavouriteProductAsync(user.Id, name);
 
             if (!success)
             {

@@ -67,14 +67,11 @@
 
             await this.orderService.ProcessOrderAsync(orderId, (int)orderStatus);
 
-            this.TempData["success"] = "Order updated successfully!";
+            this.TempData["success"] = GlobalConstants.Order.OrderUpdated;
 
-            if (oldOrderStatus == OrderStatus.Completed)
-            {
-                return this.RedirectToAction(nameof(this.Completed));
-            }
-
-            return this.RedirectToAction(nameof(this.Index));
+            return this.RedirectToAction(oldOrderStatus == OrderStatus.Completed
+                ? nameof(this.Completed)
+                : nameof(this.Index));
         }
     }
 }

@@ -6,6 +6,17 @@
 
         public const string AdministratorRoleName = "Administrator";
 
+        public const string InvalidImageFileTypeError = "the Image is not a valid file type (jpeg, jpg or png)";
+
+        public class Routes
+        {
+            public const string CategoriesRoute = "categoriesByName";
+            public const string ShopRoute = "shopRoute";
+            public const string FavouritesRoute = "favouritesRoute";
+            public const string MyOrdersRoute = "myOrdersRoute";
+            public const string CartRoute = "cartRoute";
+        }
+
         public class User
         {
             public const string UserNameDisplay = "Username";
@@ -147,6 +158,7 @@
             public const int ExpectedDeliveryDate = 3;
 
             public const string OrderCreated = "Order Created Successfully!";
+            public const string OrderUpdated = "Order updated successfully!";
 
             public const string EmptyCart = "Your cart is empty! Please add a product to make an order.";
 

@@ -22,23 +22,26 @@
         private readonly IOrderService orderService;
         private readonly ICartService cartService;
         private readonly IOfficeService officeService;
+        private readonly ICommonFeaturesService commonFeaturesService;
 
         public OrdersController(
             UserManager<ApplicationUser> userManager,
             IOrderService orderService,
             ICartService cartService,
-            IOfficeService officeService)
+            IOfficeService officeService,
+            ICommonFeaturesService commonFeaturesService)
         {
             this.userManager = userManager;
             this.orderService = orderService;
             this.cartService = cartService;
             this.officeService = officeService;
+            this.commonFeaturesService = commonFeaturesService;
         }
 
         [Authorize]
         [Route(
             "/MyOrders",
-            Name = "myOrdersRoute")]
+            Name = GlobalConstants.Routes.MyOrdersRoute)]
         public async Task<ActionResult> MyOrders()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -53,15 +56,14 @@
 
         public async Task<ActionResult> Create()
         {
-            var user = await this.userManager
-                .GetUserAsync(this.User);
+            var user = await this.userManager.GetUserAsync(this.User);
 
             if (!await this.cartService.UserHasProductsInCart(user.Id))
             {
-                this.TempData["fail"] = GlobalConstants.Order.EmptyCart;
                 return this.RedirectToAction("Index", "Home");
             }
 
+            // Get all offices from database
             var offices = new OfficesViewModel
             {
                 EcontOffices = await this.officeService.GetAllEcontOfficesAsync(),
@@ -137,7 +139,17 @@
                 user.StreetNumber = inputModel.UserStreetNumber;
                 user.Floor = inputModel.UserFloor;
                 user.ApartmentNumber = inputModel.UserApartmentNumber;
-                user.DefaultShippingAddress = this.orderService.RenderAddress(inputModel);
+
+                user.DefaultShippingAddress = this.commonFeaturesService
+                    .RenderAddress(
+                        inputModel.UserCity,
+                        inputModel.UserNeighborhood,
+                        inputModel.UserStreet,
+                        inputModel.UserStreetNumber,
+                        inputModel.UserApartmentBuilding,
+                        inputModel.UserEntrance,
+                        inputModel.UserFloor,
+                        inputModel.UserApartmentNumber);
 
                 await userManager.UpdateAsync(user);
             }

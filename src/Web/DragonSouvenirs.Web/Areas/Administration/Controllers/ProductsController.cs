@@ -16,13 +16,16 @@
     {
         private readonly IProductsService productsService;
         private readonly ICategoriesService categoriesService;
+        private readonly ICommonFeaturesService commonFeaturesService;
 
         public ProductsController(
             IProductsService productsService,
-            ICategoriesService categoriesService)
+            ICategoriesService categoriesService,
+            ICommonFeaturesService commonFeaturesService)
         {
             this.productsService = productsService;
             this.categoriesService = categoriesService;
+            this.commonFeaturesService = commonFeaturesService;
         }
 
         public async Task<ActionResult> Index()
@@ -80,15 +83,6 @@
             return RedirectToAction("Index", "Products", new { area = "Administration" });
         }
 
-        // [HttpPost]
-        // public async Task<ActionResult> HardDelete(int id)
-        // {
-        //    var postTitle = await this.productsService.HardDeleteAsync(id);
-
-        // this.TempData["success"] = string.Format(GlobalConstants.Product.ProductSuccessfullyDeleted, postTitle);
-
-        // return RedirectToAction("Index", "Products", new { area = "Administration" });
-        // }
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
@@ -96,14 +90,15 @@
                 return this.BadRequest();
             }
 
-            var viewModel = await this.productsService
-                .AdminGetByIdAsync<AdminProductEditViewModel>(id);
+            var viewModel = await this.productsService.AdminGetByIdAsync<AdminProductEditViewModel>(id);
+
             if (viewModel == null)
             {
                 return this.NotFound();
             }
 
-            var categories = await this.categoriesService.GetAllByProductIdAsync<CategoriesViewModel>(id);
+            var categories =
+                await this.categoriesService.GetAllByProductIdAsync<CategoriesViewModel>(id);
             viewModel.Categories = categories.ToList();
 
             // Find a way to do it smarter
@@ -112,8 +107,8 @@
                 viewModel.Images.Add(new AdminImagesViewModel());
             }
 
-            var allCategories = await this.categoriesService
-                .GetAllAsync<CategoriesDropdownViewModel>();
+            var allCategories =
+                await this.categoriesService.GetAllAsync<CategoriesDropdownViewModel>();
 
             viewModel.AllCategoriesDropdown = allCategories;
 
@@ -129,16 +124,13 @@
                 return this.View(viewModel);
             }
 
-            foreach (var image in viewModel.Images)
+            if (viewModel.Images
+                .Any(image => !this.commonFeaturesService.IsImageFileTypeValid(image.Image)))
             {
-                if (image.Image != null)
-                {
-                    var fileType = image.Image.ContentType.Split('/')[1];
-                    if (!this.IsImageFileValidType(fileType))
-                    {
-                        return this.View(viewModel);
-                    }
-                }
+                this.TempData["fail"] = string
+                    .Format(GlobalConstants.InvalidImageFileTypeError);
+
+                return this.View(viewModel);
             }
 
             await this.productsService.EditAsync(viewModel);
@@ -175,16 +167,13 @@
                 return this.View(inputModel);
             }
 
-            foreach (var image in inputModel.Images)
+            if (inputModel.Images
+                .Any(image => !this.commonFeaturesService.IsImageFileTypeValid(image.Image)))
             {
-                if (image != null)
-                {
-                    var fileType = image.Image.ContentType.Split('/')[1];
-                    if (!this.IsImageFileValidType(fileType))
-                    {
-                        return this.View(inputModel);
-                    }
-                }
+                this.TempData["fail"] = string
+                    .Format(GlobalConstants.InvalidImageFileTypeError);
+
+                return this.View();
             }
 
             try

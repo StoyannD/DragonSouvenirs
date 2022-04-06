@@ -22,13 +22,13 @@
 
         Task<IEnumerable<T>> GetFavouriteProductsAsync<T>(string userId);
 
-        Task<bool> FavouriteProductAsync(string userId, string title);
+        Task<bool> FavouriteProductAsync(string userId, string name);
 
         Task<int> GetCountAsync(int? minPrice = null, int? maxPrice = null);
 
         Task<T> GetByIdAsync<T>(int? id);
 
-        Task<T> GetByNameAsync<T>(string title);
+        Task<T> GetByNameAsync<T>(string name);
 
         Task<T> AdminGetByIdAsync<T>(int? id);
 

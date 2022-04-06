@@ -17,7 +17,7 @@
 
         public string ProductTitle { get; set; }
 
-        public string ProductTitleLink => this.ProductTitle.Replace(' ', '-');
+        public string ProductNameLink => this.ProductName.Replace(' ', '-');
 
         public string ProductDescription { get; set; }
 

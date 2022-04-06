@@ -7,7 +7,7 @@
 
     public class OrderProductsViewModel : IMapFrom<OrderProduct>
     {
-        public string ProductName { get; set; }
+        public string ProductTitle { get; set; }
 
         public string ProductDescription { get; set; }
 

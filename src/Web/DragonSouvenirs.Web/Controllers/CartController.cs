@@ -2,6 +2,7 @@
 {
     using System.Threading.Tasks;
 
+    using DragonSouvenirs.Common;
     using DragonSouvenirs.Data.Models;
     using DragonSouvenirs.Services.Data;
     using DragonSouvenirs.Web.ViewModels.Cart;
@@ -25,22 +26,21 @@
         [Authorize]
         [Route(
             "/Cart",
-            Name = "cartRoute")]
+            Name = GlobalConstants.Routes.CartRoute)]
         public async Task<ActionResult> Index()
         {
             var viewModel = new CartAllProductsViewModel();
 
             var user = await this.userManager.GetUserAsync(this.User);
 
-            var cartProducts = await this.cartService
-                .GetCartProductsAsync<CartProductViewModel>(user.Id);
+            var cartProducts =
+                await this.cartService.GetCartProductsAsync<CartProductViewModel>(user.Id);
             viewModel.CartProducts = cartProducts;
+
             return this.View(viewModel);
         }
 
         [Authorize]
-
-        // [HttpPost]
         public async Task<ActionResult> Add(int? id, bool toCart, int? quantity)
         {
             if (id == null)
@@ -49,8 +49,9 @@
             }
 
             var user = await this.userManager.GetUserAsync(this.User);
-            var success =
-                await this.cartService.AddProductToCartAsync(user.Id, id.Value, quantity ?? 1);
+
+            var success = await this.cartService
+                .AddProductToCartAsync(user.Id, id.Value, quantity ?? 1);
 
             if (!success)
             {
