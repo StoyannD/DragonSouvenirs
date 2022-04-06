@@ -35,6 +35,9 @@
                                   asp-route-name="@this.Model.CategoryName"
                                   asp-route-minPrice="@this.Model.MinPrice"
                                   asp-route-maxPrice="@this.Model.MaxPrice"
+                                  asp-route-sortBy="@this.Model.SortBy"
+                                  asp-route-page="@this.Model.CurrentPage"
+                                  asp-route-perPage="@this.Model.MaxPrice"
                                   method="post">
                                 <input name="searchString" type="text" placeholder="What do yo u need?">
                                 <button type="submit" class="site-btn">
@@ -48,6 +51,9 @@
                                   asp-route="shopRoute"
                                   asp-route-minPrice="@this.Model.MinPrice"
                                   asp-route-maxPrice="@this.Model.MaxPrice"
+                                  asp-route-sortBy="@this.Model.SortBy"
+                                  asp-route-page="@this.Model.CurrentPage"
+                                  asp-route-perPage="@this.Model.MaxPrice"
                                   method="post">
                                 <input name="searchString" type="text" placeholder="What do yo u need?">
                                 <button type="submit" class="site-btn">

@@ -7,6 +7,7 @@
     using DragonSouvenirs.Common;
     using DragonSouvenirs.Common.Enums;
     using DragonSouvenirs.Services.Data;
+    using DragonSouvenirs.Web.Extensions;
     using DragonSouvenirs.Web.ViewModels.Categories;
     using Microsoft.AspNetCore.Mvc;
 
@@ -43,20 +44,15 @@
             viewModel.Products = await this.productsService
                 .GetAllByCategoryNameAsync<ProductInCategoryViewModel>(name, perPage, (page - 1) * perPage, sortBy, minPrice, maxPrice);
 
-            if (searchString != null)
-            {
-                var searchStringArr = searchString
-                    .Split(new[] { ",", ".", " ", "\\", "/", "|", "!", "?" }, StringSplitOptions.RemoveEmptyEntries);
+            // Search products that contain all the words in the search string in their name
+            // Ef cannot translate query to sql
+            viewModel.Products = viewModel.Products.FilterBySearchString(searchString);
 
-                viewModel.Products = viewModel.Products.Where(p =>
-                    searchStringArr.All(ss => p.Title.ToLower().Contains(ss.ToLower())));
-            }
-
+            // Calculate the count of the filtered product
             var count = searchString == null
                 ? await this.productsService.GetCountByCategoryIdAsync(viewModel.Id, minPrice, maxPrice)
                 : viewModel.Products.Count();
 
-            // var count = await this.productsService.GetCountByCategoryIdAsync(viewModel.Id, minPrice, maxPrice);
             viewModel.CategoryPaginationInfo.PagesCount =
                 (int)Math.Ceiling((double)count / perPage);
             if (viewModel.CategoryPaginationInfo.PagesCount == 0)

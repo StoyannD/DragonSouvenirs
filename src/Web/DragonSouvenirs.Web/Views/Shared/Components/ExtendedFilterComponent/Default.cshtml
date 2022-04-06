@@ -1,5 +1,4 @@
-﻿@using DragonSouvenirs.Common
-@model DragonSouvenirs.Web.ViewModels.Components.ExtendedFilterComponent.ExtendedFilterViewModel
+﻿@model DragonSouvenirs.Web.ViewModels.Components.ExtendedFilterComponent.ExtendedFilterViewModel
 
 <div class="sidebar__item">
     <h4>
@@ -20,12 +19,13 @@
     </ul>
 </div>
 <div class="sidebar__item">
-
     <form enctype="multipart/form-data"
           asp-route="@(this.Model.CurrentCategory == null
                          ? "shopRoute"
                          : "byName")"
           asp-route-name="@this.Model.CurrentCategory"
+          asp-route-searchString="@this.Model.SearchString"
+          asp-route-perPage="@this.Model.MaxPrice"
           method="get">
         <h4>Цена (лв.)</h4>
         <div class="price-range-wrap">

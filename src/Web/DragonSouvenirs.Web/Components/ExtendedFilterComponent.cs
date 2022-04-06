@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using AutoMapper.Internal;
+    using DragonSouvenirs.Common.Enums;
     using DragonSouvenirs.Services.Data;
     using DragonSouvenirs.Web.ViewModels.Components.ExtendedFilterComponent;
     using Microsoft.AspNetCore.Mvc;
@@ -21,12 +22,13 @@
             this.productsService = productsService;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(string currentCategory)
+        public async Task<IViewComponentResult> InvokeAsync(string searchString, string currentCategory)
         {
             var viewModel = new ExtendedFilterViewModel
             {
                 Categories = await this.categoriesService.GetAllAsync<CategoryViewModel>(),
                 CurrentCategory = currentCategory,
+                SearchString = searchString,
                 MinPrice = (int)await
                     this.productsService.LeastExpensiveProductPrice(),
                 MaxPrice = (int)Math.Ceiling(await this.productsService.MostExpensiveProductPrice()),

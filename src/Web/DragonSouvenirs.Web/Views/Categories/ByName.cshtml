@@ -5,7 +5,10 @@
 {
     categoryName = this.Model.Name,
     minPrice = this.Model.CategoryPaginationInfo.MinPrice,
-    maxPrice = this.Model.CategoryPaginationInfo.MaxPrice
+    maxPrice = this.Model.CategoryPaginationInfo.MaxPrice,
+    sortBy = this.Model.CategoryPaginationInfo.SortBy,
+    currentPage = this.Model.CategoryPaginationInfo.CurrentPage,
+    productsPerPage = this.Model.CategoryPaginationInfo.ProductsPerPage,
 })
 <partial name="Partials/_BreadcrumbPartial" model="@Model.Title"/>
 
@@ -15,7 +18,12 @@
         <div class="row">
             <div class="col-lg-3 col-md-5">
                 <div class="sidebar">
-                    @await Component.InvokeAsync("ExtendedFilterComponent", new { currentCategory = this.Model.Name })
+                    @await Component.InvokeAsync("ExtendedFilterComponent", new
+                    {
+                        searchString = this.Model.CategoryPaginationInfo.SearchString,
+                        currentCategory = this.Model.Name
+                            
+                    })
                     @await this.Component.InvokeAsync(typeof(LatestProductsComponent))
                 </div>
             </div>

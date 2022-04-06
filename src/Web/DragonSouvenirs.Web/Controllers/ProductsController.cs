@@ -8,6 +8,7 @@
     using DragonSouvenirs.Common.Enums;
     using DragonSouvenirs.Data.Models;
     using DragonSouvenirs.Services.Data;
+    using DragonSouvenirs.Web.Extensions;
     using DragonSouvenirs.Web.ViewModels.Categories;
     using DragonSouvenirs.Web.ViewModels.Products;
     using Microsoft.AspNetCore.Authorization;
@@ -61,14 +62,7 @@
 
             // Search products that contain all the words in the search string in their name
             // Ef cannot translate query to sql
-            if (searchString != null)
-            {
-                var searchStringArr = searchString
-                    .Split(new[] { ",", ".", " ", "\\", "/", "|", "!", "?" }, StringSplitOptions.RemoveEmptyEntries);
-
-                viewModel.Products = viewModel.Products.Where(p =>
-                    searchStringArr.All(ss => p.Title.ToLower().Contains(ss.ToLower())));
-            }
+            viewModel.Products = viewModel.Products.FilterBySearchString(searchString);
 
             // Calculate the count of the filtered product
             var count = searchString == null
