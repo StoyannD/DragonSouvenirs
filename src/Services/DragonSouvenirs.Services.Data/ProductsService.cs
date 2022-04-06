@@ -371,7 +371,7 @@
         public async Task<decimal> LeastExpensiveProductPrice()
         {
             decimal price = await this.productsRepository.All().AnyAsync()
-                ? await this.productsRepository.All().MinAsync(p => p.Price)
+                ? await this.productsRepository.All().MinAsync(p => p.DiscountPrice ?? p.Price)
                 : 0;
 
             return price;

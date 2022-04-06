@@ -4,7 +4,11 @@
 @{
     var breadCrumbItem = "Магазин";
 }
-@await Component.InvokeAsync("HeroComponent")
+@await Component.InvokeAsync("HeroComponent" , new
+{
+    minPrice = this.Model.CategoryPaginationInfo.MinPrice,
+    maxPrice = this.Model.CategoryPaginationInfo.MaxPrice
+})
 <partial name="Partials/_BreadcrumbPartial" model="breadCrumbItem" />
 
 

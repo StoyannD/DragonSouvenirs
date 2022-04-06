@@ -1,7 +1,12 @@
 ﻿@using DragonSouvenirs.Web.Components
 @model DragonSouvenirs.Web.ViewModels.Categories.CategoryViewModel
 
-@await Component.InvokeAsync("HeroComponent")
+@await Component.InvokeAsync("HeroComponent" , new
+{
+    categoryName = this.Model.Name,
+    minPrice = this.Model.CategoryPaginationInfo.MinPrice,
+    maxPrice = this.Model.CategoryPaginationInfo.MaxPrice
+})
 <partial name="Partials/_BreadcrumbPartial" model="@Model.Title"/>
 
 

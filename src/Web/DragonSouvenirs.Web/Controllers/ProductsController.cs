@@ -67,7 +67,7 @@
                     .Split(new[] { ",", ".", " ", "\\", "/", "|", "!", "?" }, StringSplitOptions.RemoveEmptyEntries);
 
                 viewModel.Products = viewModel.Products.Where(p =>
-                    searchStringArr.All(ss => p.Name.ToLower().Contains(ss.ToLower())));
+                    searchStringArr.All(ss => p.Title.ToLower().Contains(ss.ToLower())));
             }
 
             // Calculate the count of the filtered product
@@ -83,6 +83,7 @@
             }
 
             viewModel.CategoryPaginationInfo.SearchString = searchString;
+
             viewModel.CategoryPaginationInfo.MinPrice = minPrice;
             viewModel.CategoryPaginationInfo.MaxPrice = maxPrice;
             viewModel.CategoryPaginationInfo.SortBy = sortBy;
