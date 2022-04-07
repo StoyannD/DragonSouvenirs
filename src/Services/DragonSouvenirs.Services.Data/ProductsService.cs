@@ -71,14 +71,6 @@
             var products = this.productsRepository
                 .All();
 
-            // TODO: Cannot be compiled to SQL
-            // if (searchString != null)
-            // {
-            //    var searchStringArr = searchString.Split(new[] { ",", ".", " ", "\\", "/", "|", "!", "?" }, StringSplitOptions.RemoveEmptyEntries);
-
-            // products = products
-            //        .Where(p => searchStringArr.All(ss => p.Name.ToLower().Contains(ss.ToLower())));
-            // }
             products = FilterByPrice(minPrice, maxPrice, products);
             products = SortProducts(sortBy, products);
 

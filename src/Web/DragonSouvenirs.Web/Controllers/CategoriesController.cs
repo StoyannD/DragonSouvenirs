@@ -45,7 +45,6 @@
                 .GetAllByCategoryNameAsync<ProductInCategoryViewModel>(name, perPage, (page - 1) * perPage, sortBy, minPrice, maxPrice);
 
             // Search products that contain all the words in the search string in their name
-            // Ef cannot translate query to sql
             viewModel.Products = viewModel.Products.FilterBySearchString(searchString);
 
             // Calculate the count of the filtered product
