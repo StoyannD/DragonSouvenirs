@@ -34,9 +34,9 @@
                                  + " " + streetNumber;
 
             address += apartmentBuilding != null
-                ? ", бл. " + apartmentBuilding + " " : string.Empty;
+                ? ", бл. " + apartmentBuilding : string.Empty;
             address += entrance != null
-                ? ", вх. " + entrance + " " : string.Empty;
+                ? ", вх. " + entrance : string.Empty;
 
             address += ", ет. " + floor
                                 + ", ап. " + apartmentNumber;
