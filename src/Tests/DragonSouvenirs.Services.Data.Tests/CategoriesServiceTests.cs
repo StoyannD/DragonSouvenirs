@@ -1,21 +1,20 @@
 ﻿namespace DragonSouvenirs.Services.Data.Tests
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using System.Threading.Tasks;
 
     using CloudinaryDotNet;
 
-    using DragonSouvenirs.Data;
     using DragonSouvenirs.Data.Models;
     using DragonSouvenirs.Data.Repositories;
     using DragonSouvenirs.Services.Data.Common;
+    using DragonSouvenirs.Services.Data.Tests.Common;
     using DragonSouvenirs.Services.Mapping;
     using DragonSouvenirs.Web.ViewModels;
     using DragonSouvenirs.Web.ViewModels.Administration.Categories;
-
-    using Microsoft.EntityFrameworkCore;
 
     using Xunit;
 
@@ -23,19 +22,16 @@
     public class CategoriesServiceTests
     {
         private readonly EfDeletableEntityRepository<Category> categoryRepository;
+        private readonly EfDeletableEntityRepository<Product> productRepository;
         private readonly ICategoriesService categoriesService;
 
         public CategoriesServiceTests()
         {
             AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).GetTypeInfo().Assembly);
-
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString())
-                .Options;
-            var context = new ApplicationDbContext(options);
+            var context = TestDbContextInit.Init();
 
             this.categoryRepository = new EfDeletableEntityRepository<Category>(context);
-            var productRepository = new EfDeletableEntityRepository<Product>(context);
+            this.productRepository = new EfDeletableEntityRepository<Product>(context);
             var cloudinaryAccount = new Account(CloudinaryConfig.CloudName, CloudinaryConfig.ApiKey, CloudinaryConfig.ApiSecret);
             var cloudinary = new Cloudinary(cloudinaryAccount);
 
@@ -73,13 +69,27 @@
         }
 
         [Fact]
+        public async Task GetAllByProductIdAsync()
+        {
+            await this.SeedData();
+
+            var resultValid = await this.categoriesService.GetAllByProductIdAsync<AdminCategoryViewModel>(1);
+            var resultInvalid = await this.categoriesService.GetAllByProductIdAsync<AdminCategoryViewModel>(1234);
+
+            Assert.Equal("Name1", resultValid.First().Name);
+            Assert.Empty(resultInvalid);
+        }
+
+        [Fact]
         public async Task GetByNameAsync()
         {
             await this.SeedData();
 
-            var result = await this.categoriesService.GetByNameAsync<AdminCategoryViewModel>("Name5");
+            var resultValid = await this.categoriesService.GetByNameAsync<AdminCategoryViewModel>("Name5");
+            var resultInvalid = await this.categoriesService.GetByNameAsync<AdminCategoryViewModel>("InvalidName");
 
-            Assert.Equal("Name5", result.Name);
+            Assert.Equal("Name5", resultValid.Name);
+            Assert.Null(resultInvalid);
         }
 
         [Fact]
@@ -87,9 +97,11 @@
         {
             await this.SeedData();
 
-            var result = await this.categoriesService.GetByIdAsync<AdminCategoryViewModel>(5);
+            var resultValid = await this.categoriesService.GetByIdAsync<AdminCategoryViewModel>(5);
+            var resultInvalid = await this.categoriesService.GetByIdAsync<AdminCategoryViewModel>(-1);
 
-            Assert.Equal(5, result.Id);
+            Assert.Equal(5, resultValid.Id);
+            Assert.Null(resultInvalid);
         }
 
         [Fact]
@@ -97,73 +109,56 @@
         {
             await this.SeedData();
 
-            var result = await this.categoriesService.DeleteRecoverAsync(1);
+            var resultValid = await this.categoriesService.DeleteRecoverAsync(1);
+            var resultInvalid = await this.categoriesService.DeleteRecoverAsync(23);
 
-            Assert.Equal("Title1", result);
-        }
-
-        [Fact]
-        public async Task DeleteRecoverAsyncNonexistentCategory()
-        {
-            await this.SeedData();
-
-            var result = await this.categoriesService.DeleteRecoverAsync(23);
-
-            Assert.Null(result);
+            Assert.Equal("Title1", resultValid);
+            Assert.Null(resultInvalid);
         }
 
         private async Task SeedData()
         {
-            await this.categoryRepository.AddAsync(
-                new Category
+            // Seed Categories [1-DELETED,2-DELETED,3,4,5]
+            for (int i = 0; i < 5; i++)
+            {
+                await this.categoryRepository.AddAsync(
+                    new Category
+                    {
+                        Id = i + 1,
+                        Name = $"Name{i + 1}",
+                        Title = $"Title{i + 1}",
+                        Content = $"Content{i + 1}",
+                        ImageUrl = $"ImgUrl{i + 1}",
+                        IsDeleted = i < 2,
+                        DeletedOn = i < 2 ? DateTime.UtcNow : null,
+                    });
+            }
+
+            // Seed Products
+            await this.productRepository.AddAsync(
+                new Product
                 {
                     Id = 1,
                     Name = "Name1",
                     Title = "Title1",
-                    Content = "Content1",
-                    ImageUrl = "ImgUrl1",
-                    IsDeleted = true,
-                    DeletedOn = DateTime.UtcNow,
+                    Description = "Description1",
+                    Price = 1M,
+                    DiscountPrice = null,
+                    Quantity = 1,
+                    Height = 1,
+                    Width = 1,
+                    IsDeleted = false,
+                    ProductCategories = new List<ProductCategory>
+                    {
+                        new ProductCategory
+                        {
+                            CategoryId = 1, ProductId = 1,
+                        },
+                    },
                 });
-            await this.categoryRepository.AddAsync(
-                new Category
-                {
-                    Id = 2,
-                    Name = "Name2",
-                    Title = "Title2",
-                    Content = "Content2",
-                    ImageUrl = "ImgUrl2",
-                    IsDeleted = true,
-                    DeletedOn = DateTime.UtcNow,
-                });
-            await this.categoryRepository.AddAsync(
-                new Category
-                {
-                    Id = 3,
-                    Name = "Name3",
-                    Title = "Title3",
-                    Content = "Content3",
-                    ImageUrl = "ImgUrl3",
-                });
-            await this.categoryRepository.AddAsync(
-                new Category
-                {
-                    Id = 4,
-                    Name = "Name4",
-                    Title = "Title4",
-                    Content = "Content4",
-                    ImageUrl = "ImgUrl4",
-                });
-            await this.categoryRepository.AddAsync(
-                new Category
-                {
-                    Id = 5,
-                    Name = "Name5",
-                    Title = "Title5",
-                    Content = "Content5",
-                    ImageUrl = "ImgUrl5",
-                });
+
             await this.categoryRepository.SaveChangesAsync();
+            await this.productRepository.SaveChangesAsync();
         }
     }
 }

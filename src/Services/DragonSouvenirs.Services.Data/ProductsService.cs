@@ -66,7 +66,7 @@
         // -> take, skip (pagination)
         // -> [OPTIONAL] sortBy, minPrice, maxPrice (custom sorting)
         // -> [OPTIONAL] searchString (searching)
-        public async Task<IEnumerable<T>> GetAllAsync<T>(int take, int skip, SortBy sortBy = SortBy.MostPopular, int? minPrice = null, int? maxPrice = null, string searchString = null)
+        public async Task<IEnumerable<T>> GetAllAsync<T>(int take, int skip, SortBy sortBy = SortBy.MostPopular, int? minPrice = null, int? maxPrice = null)
         {
             var products = this.productsRepository
                 .All();
