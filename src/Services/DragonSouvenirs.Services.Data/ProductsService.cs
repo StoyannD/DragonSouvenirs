@@ -3,9 +3,13 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Linq.Expressions;
     using System.Threading.Tasks;
 
+    using Abp.Linq.Expressions;
+
     using CloudinaryDotNet;
+
     using DragonSouvenirs.Common;
     using DragonSouvenirs.Common.Enums;
     using DragonSouvenirs.Data.Common.Repositories;
@@ -13,6 +17,7 @@
     using DragonSouvenirs.Services.Data.Common;
     using DragonSouvenirs.Services.Mapping;
     using DragonSouvenirs.Web.ViewModels.Administration.Products;
+
     using Microsoft.EntityFrameworkCore;
 
     public class ProductsService : IProductsService
@@ -66,11 +71,12 @@
         // -> take, skip (pagination)
         // -> [OPTIONAL] sortBy, minPrice, maxPrice (custom sorting)
         // -> [OPTIONAL] searchString (searching)
-        public async Task<IEnumerable<T>> GetAllAsync<T>(int take, int skip, SortBy sortBy = SortBy.MostPopular, int? minPrice = null, int? maxPrice = null)
+        public async Task<IEnumerable<T>> GetAllAsync<T>(int take, int skip, SortBy sortBy = SortBy.MostPopular, int? minPrice = null, int? maxPrice = null, string searchString = null)
         {
             var products = this.productsRepository
                 .All();
 
+            products = FilterBySearchString(searchString, products);
             products = FilterByPrice(minPrice, maxPrice, products);
             products = SortProducts(sortBy, products);
 
@@ -86,7 +92,7 @@
         // -> take, skip (pagination)
         // -> [OPTIONAL] sortBy, minPrice, maxPrice (custom sorting)
         // -> [OPTIONAL] searchString (searching)
-        public async Task<IEnumerable<T>> GetAllByCategoryNameAsync<T>(string name, int take, int skip, SortBy sortBy = SortBy.MostPopular, int? minPrice = null, int? maxPrice = null)
+        public async Task<IEnumerable<T>> GetAllByCategoryNameAsync<T>(string name, int take, int skip, SortBy sortBy = SortBy.MostPopular, int? minPrice = null, int? maxPrice = null, string searchString = null)
         {
             var products = this.productsRepository
                 .All()
@@ -94,6 +100,7 @@
                     .Any(pc => pc.Category.Name == name
                                && pc.ProductId == p.Id));
 
+            products = FilterBySearchString(searchString, products);
             products = FilterByPrice(minPrice, maxPrice, products);
             products = SortProducts(sortBy, products);
 
@@ -367,6 +374,31 @@
                 : 0;
 
             return price;
+        }
+
+        private static IQueryable<Product> FilterBySearchString(string searchString, IQueryable<Product> products)
+        {
+            if (searchString != null)
+            {
+                var searchStringArr = searchString
+                    .Split(new[] { ",", ".", " ", "\\", "/", "|", "!", "?" }, StringSplitOptions.RemoveEmptyEntries)
+                    .ToList();
+
+                // Using predicate, because the LINQ expression could not be translated.
+                var predicate = PredicateBuilder.New<Product>(false);
+                foreach (var word in searchStringArr)
+                {
+                    predicate = predicate.And(x => x.Title.ToLower().Contains(word.ToLower()));
+                }
+
+                return products.Where(predicate);
+
+                // products = products
+                //    .Where(p => searchStringArr
+                //        .All(ss => p.Title.ToLower().Contains(ss.ToLower())));
+            }
+
+            return products;
         }
 
         private static IQueryable<Product> FilterByPrice(int? minPrice, int? maxPrice, IQueryable<Product> products)

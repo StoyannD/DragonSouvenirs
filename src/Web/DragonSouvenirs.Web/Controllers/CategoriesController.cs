@@ -42,10 +42,7 @@
 
             viewModel.CategoryPaginationInfo = new CategoryPaginationInfo();
             viewModel.Products = await this.productsService
-                .GetAllByCategoryNameAsync<ProductInCategoryViewModel>(name, perPage, (page - 1) * perPage, sortBy, minPrice, maxPrice);
-
-            // Search products that contain all the words in the search string in their name
-            viewModel.Products = viewModel.Products.FilterBySearchString(searchString);
+                .GetAllByCategoryNameAsync<ProductInCategoryViewModel>(name, perPage, (page - 1) * perPage, sortBy, minPrice, maxPrice, searchString);
 
             // Calculate the count of the filtered product
             var count = searchString == null
