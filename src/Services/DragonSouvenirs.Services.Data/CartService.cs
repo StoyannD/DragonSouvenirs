@@ -161,6 +161,11 @@
                 .All()
                 .FirstOrDefaultAsync(p => p.Id == productId);
 
+            if (product == null)
+            {
+                return false;
+            }
+
             if (product.Quantity < quantity)
             {
                 return false;
