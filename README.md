@@ -14,7 +14,7 @@ materials</h3>
 </strong>
 </p>
 <p align ="center" width=100%>
-<img src="https://res.cloudinary.com/dvqk1ngdx/image/upload/v1649615999/readmeGIF_idrd3c.gif"/>
+<img src="https://im2.ezgif.com/tmp/ezgif-2-f9d3223d75.gif"/>
 </p>
 
 ## Key Features
