@@ -28,7 +28,7 @@ materials</h3>
   - Extended product filtering - By category, price and product name.
   - Extended product sorting - By products per page and based on price, popularity and age of product.
   - Pagination
-* Favourite a product - Each user can make a sertain products favourite.
+* Add product to favourites - Each user can make a sertain products favourite.
 * Cart - Each user can add and remove products from his cart and change the quantity of a certain product.
 * Orders - a cart can be transfered into an order, which goes through several steps before finalization.
 * Admin panel
