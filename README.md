@@ -14,7 +14,7 @@ materials</h3>
 </strong>
 </p>
 <p align ="center" width=100%>
-<img src="https://res.cloudinary.com/dvqk1ngdx/image/upload/v1649612478/overview_dragonsouvenirs_readme_xjk9cd.gif"/>
+<img src="https://res.cloudinary.com/dvqk1ngdx/image/upload/v1649612478/overview_dragonsouvenirs_readme_xjk9cd.gif?raw=true" width="790px"/>
 </p>
 
 ## Key Features
