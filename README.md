@@ -14,7 +14,7 @@ materials</h3>
 </strong>
 </p>
 <p align ="center" width=100%>
-![screenshot](https://res.cloudinary.com/dvqk1ngdx/image/upload/v1649612478/overview_dragonsouvenirs_readme_xjk9cd.gif)
+<img src="https://res.cloudinary.com/dvqk1ngdx/image/upload/v1649612478/overview_dragonsouvenirs_readme_xjk9cd.gif"/>
 </p>
 
 ## Key Features
@@ -41,10 +41,14 @@ materials</h3>
 ## How To Use
 
 You can <strong>clone</strong> or <strong>download</strong> the project:
-![screenshot](https://res.cloudinary.com/dvqk1ngdx/image/upload/v1649614242/howtouse_dragonsouvenirs_es7zrh.png)
+<p align ="left" width=100%>
+<img src="https://res.cloudinary.com/dvqk1ngdx/image/upload/v1649614242/howtouse_dragonsouvenirs_es7zrh.png"/>
+</p>
 
 After you've downloaded the project, <strong>run</strong> it by using <strong>visual studio:</strong>
-![screenshot](https://res.cloudinary.com/dvqk1ngdx/image/upload/v1649614539/howtouse2_dragonsouvenirs_wwhjgo.png)
+<p align ="left" width=100%>
+<img src="https://res.cloudinary.com/dvqk1ngdx/image/upload/v1649614539/howtouse2_dragonsouvenirs_wwhjgo.png"/>
+</p>
 
 ## Technology Stack
 
