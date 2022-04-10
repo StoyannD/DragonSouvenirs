@@ -14,7 +14,7 @@ materials</h3>
 </strong>
 </p>
 <p align ="center" width=100%>
-<img src="https://im2.ezgif.com/tmp/ezgif-2-f9d3223d75.gif"/>
+<img src="https://github.com/StoyannD/DragonSouvenirs/blob/master/src/Web/DragonSouvenirs.Web/wwwroot/readmeGIF.gif"/>
 </p>
 
 ## Key Features
