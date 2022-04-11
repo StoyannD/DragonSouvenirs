@@ -37,6 +37,8 @@ materials</h3>
   - Admin can update the office addresses.
 * Cloudinary integration to store all static files.
 * SendGrid API integration for automated emails on each step of order processing.
+* Facebook and Google login integration.
+
 
 ## How To Use
 
